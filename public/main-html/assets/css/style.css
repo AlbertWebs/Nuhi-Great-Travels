@@ -48,7 +48,7 @@ body {
   display: block;
   font-family: var(--gorent-font);
   color: var(--gorent-gray);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 24px;
   font-weight: 400;
   z-index: 1;
@@ -3043,7 +3043,17 @@ xs sidebar
   display: none;
 }
 
+.sliding-text-one__wrap {
+    display: flex;
+    justify-content: center; /* centers horizontally */
+}
 
+.sliding-text__list {
+    display: flex;
+    gap: 1rem; /* space between words */
+    justify-content: center;
+    align-items: center;
+}
 
 
 

@@ -36,10 +36,12 @@
                             <a href="sign-up.html">Register</a>
                         </div>
                         <div class="main-menu__social">
-                            <a href="#"><i class="icon-facebook"></i></a>
-                            <a href="#"><i class="icon-twitter"></i></a>
-                            <a href="#"><i class="icon-instagram"></i></a>
-                            <a href="#"><i class="icon-youtube"></i></a>
+                            <a href="{{$Settings->facebook}}"><i class="icon-facebook"></i></a>
+                            <a href="{{$Settings->twitter}}"><i class="icon-twitter"></i></a>
+                            <a href="{{$Settings->instagram}}"><i class="icon-instagram"></i></a>
+                            <a href="{{$Settings->youtube}}"><i class="icon-youtube"></i></a>
+                            <a href="{{$Settings->tiktok}}"><i class="fab fa-tiktok"></i></a>
+                            <a href="{{$Settings->linkedin}}"><i class="icon-linkedin"></i></a>
                         </div>
                     </div>
                 </div>
@@ -48,8 +50,8 @@
                 <div class="main-menu__wrapper">
                     <div class="main-menu__wrapper-inner">
                         <div class="main-menu__left">
-                            <div class="main-menu__logo">
-                                <a href="{{url('/')}}"><img src="{{ asset('storage/'.$Settings->logo) }}" alt=""></a>
+                            <div class="main-menu__logo" style="padding:0">
+                                <a href="{{url('/')}}"><img style="width:130px; object-fit:cover;" src="{{ asset('storage/'.$Settings->logo) }}" alt=""></a>
                             </div>
                         </div>
                         <div class="main-menu__middle-box">

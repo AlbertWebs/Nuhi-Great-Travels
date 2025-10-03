@@ -5,7 +5,7 @@
         <li>
             <a href="{{ route('home') }}" target="new"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.dashboard') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-globe text-indigo-500"></i> Main Website
+                <i class="fas fa-globe text-gold"></i> Main Website
             </a>
         </li>
 
@@ -13,7 +13,7 @@
         <li>
             <a href="{{ route('admin.dashboard') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.dashboard') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-home text-indigo-500"></i> Dashboard
+                <i class="fas fa-home text-gold"></i> Dashboard
             </a>
         </li>
 
@@ -21,7 +21,7 @@
         <li>
             <a href="{{ route('admin.carousel.index') ?? '#' }}"
             class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-images text-indigo-500"></i> Carousel
+                <i class="fas fa-images text-gold"></i> Carousel
             </a>
         </li>
 
@@ -30,7 +30,7 @@
         <li>
             <a href="{{ route('admin.about') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-info-circle text-indigo-500"></i> About Us
+                <i class="fas fa-info-circle text-gold"></i> About Us
             </a>
         </li>
 
@@ -38,7 +38,7 @@
         <li>
             <a href="{{ route('admin.cars.index') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/cars*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-car text-indigo-500"></i> Cars
+                <i class="fas fa-car text-gold"></i> Cars
             </a>
         </li>
 
@@ -46,7 +46,7 @@
         <li>
             <a href="{{ route('admin.clients.index') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/clients*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-users text-indigo-500"></i> Clients
+                <i class="fas fa-users text-gold"></i> Clients
             </a>
         </li>
 
@@ -54,7 +54,7 @@
         <li>
             <a href="{{ route('admin.bookings.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/bookings*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-calendar-check text-indigo-500"></i> Bookings
+                <i class="fas fa-calendar-check text-gold"></i> Bookings
             </a>
         </li>
 
@@ -63,7 +63,7 @@
             <button @click="open = !open"
                     class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
                 <span class="flex items-center gap-3">
-                    <i class="fas fa-credit-card text-indigo-500"></i> Payments
+                    <i class="fas fa-credit-card text-gold"></i> Payments
                 </span>
                 <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
             </button>
@@ -78,7 +78,7 @@
         <li>
             <a href="{{ route('admin.reports.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/reports*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-chart-bar text-indigo-500"></i> Reports
+                <i class="fas fa-chart-bar text-gold"></i> Reports
             </a>
         </li>
 
@@ -86,7 +86,7 @@
         <li>
             <a href="{{ route('admin.users.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/users*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-user-cog text-indigo-500"></i> Users
+                <i class="fas fa-user-cog text-gold"></i> Users
             </a>
         </li>
 
@@ -94,7 +94,7 @@
         <li>
             <a href="{{ route('admin.kyc.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-id-card text-indigo-500"></i> KYC
+                <i class="fas fa-id-card text-gold"></i> KYC
             </a>
         </li>
 
@@ -102,7 +102,7 @@
         <li>
             <a href="{{ route('admin.subscribers.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-envelope-open-text text-indigo-500"></i> Subscribers
+                <i class="fas fa-envelope-open-text text-gold"></i> Subscribers
             </a>
         </li>
 
@@ -110,7 +110,7 @@
         <li>
             <a href="{{ route('admin.sms.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-sms text-indigo-500"></i> SMS
+                <i class="fas fa-sms text-gold"></i> SMS
             </a>
         </li>
 
@@ -118,7 +118,7 @@
         <li>
             <a href="{{ route('admin.feedbacks.index') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-comments text-indigo-500"></i> Client Feedbacks
+                <i class="fas fa-comments text-gold"></i> Client Feedbacks
             </a>
         </li>
 
@@ -127,7 +127,7 @@
             <a href="{{ route('admin.notifications.index') ?? '#' }}"
                class="flex items-center justify-between px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
                 <span class="flex items-center gap-3">
-                    <i class="fas fa-bell text-indigo-500"></i> Notifications
+                    <i class="fas fa-bell text-gold"></i> Notifications
                 </span>
                 <span class="text-xs font-semibold text-white bg-red-500 rounded-full px-2 py-0.5">
                     {{ $notificationCount ?? 1 }}
@@ -140,7 +140,7 @@
             <button @click="open = !open"
                     class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
                 <span class="flex items-center gap-3">
-                    <i class="fas fa-balance-scale text-indigo-500"></i> Legal
+                    <i class="fas fa-balance-scale text-gold"></i> Legal
                 </span>
                 <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
             </button>
@@ -177,7 +177,7 @@
         <li>
             <a href="{{ route('admin.settings') ?? '#' }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.settings') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-cog text-indigo-500"></i> Settings
+                <i class="fas fa-cog text-gold"></i> Settings
             </a>
         </li>
 

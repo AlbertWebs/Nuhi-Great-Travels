@@ -9,6 +9,7 @@ class HomeController extends Controller
     public function index()
     {
         $carousels = \App\Models\Carousel::all();
-        return view('frontend.home', compact('carousels'));
+        $Settings = \App\Models\Setting::first();
+        return view('frontend.home', compact('carousels', 'Settings'));
     }
 }

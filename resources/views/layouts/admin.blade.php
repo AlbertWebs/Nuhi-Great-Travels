@@ -8,13 +8,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
+<?php $Settings = DB::table('settings')->first(); ?>
 <body class="min-h-screen bg-gray-100">
   <div class="flex h-screen">
     <!-- Sidebar -->
     <aside x-data="{ open: true }" class="bg-white w-64 border-r hidden lg:block shadow-md">
       <div class="p-4 border-b">
+        <div class="bg-black px-2 py-2 rounded">
+        <img src="{{ asset('storage/'.$Settings->logo) }}" alt="Logo" class="h-10 w-auto mx-auto mb-4">
+        </div>
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-2">
-          <div class="text-2xl font-bold text-indigo-600">Nuhi</div>
+          <div class="text-2xl font-bold text-gold">Nuhi Great Travels</div>
         </a>
       </div>
 

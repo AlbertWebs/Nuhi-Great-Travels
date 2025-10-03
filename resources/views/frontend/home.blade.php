@@ -2,49 +2,7 @@
 
 @section('content')
         <!-- Main Slider Start -->
-        <section class="main-slider">
-            <div class="main-slider__carousel owl-carousel owl-theme">
-                @foreach($carousels as $slide)
-                    <div class="item">
-                        <div class="main-slider__bg" 
-                            style="background-image: url({{ asset('storage/'.$slide->image) }});">
-                        </div>
-                        <div class="container">
-                            <div class="main-slider__content">
-                                <div class="main-slider__sub-title-box">
-                                    <p class="main-slider__sub-title">{{ $slide->subtitle }}</p>
-                                </div>
-                                <h2 class="main-slider__title">{!! $slide->title !!}</h2>
-                                <p class="main-slider__sub-title-two">{{ $slide->subtitle_two }}</p>
-
-                                <div class="main-slider__btn-and-video-box">
-                                    @if($slide->button_link)
-                                        <div class="main-slider__btn-box">
-                                            <a href="{{ $slide->button_link }}" class="thm-btn">
-                                                {{ $slide->button_text ?? 'Read More' }}
-                                                <span class="fas fa-arrow-right"></span>
-                                            </a>
-                                        </div>
-                                    @endif
-
-                                    @if($slide->video_link)
-                                        <div class="main-slider__video-link">
-                                            <a href="{{ $slide->video_link }}" class="video-popup">
-                                                <div class="main-slider__video-icon">
-                                                    <span class="icon-play-2"></span>
-                                                    <i class="ripple"></i>
-                                                </div>
-                                            </a>
-                                            <h4 class="main-slider__video-title">Watch Video</h4>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </section>
+        @include('components.slider')
 
         <!--Main Slider Start -->
 
@@ -87,11 +45,11 @@
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">What We’re Offering</span>
                     </div>
-                    <h2 class="section-title__title title-animation">Services We’re Provding <br> to Customers</h2>
+                    <h2 class="section-title__title title-animation">Tailored <strong>Luxury</strong> Experience<br> for Every Journey</h2>
                 </div>
                 <div class="row">
                     <!--Services One Single Start-->
@@ -107,8 +65,9 @@
                             </div>
                             <h3 class="services-one__title"><a href="services.html">Corporate car rental</a>
                             </h3>
-                            <p class="services-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
+                            <p class="services-one__text" style="min-height:100px">
+                                Corporate car rental ensures reliable, professional, and comfortable transportation for business needs.
+                            </p>
                         </div>
                     </div>
                     <!--Services One Single End-->
@@ -121,12 +80,11 @@
                             <div class="services-one__single-shape-3"></div>
                             <div class="services-one__count"></div>
                             <div class="services-one__icon">
-                                <span class="icon-taxi"></span>
+                                <span class="icon-car-insurance"></span>
                             </div>
                             <h3 class="services-one__title"><a href="services.html">Car rental with driver</a>
                             </h3>
-                            <p class="services-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
+                            <p class="services-one__text" style="min-height:100px">Car rental with driver offers safe, convenient, and professional travel for clients.</p>
                         </div>
                     </div>
                     <!--Services One Single End-->
@@ -139,11 +97,10 @@
                             <div class="services-one__single-shape-3"></div>
                             <div class="services-one__count"></div>
                             <div class="services-one__icon">
-                                <span class="icon-sport-car-1"></span>
+                                <span class="icon-car-insurance"></span>
                             </div>
                             <h3 class="services-one__title"><a href="services.html">Airport transfer</a></h3>
-                            <p class="services-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
+                            <p class="services-one__text" style="min-height:100px">Reliable airport transfer ensures timely, comfortable, and hassle-free travel for passengers.</p>
                         </div>
                     </div>
                     <!--Services One Single End-->
@@ -159,8 +116,7 @@
                                 <span class="icon-car-insurance"></span>
                             </div>
                             <h3 class="services-one__title"><a href="services.html">Fleet leasing</a></h3>
-                            <p class="services-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
+                            <p class="services-one__text" style="min-height:100px">Fleet leasing provides businesses affordable, flexible, and efficient vehicle solutions long-term.</p>
                         </div>
                     </div>
                     <!--Services One Single End-->
@@ -172,31 +128,18 @@
         <!-- About One Start -->
         <section class="about-one">
             <div class="container">
-                <div class="row">
-                    <div class="col-xl-6">
-                        <div class="about-one__left wow slideInLeft" data-wow-delay="100ms" data-wow-duration="2500ms">
+                <div class="row flex flex-wrap items-stretch">
+                    <!-- Image Side -->
+                    <div class="col-xl-6 flex">
+                        <div class="about-one__lefts wow slideInLeft flex-1 flex flex-col justify-center"
+                            data-wow-delay="100ms" data-wow-duration="2500ms">
                             <div class="about-one__img-box">
                                 <div class="about-one__img">
-                                    <img src="assets/images/resources/about-one-img-1.jpg" alt="">
+                                    <img style="max-height:720px; object-fit:cover" class="border-3 border-white w-full h-auto" src="{{asset('uploads/about.png')}}" alt="">
                                 </div>
-                                <div class="about-one__shape-2 float-bob-y">
-                                    <img src="assets/images/shapes/about-one-shape-2.png" alt="">
-                                </div>
-                                <div class="about-one__shape-1">
-                                    <img src="assets/images/shapes/about-one-shape-1.png" alt="">
-                                </div>
-                                <div class="about-one__shape-4 float-bob-x">
-                                    <img src="assets/images/shapes/about-one-shape-4.png" alt="">
-                                </div>
-                                <div class="about-one__shape-3 float-bob-x">
-                                    <img src="assets/images/shapes/about-one-shape-3.png" alt="">
-                                </div>
-                                <div class="about-one__img-2">
-                                    <img src="assets/images/resources/about-one-img-2.jpg" alt="">
-                                </div>
-                                <div class="about-one__experience">
+                                <div class="about-one__experience mt-4">
                                     <div class="about-one__experience-count">
-                                        <h3 class="odometer" data-count="50">00</h3>
+                                        <h3 class="odometer" data-count="10">00</h3>
                                         <span>+</span>
                                     </div>
                                     <p class="about-one__experience-text">Years of <br>Experience</p>
@@ -204,57 +147,40 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-6">
-                        <div class="about-one__right">
+
+                    <!-- Text Side -->
+                    <div class="col-xl-6 flex">
+                        <div class="about-one__right flex-1 flex flex-col justify-center">
                             <div class="section-title text-left sec-title-animation animation-style1">
                                 <div class="section-title__tagline-box">
                                     <div class="section-title__tagline-shape">
-                                        <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                                     </div>
-                                    <span class="section-title__tagline">About Gorent</span>
+                                    <span class="section-title__tagline">About Nuhi Great Travels</span>
                                 </div>
-                                <h2 class="section-title__title title-animation">Welcome to Gorent
-                                    car booking company</h2>
+                                <h2 class="section-title__title title-animation">Luxury car rental company</h2>
                             </div>
-                            <p class="about-one__text-1">Committed to providing our customers with<br> ultimate service.
+                            <p class="about-one__text-1">Dedicated to delivering exceptional service to every customer.</p>
+                            <p class="about-one__text-2">
+                                Nuhi Great Travels is your trusted partner in reliable and comfortable transportation solutions. We specialize in corporate car rentals, airport transfers, fleet leasing, and chauffeured services tailored to meet the unique needs of individuals and businesses.
+                                <br><br>
+                                With a commitment to excellence, safety, and professionalism, we go beyond just driving—we create seamless travel experiences that combine convenience, comfort, and class. Whether you’re on a business trip, vacation, or daily commute, Nuhi Great Travels ensures every journey is smooth, timely, and memorable.
+                                <br><br>
+                                As Kenya’s premier luxury and executive car rental service, we are dedicated to providing unparalleled comfort, style, and convenience. Our fleet of high-end vehicles is designed for business, leisure, and special events. We cater to individuals, corporate clients, and tourists, offering a luxurious experience that goes beyond mere transportation.
                             </p>
-                            <p class="about-one__text-2">Lorem ipsum is simply ipun txns mane so dummy text of free
-                                available in market the printing and typesetting industry has been the industry's
-                                standard dummy text ever.</p>
-                            <ul class="about-one__progress-box list-unstyled">
-                                <li>
-                                    <div class="about-one__progress">
-                                        <h4 class="about-one__progress-title">Time Awareness</h4>
-                                        <div class="bar">
-                                            <div class="bar-inner count-bar" data-percent="90%">
-                                                <div class="count-text">90%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="about-one__progress">
-                                        <h4 class="about-one__progress-title">Driver Experience</h4>
-                                        <div class="bar">
-                                            <div class="bar-inner count-bar" data-percent="70%">
-                                                <div class="count-text">70%</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="about-one__btn-box-and-call-box">
+                            <div class="about-one__btn-box-and-call-box mt-6 flex items-center gap-4">
                                 <div class="about-one__btn-box">
-                                    <a href="about.html" class="about-one__btn thm-btn">Read More<span
-                                            class="fas fa-arrow-right"></span></a>
+                                    <a href="{{route('about')}}" class="about-one__btn thm-btn">Read More
+                                        <span class="fas fa-arrow-right"></span>
+                                    </a>
                                 </div>
-                                <div class="about-one__call-box">
+                                <div class="about-one__call-box flex items-center gap-2">
                                     <div class="about-one__call-box-icon">
                                         <span class="icon-call-2"></span>
                                     </div>
                                     <div class="about-one__call-box-content">
-                                        <p>Call to Anytime</p>
-                                        <h4><a href="tel:15502505260">+1 (550) 250 5260</a></h4>
+                                        <p>Call Anytime</p>
+                                        <h4><a href="tel:{{$Settings->mobile}}">{{$Settings->mobile}}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -263,105 +189,9 @@
                 </div>
             </div>
         </section>
+
         <!-- About One End -->
 
-        <!-- Process One Start -->
-        <section class="process-one">
-            <div class="container">
-                <div class="section-title text-center sec-title-animation animation-style2">
-                    <div class="section-title__tagline-box justify-content-center">
-                        <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
-                        </div>
-                        <span class="section-title__tagline">Steps</span>
-                    </div>
-                    <h2 class="section-title__title title-animation">Car Rental Process</h2>
-                </div>
-                <div class="row">
-                    <!-- Process One Single Start -->
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="100ms"
-                        data-wow-duration="1500ms">
-                        <div class="process-one__single">
-                            <div class="process-one__single-bg"
-                                style="background-image: url(assets/images/backgrounds/process-one-single-bg-1.jpg);">
-                            </div>
-                            <div class="process-one__icon-box">
-                                <div class="process-one__icon-shape"></div>
-                                <div class="process-one__icon">
-                                    <span class="icon-car-wash"></span>
-                                </div>
-                                <div class="process-one__count"></div>
-                            </div>
-                            <h3 class="process-one__title">Choose A Car</h3>
-                            <p class="process-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
-                        </div>
-                    </div>
-                    <!-- Process One Single End -->
-                    <!-- Process One Single Start -->
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="300ms"
-                        data-wow-duration="1500ms">
-                        <div class="process-one__single">
-                            <div class="process-one__single-bg"
-                                style="background-image: url(assets/images/backgrounds/process-one-single-bg-2.jpg);">
-                            </div>
-                            <div class="process-one__icon-box">
-                                <div class="process-one__icon-shape"></div>
-                                <div class="process-one__icon">
-                                    <span class="icon-in-person"></span>
-                                </div>
-                                <div class="process-one__count"></div>
-                            </div>
-                            <h3 class="process-one__title">Come In Contact</h3>
-                            <p class="process-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
-                        </div>
-                    </div>
-                    <!-- Process One Single End -->
-                    <!-- Process One Single Start -->
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="500ms"
-                        data-wow-duration="1500ms">
-                        <div class="process-one__single">
-                            <div class="process-one__single-bg"
-                                style="background-image: url(assets/images/backgrounds/process-one-single-bg-3.jpg);">
-                            </div>
-                            <div class="process-one__icon-box">
-                                <div class="process-one__icon-shape"></div>
-                                <div class="process-one__icon">
-                                    <span class="icon-car-insurance"></span>
-                                </div>
-                                <div class="process-one__count"></div>
-                            </div>
-                            <h3 class="process-one__title">Pick-Up Locations</h3>
-                            <p class="process-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
-                        </div>
-                    </div>
-                    <!-- Process One Single End -->
-                    <!-- Process One Single Start -->
-                    <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="700ms"
-                        data-wow-duration="1500ms">
-                        <div class="process-one__single">
-                            <div class="process-one__single-bg"
-                                style="background-image: url(assets/images/backgrounds/process-one-single-bg-4.jpg);">
-                            </div>
-                            <div class="process-one__icon-box">
-                                <div class="process-one__icon-shape"></div>
-                                <div class="process-one__icon">
-                                    <span class="icon-steering-wheel"></span>
-                                </div>
-                                <div class="process-one__count"></div>
-                            </div>
-                            <h3 class="process-one__title">Enjoy Driving</h3>
-                            <p class="process-one__text">Open multipy a green form lesser their from in made herb
-                                multiply</p>
-                        </div>
-                    </div>
-                    <!-- Process One Single End -->
-                </div>
-            </div>
-        </section>
-        <!-- Process One End -->
 
         <!-- Booking One Start -->
         <section class="booking-one">
@@ -374,10 +204,10 @@
                             <div class="booking-one__left">
                                 <div class="booking-one__img wow slideInLeft" data-wow-delay="100ms"
                                     data-wow-duration="2500ms">
-                                    <img src="assets/images/resources/booking-one-img-1.png" alt="">
+                                    <img src="{{asset('uploads/book-guys.png')}}" alt="">
                                 </div>
                                 <div class="booking-one__shape-1 float-bob-x">
-                                    <img src="assets/images/shapes/booking-one-shape-1.png" alt="">
+                                    <img src="{{asset('main-html/assets/images/shapes/booking-one-shape-1.png')}}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -392,7 +222,7 @@
                                         <h3 class="booking-one__title">Book a car</h3>
                                     </div>
                                     <form class="contact-form-validated booking-one__form"
-                                        action="https://dreamlayout.mnsithub.com/html/gorent/main-html/assets/inc/sendemail.php" method="post" novalidate="novalidate">
+                                        action="https://dreamlayout.mnsithub.com/html/Nuhi Great Travels/main-html/assets/inc/sendemail.php" method="post" novalidate="novalidate">
                                         <div class="row">
                                             <div class="col-xl-6 col-lg-6 col-md-6">
                                                 <div class="booking-one__input-box">
@@ -477,7 +307,7 @@
                 <div class="section-title text-center sec-title-animation animation-style2">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Why Choose Us</span>
                     </div>
@@ -563,7 +393,7 @@
                             <div class="section-title text-left sec-title-animation animation-style1">
                                 <div class="section-title__tagline-box">
                                     <div class="section-title__tagline-shape">
-                                        <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                                     </div>
                                     <span class="section-title__tagline">fun facts</span>
                                 </div>
@@ -646,16 +476,16 @@
                         <div class="counter-one__right">
                             <div class="counter-one__img-box">
                                 <div class="counter-one__img reveal">
-                                    <img src="assets/images/resources/counter-one-img-1.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/resources/counter-one-img-1.jpg')}}" alt="">
                                 </div>
                                 <div class="counter-one__img-two reveal">
-                                    <img src="assets/images/resources/counter-one-img-2.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/resources/counter-one-img-2.jpg')}}" alt="">
                                 </div>
                                 <div class="counter-one__dot-1">
-                                    <img src="assets/images/shapes/counter-one-dot-1.png" alt="">
+                                    <img src="{{asset('main-html/assets/images/shapes/counter-one-dot-1.png')}}" alt="">
                                 </div>
                                 <div class="counter-one__dot-2 float-bob-y">
-                                    <img src="assets/images/shapes/counter-one-dot-2.png" alt="">
+                                    <img src="{{asset('main-html/assets/images/shapes/counter-one-dot-2.png')}}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -671,7 +501,7 @@
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Checkout our new cars</span>
                     </div>
@@ -695,7 +525,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -773,7 +603,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -851,7 +681,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -929,7 +759,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -1007,7 +837,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -1085,7 +915,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -1163,7 +993,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -1249,7 +1079,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -1327,7 +1157,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -1405,7 +1235,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -1483,7 +1313,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -1561,7 +1391,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -1639,7 +1469,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -1717,7 +1547,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -1803,7 +1633,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -1881,7 +1711,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -1959,7 +1789,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -2037,7 +1867,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -2115,7 +1945,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -2193,7 +2023,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -2271,7 +2101,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -2357,7 +2187,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -2435,7 +2265,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -2513,7 +2343,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -2591,7 +2421,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -2669,7 +2499,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -2747,7 +2577,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -2825,7 +2655,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -2911,7 +2741,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -2989,7 +2819,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -3067,7 +2897,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -3145,7 +2975,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -3223,7 +3053,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -3301,7 +3131,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -3379,7 +3209,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -3465,7 +3295,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-1.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-1.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -3543,7 +3373,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Kia Soul</p>
                                                 </div>
@@ -3621,7 +3451,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-3.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-3.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -3699,7 +3529,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-4.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-4.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Audi</p>
                                                 </div>
@@ -3777,7 +3607,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-5.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-5.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Acura</p>
                                                 </div>
@@ -3855,7 +3685,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-6.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-6.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Toyota</p>
                                                 </div>
@@ -3933,7 +3763,7 @@
                                     <div class="item">
                                         <div class="listing-one__single">
                                             <div class="listing-one__img">
-                                                <img src="assets/images/listing/listing-1-2.jpg" alt="">
+                                                <img src="{{asset('main-html/assets/images/listing/listing-1-2.jpg')}}" alt="">
                                                 <div class="listing-one__brand-name">
                                                     <p>Honda</p>
                                                 </div>
@@ -4045,7 +3875,7 @@
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Pricing & Plan</span>
                     </div>
@@ -4270,7 +4100,7 @@
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Popular Car</span>
                     </div>
@@ -4366,11 +4196,11 @@
                 <div class="section-title text-left sec-title-animation animation-style2">
                     <div class="section-title__tagline-box">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Our Testimonial</span>
                     </div>
-                    <h2 class="section-title__title title-animation">What Peoples Say <br> about Gorent</h2>
+                    <h2 class="section-title__title title-animation">What Peoples Say <br> about Nuhi Great Travels</h2>
                 </div>
                 <div class="testimonial-one__carousel owl-theme owl-carousel">
                     <!-- Testimonial One Single Start -->
@@ -4378,7 +4208,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-1.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-1.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Adam Smith</a>
@@ -4406,7 +4236,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-2.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-2.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Adam Milne</a>
@@ -4434,7 +4264,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-3.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-3.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Marco
@@ -4463,7 +4293,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-4.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-4.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Look Ronci</a>
@@ -4491,7 +4321,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-5.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-5.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Harry Broke</a>
@@ -4519,7 +4349,7 @@
                         <div class="testimonial-one__single">
                             <div class="testimonial-one__client-info">
                                 <div class="testimonial-one__img">
-                                    <img src="assets/images/testimonial/testimonial-1-6.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/testimonial/testimonial-1-6.jpg')}}" alt="">
                                 </div>
                                 <div class="testimonial-one__content">
                                     <h4 class="testimonial-one__client-name"><a href="testimonials.html">Jessica
@@ -4559,7 +4389,7 @@
                             <div class="section-title text-left sec-title-animation animation-style2">
                                 <div class="section-title__tagline-box">
                                     <div class="section-title__tagline-shape">
-                                        <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                                     </div>
                                     <span class="section-title__tagline">Our Faqs</span>
                                 </div>
@@ -4567,7 +4397,7 @@
                             </div>
                             <div class="faq-one__img-box">
                                 <div class="faq-one__img reveal">
-                                    <img src="assets/images/resources/faq-one-img-1.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/resources/faq-one-img-1.jpg')}}" alt="">
                                 </div>
                                 <div class="faq-one__experience-box">
                                     <div class="faq-one__experience-year">
@@ -4689,7 +4519,7 @@
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Our Drivers</span>
                     </div>
@@ -4713,7 +4543,7 @@
                                                 <div class="team-one__buttons-content-box">
                                                     <div class="team-one__buttons-img-box">
                                                         <div class="team-one__buttons-img">
-                                                            <img src="assets/images/team/team-one-buttons-img-1-1.jpg"
+                                                            <img src="{{asset('main-html/assets/images/team/team-one-buttons-img-1-1.jpg')}}"
                                                                 alt="">
                                                         </div>
                                                     </div>
@@ -4739,7 +4569,7 @@
                                                 <div class="team-one__buttons-content-box">
                                                     <div class="team-one__buttons-img-box">
                                                         <div class="team-one__buttons-img">
-                                                            <img src="assets/images/team/team-one-buttons-img-1-2.jpg"
+                                                            <img src="{{asset('main-html/assets/images/team/team-one-buttons-img-1-2.jpg')}}"
                                                                 alt="">
                                                         </div>
                                                     </div>
@@ -4765,7 +4595,7 @@
                                                 <div class="team-one__buttons-content-box">
                                                     <div class="team-one__buttons-img-box">
                                                         <div class="team-one__buttons-img">
-                                                            <img src="assets/images/team/team-one-buttons-img-1-3.jpg"
+                                                            <img src="{{asset('main-html/assets/images/team/team-one-buttons-img-1-3.jpg')}}"
                                                                 alt="">
                                                         </div>
                                                     </div>
@@ -4791,7 +4621,7 @@
                                                 <div class="team-one__buttons-content-box">
                                                     <div class="team-one__buttons-img-box">
                                                         <div class="team-one__buttons-img">
-                                                            <img src="assets/images/team/team-one-buttons-img-1-4.jpg"
+                                                            <img src="{{asset('main-html/assets/images/team/team-one-buttons-img-1-4.jpg')}}"
                                                                 alt="">
                                                         </div>
                                                     </div>
@@ -4817,7 +4647,7 @@
                                                 <div class="team-one__buttons-content-box">
                                                     <div class="team-one__buttons-img-box">
                                                         <div class="team-one__buttons-img">
-                                                            <img src="assets/images/team/team-one-buttons-img-1-5.jpg"
+                                                            <img src="{{asset('main-html/assets/images/team/team-one-buttons-img-1-5.jpg')}}"
                                                                 alt="">
                                                         </div>
                                                     </div>
@@ -4843,7 +4673,7 @@
                                             <div class="team-one__tabs-content-box">
                                                 <div class="team-one__img-box">
                                                     <div class="team-one__img">
-                                                        <img src="assets/images/team/team-one-1-1.jpg" alt="">
+                                                        <img src="{{asset('main-html/assets/images/team/team-one-1-1.jpg')}}" alt="">
                                                         <div class="team-one__social">
                                                             <a href="driver-details.html"><span
                                                                     class="icon-facebook"></span></a>
@@ -4862,7 +4692,7 @@
                                             <div class="team-one__tabs-content-box">
                                                 <div class="team-one__img-box">
                                                     <div class="team-one__img">
-                                                        <img src="assets/images/team/team-one-1-2.jpg" alt="">
+                                                        <img src="{{asset('main-html/assets/images/team/team-one-1-2.jpg')}}" alt="">
                                                         <div class="team-one__social">
                                                             <a href="driver-details.html"><span
                                                                     class="icon-facebook"></span></a>
@@ -4881,7 +4711,7 @@
                                             <div class="team-one__tabs-content-box">
                                                 <div class="team-one__img-box">
                                                     <div class="team-one__img">
-                                                        <img src="assets/images/team/team-one-1-3.jpg" alt="">
+                                                        <img src="{{asset('main-html/assets/images/team/team-one-1-3.jpg')}}" alt="">
                                                         <div class="team-one__social">
                                                             <a href="driver-details.html"><span
                                                                     class="icon-facebook"></span></a>
@@ -4900,7 +4730,7 @@
                                             <div class="team-one__tabs-content-box">
                                                 <div class="team-one__img-box">
                                                     <div class="team-one__img">
-                                                        <img src="assets/images/team/team-one-1-4.jpg" alt="">
+                                                        <img src="{{asset('main-html/assets/images/team/team-one-1-4.jpg')}}" alt="">
                                                         <div class="team-one__social">
                                                             <a href="driver-details.html"><span
                                                                     class="icon-facebook"></span></a>
@@ -4919,7 +4749,7 @@
                                             <div class="team-one__tabs-content-box">
                                                 <div class="team-one__img-box">
                                                     <div class="team-one__img">
-                                                        <img src="assets/images/team/team-one-1-5.jpg" alt="">
+                                                        <img src="{{asset('main-html/assets/images/team/team-one-1-5.jpg')}}" alt="">
                                                         <div class="team-one__social">
                                                             <a href="driver-details.html"><span
                                                                     class="icon-facebook"></span></a>
@@ -4954,13 +4784,13 @@
                         <div class="col-xl-7 col-lg-7">
                             <div class="download-app-one__content sec-title-animation animation-style2">
                                 <p class="download-app-one__sub-title">Download Our App</p>
-                                <h2 class="download-app-one__title title-animation">Gorent User Friendly <br> App
+                                <h2 class="download-app-one__title title-animation">Nuhi Great Travels User Friendly <br> App
                                     Available</h2>
                                 <p class="download-app-one__text">Get our mobile app for easy and convenient usage</p>
                                 <div class="download-app-one__google-and-app-store">
-                                    <a href="contact.html"><img src="assets/images/icon/download-app-img1.png"
+                                    <a href="contact.html"><img src="{{asset('main-html/assets/images/icon/download-app-img1.png')}}"
                                             alt=""></a>
-                                    <a href="contact.html"><img src="assets/images/icon/download-app-img2.png"
+                                    <a href="contact.html"><img src="{{asset('main-html/assets/images/icon/download-app-img2.png')}}"
                                             alt=""></a>
                                 </div>
                             </div>
@@ -4969,11 +4799,11 @@
                             <div class="download-app-one__right">
                                 <div class="download-app-one__img">
                                     <div class="download-app-one__img1 reveal">
-                                        <img src="assets/images/resources/download-app-img-1.png" alt="">
+                                        <img src="{{asset('main-html/assets/images/resources/download-app-img-1.png')}}" alt="">
                                     </div>
                                 </div>
                                 <div class="download-app-one-car__img float-bob-x">
-                                    <img src="assets/images/resources/download-app-car-img-1.png" alt="">
+                                    <img src="{{asset('main-html/assets/images/resources/download-app-car-img-1.png')}}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -4991,7 +4821,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-1.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-1.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5000,7 +4830,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-2.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-2.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5009,7 +4839,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-3.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-3.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5018,7 +4848,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-4.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-4.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5027,7 +4857,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-5.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-5.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5036,7 +4866,7 @@
                     <div class="item">
                         <div class="brand-one__single">
                             <div class="brand-one__img">
-                                <a href="#"><img src="assets/images/brand/brand-1-6.png" alt=""></a>
+                                <a href="#"><img src="{{asset('main-html/assets/images/brand/brand-1-6.png')}}" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -5054,7 +4884,7 @@
                 <div class="section-title text-left sec-title-animation animation-style2">
                     <div class="section-title__tagline-box">
                         <div class="section-title__tagline-shape">
-                            <img src="assets/images/shapes/section-title-tagline-shape-2.png" alt="">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
                         <span class="section-title__tagline">Our Blog</span>
                     </div>
@@ -5066,7 +4896,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-1.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-1.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5104,7 +4934,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-2.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-2.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5143,7 +4973,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-3.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-3.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5181,7 +5011,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-4.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-4.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5219,7 +5049,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-5.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-5.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5257,7 +5087,7 @@
                         <div class="blog-one__single">
                             <div class="blog-one__img-box">
                                 <div class="blog-one__img">
-                                    <img src="assets/images/blog/blog-1-6.jpg" alt="">
+                                    <img src="{{asset('main-html/assets/images/blog/blog-1-6.jpg')}}" alt="">
                                     <div class="blog-one__tags">
                                         <span>Car Showcase</span>
                                     </div>
@@ -5302,7 +5132,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-1.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-1.jpg')}}" alt="">
                             <a href="cars.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
@@ -5312,7 +5142,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-2.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-2.jpg')}}" alt="">
                             <a href="cars.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
@@ -5322,7 +5152,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-3.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-3.jpg')}}" alt="">
                             <a href="cart.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
@@ -5332,7 +5162,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-4.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-4.jpg')}}" alt="">
                             <a href="cart.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
@@ -5342,7 +5172,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-5.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-5.jpg')}}" alt="">
                             <a href="cart.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
@@ -5352,7 +5182,7 @@
                 <div class="item">
                     <div class="gallery-one__single">
                         <div class="gallery-one__img">
-                            <img src="assets/images/gallery/gallery-1-6.jpg" alt="">
+                            <img src="{{asset('main-html/assets/images/gallery/gallery-1-6.jpg')}}" alt="">
                             <a href="cart.html"><span class="fab fa-instagram"></span></a>
                         </div>
                     </div>
