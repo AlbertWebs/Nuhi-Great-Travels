@@ -1,0 +1,195 @@
+<nav class="p-4">
+    <ul class="space-y-2">
+
+                <!-- Main Website -->
+        <li>
+            <a href="{{ route('home') }}" target="new"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.dashboard') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-globe text-indigo-500"></i> Main Website
+            </a>
+        </li>
+
+        <!-- Dashboard -->
+        <li>
+            <a href="{{ route('admin.dashboard') }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.dashboard') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-home text-indigo-500"></i> Dashboard
+            </a>
+        </li>
+
+        <!-- Home Page Carousel -->
+        <li>
+            <a href="{{ route('admin.carousel.index') ?? '#' }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-images text-indigo-500"></i> Carousel
+            </a>
+        </li>
+
+
+        <!-- About -->
+        <li>
+            <a href="{{ route('admin.about') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-info-circle text-indigo-500"></i> About Us
+            </a>
+        </li>
+
+        <!-- Cars -->
+        <li>
+            <a href="{{ route('admin.cars.index') }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/cars*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-car text-indigo-500"></i> Cars
+            </a>
+        </li>
+
+        <!-- Clients -->
+        <li>
+            <a href="{{ route('admin.clients.index') }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/clients*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-users text-indigo-500"></i> Clients
+            </a>
+        </li>
+
+        <!-- Bookings -->
+        <li>
+            <a href="{{ route('admin.bookings.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/bookings*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-calendar-check text-indigo-500"></i> Bookings
+            </a>
+        </li>
+
+        <!-- Payments Dropdown -->
+        <li x-data="{ open: false }">
+            <button @click="open = !open"
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <span class="flex items-center gap-3">
+                    <i class="fas fa-credit-card text-indigo-500"></i> Payments
+                </span>
+                <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+            </button>
+            <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
+                <li><a href="{{ route('admin.payments.mpesa') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">M-Pesa</a></li>
+                <li><a href="{{ route('admin.payments.card') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">Card</a></li>
+                <li><a href="{{ route('admin.payments.crypto') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">Crypto</a></li>
+            </ul>
+        </li>
+
+        <!-- Reports -->
+        <li>
+            <a href="{{ route('admin.reports.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/reports*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-chart-bar text-indigo-500"></i> Reports
+            </a>
+        </li>
+
+        <!-- Users -->
+        <li>
+            <a href="{{ route('admin.users.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/users*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-user-cog text-indigo-500"></i> Users
+            </a>
+        </li>
+
+        <!-- KYC -->
+        <li>
+            <a href="{{ route('admin.kyc.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-id-card text-indigo-500"></i> KYC
+            </a>
+        </li>
+
+        <!-- Subscribers -->
+        <li>
+            <a href="{{ route('admin.subscribers.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-envelope-open-text text-indigo-500"></i> Subscribers
+            </a>
+        </li>
+
+        <!-- SMS -->
+        <li>
+            <a href="{{ route('admin.sms.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-sms text-indigo-500"></i> SMS
+            </a>
+        </li>
+
+        <!-- Feedbacks -->
+        <li>
+            <a href="{{ route('admin.feedbacks.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-comments text-indigo-500"></i> Client Feedbacks
+            </a>
+        </li>
+
+        <!-- Notifications with badge -->
+        <li>
+            <a href="{{ route('admin.notifications.index') ?? '#' }}"
+               class="flex items-center justify-between px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <span class="flex items-center gap-3">
+                    <i class="fas fa-bell text-indigo-500"></i> Notifications
+                </span>
+                <span class="text-xs font-semibold text-white bg-red-500 rounded-full px-2 py-0.5">
+                    {{ $notificationCount ?? 1 }}
+                </span>
+            </a>
+        </li>
+
+        <!-- Legal Dropdown -->
+        <li x-data="{ open: false }">
+            <button @click="open = !open"
+                    class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <span class="flex items-center gap-3">
+                    <i class="fas fa-balance-scale text-indigo-500"></i> Legal
+                </span>
+                <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
+            </button>
+            <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
+                <li>
+                    <a href="{{ route('admin.legal.terms') }}" 
+                    class="block px-3 py-1 text-sm hover:text-indigo-600">
+                    Terms & Conditions
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.legal.privacy') }}" 
+                    class="block px-3 py-1 text-sm hover:text-indigo-600">
+                    Privacy Policy
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.legal.booking') }}" 
+                    class="block px-3 py-1 text-sm hover:text-indigo-600">
+                    Booking & Return
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.legal.copyright') }}" 
+                    class="block px-3 py-1 text-sm hover:text-indigo-600">
+                    Copyright
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <!-- Settings -->
+        <li>
+            <a href="{{ route('admin.settings') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::routeIs('admin.settings') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-cog text-indigo-500"></i> Settings
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li>
+            <form method="POST" action="{{ route('admin.logout') }}">
+                @csrf
+                <button type="submit"
+                        class="flex items-center gap-3 w-full text-left px-3 py-2 rounded-md border border-red-300 text-red-600 transition hover:bg-red-50 hover:shadow-sm">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        </li>
+    </ul>
+</nav>
