@@ -20,7 +20,7 @@
 :root {
   --gorent-font: "Roboto", sans-serif;
   --gorent-font-two: "Inter Tight", sans-serif;
-  --gorent-gray: #868689;
+  --gorent-gray: #1c1c1f;
   --gorent-gray-rgb: 134, 134, 137;
   --gorent-base: #FFB51D;
   --gorent-base-rgb: 255, 181, 29;
@@ -3054,10 +3054,15 @@ xs sidebar
     justify-content: center;
     align-items: center;
 }
-
-
-
-
+.center-middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.pb-100 {
+    padding-bottom: 100px !important;
+}
 
 
 

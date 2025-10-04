@@ -190,7 +190,7 @@
         <!-- About One End -->
 
         <!--Booking Two Start -->
-        <section class="booking-two pb-100" id="booking">
+        <section class="booking-two" id="booking">
             <div class="container">
                 <div class="row">
                     <div class="col-xl-7 col-lg-6">
@@ -285,272 +285,348 @@
         </section>
         <!--Booking Two Start -->
 
-        <!--Lets Talk Start -->
-        <section class="lets-talk">
-            <div class="lets-talk__bg" style="background-image: url(assets/images/backgrounds/lets-talk-bg.jpg);"></div>
+          <!-- Video Two Start -->
+        <section class="video-two">
             <div class="container">
-                <div class="lets-talk__inner">
-                    <div class="lets-talk__title">
-                        <p>Rent Your Car</p>
-                        <h2>Interested in Renting?</h2>
+                <div class="video-two__inner">
+                    <div class="video-two__bg jarallax" data-jarallax data-speed="0.2" data-imgPosition="50% 0%"
+                        style="background-image: url('{{asset('main-html/assets/images/backgrounds/video-two-bg.jpg')}}');"></div>
+                    <div class="video-two__video-link">
+                        <a href="https://www.youtube.com/watch?v=Get7rqXYrbQ" class="video-popup">
+                            <div class="video-two__video-icon">
+                                <span class="icon-play"></span>
+                                <i class="ripple"></i>
+                            </div>
+                        </a>
                     </div>
-                    <div class="lets-talk__btn-boxes">
-                        <div class="lets-talk__btn-1">
-                            <a href="contact.html" class="thm-btn">Contact Us<span
-                                    class="fas fa-arrow-right"></span></a>
-                        </div>
-                        <div class="lets-talk__btn-2">
-                            <a href="car-list-v-1.html" class="thm-btn">Rent Now<span
-                                    class="fas fa-arrow-right"></span></a>
-                        </div>
-                    </div>
+                    <h2 class="video-two__title">Want To Know More About? <br> Play Our Promotional Video Now!</h2>
                 </div>
             </div>
         </section>
-        <!--Lets Talk End -->
-
-        <!-- Counter Two Start -->
-        <section class="counter-two">
-            <div class="container">
-                <div class="counter-two__inner">
-                    <ul class="list-unstyled counter-two__list">
-                        <li class="wow fadeInLeft" data-wow-delay="100ms" data-wow-duration="1500ms">
-                            <div class="counter-two__single">
-                                <div class="counter-two__shape-1"></div>
-                                <div class="counter-two__shape-2"></div>
-                                <div class="counter-two__single-inner">
-                                    <div class="counter-two__icon">
-                                        <span class="icon-car"></span>
-                                    </div>
-                                    <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="1000">00</h3>
-                                        <span>+</span>
-                                    </div>
-                                    <p class="counter-two__count-text">Vehicle fleet</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
-                            <div class="counter-two__single">
-                                <div class="counter-two__shape-1"></div>
-                                <div class="counter-two__shape-2"></div>
-                                <div class="counter-two__single-inner">
-                                    <div class="counter-two__icon">
-                                        <span class="icon-mileage"></span>
-                                    </div>
-                                    <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="10">00</h3>
-                                        <span>M+</span>
-                                    </div>
-                                    <p class="counter-two__count-text">Miles of drive</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="wow fadeInRight" data-wow-delay="300ms" data-wow-duration="1500ms">
-                            <div class="counter-two__single">
-                                <div class="counter-two__shape-1"></div>
-                                <div class="counter-two__shape-2"></div>
-                                <div class="counter-two__single-inner">
-                                    <div class="counter-two__icon">
-                                        <span class="icon-range"></span>
-                                    </div>
-                                    <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="15">00</h3>
-                                        <span>K+</span>
-                                    </div>
-                                    <p class="counter-two__count-text">Booking reserved</p>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="wow fadeInRight" data-wow-delay="400ms" data-wow-duration="1500ms">
-                            <div class="counter-two__single">
-                                <div class="counter-two__shape-1"></div>
-                                <div class="counter-two__shape-2"></div>
-                                <div class="counter-two__single-inner">
-                                    <div class="counter-two__icon">
-                                        <span class="icon-pin-2"></span>
-                                    </div>
-                                    <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="50">00</h3>
-                                        <span>K+</span>
-                                    </div>
-                                    <p class="counter-two__count-text">Pickup & drop</p>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        <!-- Counter Two End -->
+        <!-- Video Two End -->
 
 
-
-        <section class="about-one pb-100">
-            <div class="container">
-                <div class="row flex flex-wrap items-stretch">
-                    <!-- Text Side -->
-                    <div class="col-xl-6 position-relative" style="height:640px;">
-                        <div class="wow slideInLeft gpt-center-this position-absolute top-50 translate-middle-y">
-                            <div class="section-title text-left sec-title-animation animation-style1">
-                                <div class="section-title__tagline-box">
-                                    <div class="section-title__tagline-shape">
-                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="Nuhi Great Travels">
-                                    </div>
+        <!-- Booking One Start -->
+        <section class="booking-one" id="booking">
+            <div class="booking-one__wrap">
+                <div class="booking-one__bg"
+                    style="background-image: url(assets/images/backgrounds/booking-one-bg.jpg);"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-6 col-lg-5">
+                            <div class="booking-one__left">
+                                <div class="booking-one__img wow slideInLeft" data-wow-delay="100ms"
+                                    data-wow-duration="2500ms">
+                                    <img src="{{asset('uploads/book-guys.png')}}" alt="">
                                 </div>
-                                <h2 class="section-title__title title-animation">Self-Drive Rentals</h2>
-                            </div>
-
-                            <p class="about-one__text-2 mt-4">
-                                Enjoy the freedom to explore at your own pace with our premium self-drive rentals. Choose from our fleet of well-maintained vehicles and experience comfort, privacy, and flexibility on every journey.
-                                <br><br>
-                                Whether you are on a weekend getaway, business trip, or simply want to enjoy a scenic drive, our self-drive options give you the independence to create your own adventure with confidence and style.
-                            </p>
-
-                            <div class="about-one__btn-box-and-call-box mt-6 flex items-center gap-4">
-                                <div class="about-one__btn-box">
-                                    <a href="#booking" class="about-one__btn thm-btn">Book Now
-                                        <span class="fas fa-arrow-right"></span>
-                                    </a>
-                                </div>
-                                <div class="lets-talk__btn-2">
-                                    <a href="car-list-v-1.html" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
+                                <div class="booking-one__shape-1 float-bob-x">
+                                    <img src="{{asset('main-html/assets/images/shapes/booking-one-shape-1.png')}}" alt="">
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Image Side -->
-                    <div class="col-xl-6 flex">
-                        <div class="about-one__lefts wow slideInRight flex-1 flex items-center justify-center"
-                            data-wow-delay="100ms" data-wow-duration="2500ms">
-                            <div class="about-one__img-box w-full">
-                                <div class="about-one__img">
-                                    <img style="max-height:640px; object-fit:cover"
-                                        class="border-3 border-white w-full h-auto"
-                                        src="{{url('/')}}/uploads/self-drive.jpg" alt="Self Drive Rentals Nuhi Great Travels">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <!-- Faq One Start -->
-        <section class="faq-one">
-            <div class="faq-one__shape-1"></div>
-            <div class="faq-one__shape-2"></div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-5">
-                        <div class="faq-one__left">
-                            <div class="section-title text-left sec-title-animation animation-style2">
-                                <div class="section-title__tagline-box">
-                                    <div class="section-title__tagline-shape">
-                                        <img src="{{ asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png') }}" alt="">
-                                    </div>
-                                    <span class="section-title__tagline">Our Faqs</span>
-                                </div>
-                                <h2 class="section-title__title title-animation">Frequently Asking Any Question</h2>
-                            </div>
-
-                            <div class="faq-one__img-box">
-                                <div class="faq-one__img reveal">
-                                    <img src="{{ asset('uploads/chauffeur.jpg') }}" alt="Nuhi Great Travels">
-                                </div>
-                                <div class="faq-one__experience-box">
-                                    <div class="faq-one__experience-year">
-                                        <h2 class="odometer" data-count="10">00</h2>
-                                    </div>
-                                    <p class="faq-one__experience-text">Year of <br> experience</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="faq-one__right">
-                            <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
-                                @foreach($faqs as $index => $faq)
-                                    <div class="accrodion wow fadeIn{{ $index % 2 == 0 ? 'Left' : 'Right' }}"
-                                        data-wow-delay="{{ $index * 100 }}ms" data-wow-duration="1500ms">
-                                        <div class="accrodion-title {{ $loop->first ? 'active' : '' }}">
-                                            <h4>{{ $faq->question }}</h4>
+                        <div class="col-xl-6 col-lg-7">
+                            <div class="booking-one__right wow slideInRight" data-wow-delay="100ms"
+                                data-wow-duration="2500ms">
+                                <div class="booking-one__content">
+                                    <div class="booking-one__title-box">
+                                        <div class="booking-one__title-shape"
+                                            style="background-image: url(assets/images/shapes/book-one-title-shape-1.png);">
                                         </div>
-                                        <div class="accrodion-content {{ $loop->first ? 'active' : '' }}">
-                                            <div class="inner">
-                                                <p>{{ $faq->answer }}</p>
+                                        <h3 class="booking-one__title">Book a car</h3>
+                                    </div>
+                                    <form class="contact-form-validated booking-one__form"
+                                        action="https://dreamlayout.mnsithub.com/html/Nuhi Great Travels/main-html/assets/inc/sendemail.php" method="post" novalidate="novalidate">
+                                        <div class="row">
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="booking-one__input-box">
+                                                    <p class="booking-one__input-title"> <span
+                                                            class="icon-pin-2"></span> Pickup</p>
+                                                    <div class="select-box">
+                                                        <select class="selectmenu wide">
+                                                            <option selected="selected">Enter a Location</option>
+                                                            <option>Enter a Location 01</option>
+                                                            <option>Enter a Location 02</option>
+                                                            <option>Enter a Location 03</option>
+                                                            <option>Enter a Location 04</option>
+                                                            <option>Enter a Location 05</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="booking-one__input-box">
+                                                    <p class="booking-one__input-title"> <span
+                                                            class="icon-pin-2"></span> Drop of</p>
+                                                    <div class="select-box">
+                                                        <select class="selectmenu wide">
+                                                            <option selected="selected">Enter a Location</option>
+                                                            <option>Enter a Location 01</option>
+                                                            <option>Enter a Location 02</option>
+                                                            <option>Enter a Location 03</option>
+                                                            <option>Enter a Location 04</option>
+                                                            <option>Enter a Location 05</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="booking-one__input-box">
+                                                    <p class="booking-one__input-title"> <span class="icon-cuv"></span>
+                                                        Your car type</p>
+                                                    <div class="select-box">
+                                                        <select class="selectmenu wide">
+                                                            <option selected="selected">Your Car Type
+                                                            </option>
+                                                            <option>Your Car Type 01</option>
+                                                            <option>Your Car Type 02</option>
+                                                            <option>Your Car Type 03</option>
+                                                            <option>Your Car Type 04</option>
+                                                            <option>Your Car Type 05</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6">
+                                                <div class="booking-one__input-box">
+                                                    <p class="booking-one__input-title"> <span class="icon-date"></span>
+                                                        Date</p>
+                                                    <input type="text" placeholder="mm/dd/yyy" name="date"
+                                                        id="datepicker">
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <div class="booking-one__btn-box">
+                                                    <button type="submit" class="thm-btn">Book Now<span
+                                                            class="fas fa-arrow-right"></span></button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
-
-                                @if($faqs->isEmpty())
-                                    <p class="text-gray-500 mt-4">No FAQs available at the moment.</p>
-                                @endif
+                                    </form>
+                                    <div class="result"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-        <!-- Faq One End -->
+        <!-- Booking One End -->
 
-        <section class="about-one pb-100">
+
+
+        <!-- Video One Start -->
+        <section class="video-one">
+            <div class="video-one__bg jarallax" data-jarallax data-speed="0.2" data-imgPosition="50% 0%"
+                style="background-image: url('{{asset('main-html/assets/images/backgrounds/video-one-bg.jpg')}}');"></div>
             <div class="container">
-                <div class="row flex flex-wrap items-stretch">
-                     <!-- Image Side -->
-                    <div class="col-xl-6 flex">
-                        <div class="about-one__lefts wow slideInLeft flex-1 flex items-center justify-center"
-                            data-wow-delay="100ms" data-wow-duration="2500ms">
-                            <div class="about-one__img-box w-full">
-                                <div class="about-one__img">
-                                    <img style="max-height:640px; object-fit:cover"
-                                        class="border-3 border-white w-full h-auto"
-                                        src="{{url('/')}}/uploads/airport.jpg" alt="Airport Transfers Nuhi Great Travels">
-                                </div>
+                <div class="video-one__inner">
+                    <h2 class="video-one__title">Want To Know More About? <br> Play Our Promotional Video Now!</h2>
+                    <div class="video-one__video-link">
+                        <a href="https://www.youtube.com/watch?v=yNvjQxENsas" class="video-popup">
+                            <div class="video-one__video-icon">
+                                <span class="icon-play"></span>
+                                <i class="ripple"></i>
                             </div>
-                        </div>
+                        </a>
                     </div>
-                    <!-- Text Side -->
-                    <div class="col-xl-6 position-relative" style="height:640px;">
-                        <div class="wow slideInRight gpt-center-this position-absolute top-50 translate-middle-y">
-                            <div class="section-title text-left sec-title-animation animation-style1">
-                                <div class="section-title__tagline-box">
-                                    <div class="section-title__tagline-shape">
-                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="Nuhi Great Travels">
-                                    </div>
-                                </div>
-                                <h2 class="section-title__title title-animation">Airport Tranfers</h2>
-                            </div>
-
-                            <p class="about-one__text-2 mt-4">
-                                Enjoy the freedom to explore at your own pace with our premium self-drive rentals. Choose from our fleet of well-maintained vehicles and experience comfort, privacy, and flexibility on every journey.
-                                <br><br>
-                                Whether you are on a weekend getaway, business trip, or simply want to enjoy a scenic drive, our self-drive options give you the independence to create your own adventure with confidence and style.
-                            </p>
-
-                            <div class="about-one__btn-box-and-call-box mt-6 flex items-center gap-4">
-                                <div class="about-one__btn-box">
-                                    <a href="#booking" class="about-one__btn thm-btn">Book Now
-                                        <span class="fas fa-arrow-right"></span>
-                                    </a>
-                                </div>
-                                <div class="lets-talk__btn-2">
-                                    <a href="car-list-v-1.html" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </section>
+        <!-- Video One End -->
 
-
+        <!-- Pricing One Start -->
+        <section class="pricing-one">
+            <div class="pricing-one__shape-1"></div>
+            <div class="pricing-one__shape-2"></div>
+            <div class="container">
+                <div class="section-title text-center sec-title-animation animation-style1">
+                    <div class="section-title__tagline-box justify-content-center">
+                        <div class="section-title__tagline-shape">
+                            <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
+                        </div>
+                        <span class="section-title__tagline">Pricing & Plan</span>
+                    </div>
+                    <h2 class="section-title__title title-animation">Time Quick and Easy to <br> Transportation</h2>
+                </div>
+                <div class="row">
+                    <!-- Pricing One Single Start -->
+                    <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInLeft" data-wow-delay="100ms"
+                        data-wow-duration="1500ms">
+                        <div class="pricing-one__single">
+                            <div class="pricing-one__title-box">
+                                <h2 class="pricing-one__title">Skyline Taxi</h2>
+                                <p class="pricing-one__text">Car service is essential for maintaining
+                                    performance and longevity of vehicle. From oil changes</p>
+                            </div>
+                            <div class="pricing-one__price-and-icon-box">
+                                <div class="pricing-one__price-box">
+                                    <h3 class="pricing-one__price">$10 <span>/month</span> </h3>
+                                </div>
+                                <div class="pricing-one__icon-box">
+                                    <span class="icon-taxi"></span>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled pricing-one__points">
+                                <li>
+                                    <div class="text">
+                                        <p>Initial charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Additional Kilometre:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Per minutes stopped traffic:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Waiting Charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="pricing-one__btn-box">
+                                <a href="pricing.html" class="thm-btn">Rent Now<span
+                                        class="fas fa-arrow-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing One Single End -->
+                    <!-- Pricing One Single Start -->
+                    <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms"
+                        data-wow-duration="1500ms">
+                        <div class="pricing-one__single">
+                            <div class="pricing-one__title-box">
+                                <h2 class="pricing-one__title">Urban Cabs</h2>
+                                <p class="pricing-one__text">Car service is essential for maintaining
+                                    performance and longevity of vehicle. From oil changes</p>
+                            </div>
+                            <div class="pricing-one__price-and-icon-box">
+                                <div class="pricing-one__price-box">
+                                    <h3 class="pricing-one__price">$30 <span>/month</span> </h3>
+                                </div>
+                                <div class="pricing-one__icon-box">
+                                    <span class="icon-cuv"></span>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled pricing-one__points">
+                                <li>
+                                    <div class="text">
+                                        <p>Initial charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Additional Kilometre:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Per minutes stopped traffic:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Waiting Charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="pricing-one__btn-box">
+                                <a href="pricing.html" class="thm-btn">Rent Now<span
+                                        class="fas fa-arrow-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing One Single End -->
+                    <!-- Pricing One Single Start -->
+                    <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInRight" data-wow-delay="300ms"
+                        data-wow-duration="1500ms">
+                        <div class="pricing-one__single">
+                            <div class="pricing-one__title-box">
+                                <h2 class="pricing-one__title">TurboTaxi</h2>
+                                <p class="pricing-one__text">Car service is essential for maintaining
+                                    performance and longevity of vehicle. From oil changes</p>
+                            </div>
+                            <div class="pricing-one__price-and-icon-box">
+                                <div class="pricing-one__price-box">
+                                    <h3 class="pricing-one__price">$50 <span>/month</span> </h3>
+                                </div>
+                                <div class="pricing-one__icon-box">
+                                    <span class="icon-jeep"></span>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled pricing-one__points">
+                                <li>
+                                    <div class="text">
+                                        <p>Initial charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Additional Kilometre:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Per minutes stopped traffic:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="text">
+                                        <p>Waiting Charge:</p>
+                                    </div>
+                                    <div class="price">
+                                        <p>$06</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="pricing-one__btn-box">
+                                <a href="pricing.html" class="thm-btn">Rent Now<span
+                                        class="fas fa-arrow-right"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing One Single End -->
+                </div>
+            </div>
+        </section>
+        <!-- Pricing One End -->
 
         <!--Call One Start -->
         <section class="call-one">
@@ -569,8 +645,8 @@
                                 <span class="icon-call-2"></span>
                             </div>
                             <div class="call-one__content">
-                                <p>Call Us Now</p>
-                                <h4><a href="tel:{{$Settings->mobile}}">{{$Settings->mobile}}</a></h4>
+                                <p>Call Emergency</p>
+                                <h4><a href="tel:+9288006780">+92 ( 8800 ) - 6780</a></h4>
                             </div>
                         </div>
                         <div class="call-one__btn-box">
@@ -586,7 +662,7 @@
         <!-- Popular Car One Start -->
         <section class="popular-car-one">
             <div class="popular-car-one__bg jarallax" data-jarallax data-speed="0.2" data-imgPosition="50% 0%"
-                style="background-image: url('{{asset('main-html/assets/images/backgrounds/popular-car-one-bg.jpg')}}');"></div>
+                style="background-image: url(assets/images/backgrounds/popular-car-one-bg.jpg);"></div>
             <div class="container">
                 <div class="section-title text-center sec-title-animation animation-style1">
                     <div class="section-title__tagline-box justify-content-center">
@@ -869,6 +945,113 @@
         </section>
         <!-- Testimonial One End -->
 
+        <!--Faq One Start -->
+        <section class="faq-one">
+            <div class="faq-one__shape-1"></div>
+            <div class="faq-one__shape-2"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-6 col-lg-5">
+                        <div class="faq-one__left">
+                            <div class="section-title text-left sec-title-animation animation-style2">
+                                <div class="section-title__tagline-box">
+                                    <div class="section-title__tagline-shape">
+                                        <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
+                                    </div>
+                                    <span class="section-title__tagline">Our Faqs</span>
+                                </div>
+                                <h2 class="section-title__title title-animation">Frequently Asking Any Question</h2>
+                            </div>
+                            <div class="faq-one__img-box">
+                                <div class="faq-one__img reveal">
+                                    <img src="{{asset('uploads/chauffeur.jpg')}}" alt="Nuhi Great Travels">
+                                </div>
+                                <div class="faq-one__experience-box">
+                                    <div class="faq-one__experience-year">
+                                        <h2 class="odometer" data-count="10">00</h2>
+                                    </div>
+                                    <p class="faq-one__experience-text">Year of <br> experience</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-7">
+                        <div class="faq-one__right">
+                            <div class="accrodion-grp" data-grp-name="faq-one-accrodion">
+                                <div class="accrodion wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                                    <div class="accrodion-title">
+                                        <h4>How old do I need to be to rent a car?</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>From personalized solutions to expert execution, we prioritize quality,
+                                                reliability, and customer satisfaction in everything we do. Let us be
+                                                your trusted partner in achieving success.
+                                            </p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                                <div class="accrodion active wow fadeInRight" data-wow-delay="100ms"
+                                    data-wow-duration="1500ms">
+                                    <div class="accrodion-title">
+                                        <h4>What documents do I need to rent a car?</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>From personalized solutions to expert execution, we prioritize quality,
+                                                reliability, and customer satisfaction in everything we do. Let us be
+                                                your trusted partner in achieving success.
+                                            </p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                                <div class="accrodion wow fadeInLeft" data-wow-delay="200ms" data-wow-duration="1500ms">
+                                    <div class="accrodion-title">
+                                        <h4>What types of vehicles are available for rent?</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>From personalized solutions to expert execution, we prioritize quality,
+                                                reliability, and customer satisfaction in everything we do. Let us be
+                                                your trusted partner in achieving success.
+                                            </p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                                <div class="accrodion wow fadeInRight" data-wow-delay="300ms"
+                                    data-wow-duration="1500ms">
+                                    <div class="accrodion-title">
+                                        <h4>Can I rent a car with a debit card?</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>From personalized solutions to expert execution, we prioritize quality,
+                                                reliability, and customer satisfaction in everything we do. Let us be
+                                                your trusted partner in achieving success.
+                                            </p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                                <div class="accrodion wow fadeInLeft" data-wow-delay="400ms" data-wow-duration="1500ms">
+                                    <div class="accrodion-title">
+                                        <h4>What is your fuel policy?</h4>
+                                    </div>
+                                    <div class="accrodion-content">
+                                        <div class="inner">
+                                            <p>From personalized solutions to expert execution, we prioritize quality,
+                                                reliability, and customer satisfaction in everything we do. Let us be
+                                                your trusted partner in achieving success.
+                                            </p>
+                                        </div><!-- /.inner -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Faq One End -->
 
         <!--Lets Talk Start -->
         <section class="lets-talk">

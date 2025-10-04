@@ -3,10 +3,10 @@
 @section('page-title', 'Carousel')
 
 @section('content')
-<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-12xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold">Carousel</h1>
-        <a href="{{ route('admin.carousel.create') }}" 
+        <a href="{{ route('admin.carousel.create') }}"
            class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
             + Add New Slide
         </a>
@@ -42,7 +42,7 @@
                         @endif
                     </td>
                     <td class="p-3 border flex gap-2">
-                        <a href="{{ route('admin.carousel.edit', $carousel->id) }}" 
+                        <a href="{{ route('admin.carousel.edit', $carousel->id) }}"
                            class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">Edit</a>
                         <form action="{{ route('admin.carousel.destroy', $carousel->id) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                             @csrf

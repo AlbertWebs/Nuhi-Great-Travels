@@ -1,66 +1,57 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Models\Car;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $cars = \App\Models\Car::latest()->paginate(15);
+        $cars = Car::latest()->paginate(10);
         return view('admin.cars.index', compact('cars'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('admin.cars.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'make' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        Car::create($data);
+
+        return redirect()->route('admin.cars.index')->with('success', 'Car added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit(Car $car)
     {
-        //
+        return view('admin.cars.edit', compact('car'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, Car $car)
     {
-        //
+        $data = $request->validate([
+            'make' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        $car->update($data);
+
+        return redirect()->route('admin.cars.index')->with('success', 'Car updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy(Car $car)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $car->delete();
+        return redirect()->route('admin.cars.index')->with('success', 'Car deleted successfully.');
     }
 }

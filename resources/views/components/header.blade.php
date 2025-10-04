@@ -64,30 +64,67 @@
                                     <li>
                                         <a href="{{route('about')}}">About Us</a>
                                     </li>
-                                   
+
+                                    <?php
+                                       $Cars = \App\Models\Car::all();
+                                    ?>
                                     <li class="dropdown">
                                         <a href="#">Our Fleet</a>
                                         <ul class="shadow-box">
-                                            <li><a href="#">SUV</a></li>
-                                            <li><a href="#">Compact SUV</a></li>
-                                            <li><a href="#">Saloon</a></li>
-                                            <li><a href="#">Limousine</a></li>
-                                            <li><a href="#">Chopper </a></li>
+                                            @foreach($Cars as $car)
+                                            <li><a href="#">{{$car->make}}</a></li>
+                                            @endforeach
                                         </ul>
                                     </li>
+                                    {{--  --}}
+                                    <li class="dropdown megamenu current">
+                                        <a href="#">Featured Cars </a>
+                                        <ul>
+                                            <li>
+                                                <section class="home-showcase">
+                                                    <div class="container">
+                                                        <div class="home-showcase__inner">
+                                                            <?php $Fleet = DB::table('fleets')->inRandomOrder()->limit('4')->get(); ?>
+                                                            <div class="row">
+                                                                @foreach($Fleet as $fleets)
+                                                                <div class="col-lg-3">
+                                                                    <div class="home-showcase__item">
+                                                                        <div class="home-showcase__image">
+                                                                            <img style="max-height:200px; width:100%; object-fit:cover" src="{{ asset('storage/'.$fleets->image) }}" alt="">
+                                                                            <div class="home-showcase__buttons">
+                                                                                <a href="#" class="thm-btn home-showcase__buttons__item">Book Now <span class="fas fa-arrow-right"></span></a>
+                                                                                <a href="#" class="thm-btn home-showcase__buttons__item"> Details <span class="fas fa-arrow-right"></span></a>
+                                                                            </div>
+                                                                            <!-- /.home-showcase__buttons -->
+                                                                        </div><!-- /.home-showcase__image -->
+                                                                        <h3 class="home-showcase__title">{{$fleets->name}}</h3>
+                                                                        <!-- /.home-showcase__title -->
+                                                                    </div><!-- /.home-showcase__item -->
+                                                                </div><!-- /.col-lg-3 -->
+                                                                @endforeach
+
+                                                            </div><!-- /.row -->
+                                                        </div><!-- /.home-showcase__inner -->
+
+                                                    </div><!-- /.container -->
+                                                </section>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    {{--  --}}
                                     <li class="dropdown">
                                         <a href="#">Services</a>
                                         <ul class="shadow-box">
-                                            <li><a href="products.html">Airport Transfers</a></li>
-                                            <li><a href="product-details.html">Chauffeur Services</a></li>
-                                            <li><a href="cart.html">Corporate & VIP Travel</a></li>
-                                            <li><a href="checkout.html">Wedding & Events Car Hire</a></li>
-                                            <li><a href="wishlist.html">Long-Term Leasing</a></li>
+                                            <?php $Services = \App\Models\Service::all(); ?>
+                                            @foreach($Services as $service)
+                                            <li><a href="{{ route('services-single', $service->slug) }}">{{ $service->title }}</a></li>
+                                            @endforeach
+
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#">Pricing</a>
-                                        
+                                        <a href="{{url('/')}}/#booking">Booking</a>
+
                                     </li>
                                     <li>
                                         <a href="contact.html">Updates & Travel Guides</a>
@@ -101,7 +138,7 @@
                                 <div class="main-menu__search-box">
                                     <a href="#" class="main-menu__search search-toggler icon-search"></a>
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="main-menu__right">

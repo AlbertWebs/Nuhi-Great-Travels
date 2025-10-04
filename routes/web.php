@@ -13,10 +13,17 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CarouselController;
+use App\Http\Controllers\Admin\FaqController;
+use App\Http\Controllers\Admin\FleetController;
+use App\Http\Controllers\Admin\LegalController;
+use App\Http\Controllers\Admin\ServiceController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/services/{slug}', [HomeController::class, 'services_single'])->name('services-single');
+
 Route::get('/our-fleet', [HomeController::class, 'fleet'])->name('fleet');
 Route::get('/our-fleet/{slung}', [HomeController::class, 'single_fleet'])->name('single_fleet');
 
@@ -38,7 +45,7 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/about', [AboutController::class, 'index'])->name('about');
 
     // Cars CRUD
-    Route::resource('cars', CarController::class);
+    Route::resource('cars', CarController::class)->names('cars');
 
     // Clients CRUD
     Route::resource('clients', ClientController::class);
@@ -84,12 +91,21 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
    Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy');
    Route::get('/booking', [LegalController::class, 'booking'])->name('legal.booking');
    Route::get('/copyright', [LegalController::class, 'copyright'])->name('legal.copyright');
-   //    
+   //
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
 
     Route::resource('carousel', CarouselController::class)->names('carousel');
+
+    // Admin routes (you can protect them with middleware)
+    Route::get('/about/edit', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('/about/update', [AboutController::class, 'update'])->name('about.update');
+
+    Route::resource('faq', FaqController::class)->names('faq');
+    Route::resource('fleets', FleetController::class)->names('fleets');
+
+    Route::resource('services', ServiceController::class)->names('services');
 
 
 });

@@ -34,13 +34,30 @@
             </a>
         </li>
 
+           <!-- About -->
+        <li>
+            <a href="{{ route('admin.services.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-wrench text-gold"></i> Services
+            </a>
+        </li>
+
         <!-- Cars -->
         <li>
             <a href="{{ route('admin.cars.index') }}"
                class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/cars*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-car text-gold"></i> Cars
+                <i class="fas fa-car text-gold"></i> Cars Types
             </a>
         </li>
+
+         <!-- Cars -->
+        <li>
+            <a href="{{ route('admin.fleets.index') }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/cars*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-car text-gold"></i> Fleet
+            </a>
+        </li>
+
 
         <!-- Clients -->
         <li>
@@ -135,6 +152,8 @@
             </a>
         </li>
 
+
+
         <!-- Legal Dropdown -->
         <li x-data="{ open: false }">
             <button @click="open = !open"
@@ -146,25 +165,25 @@
             </button>
             <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
                 <li>
-                    <a href="{{ route('admin.legal.terms') }}" 
+                    <a href="{{ route('admin.legal.terms') }}"
                     class="block px-3 py-1 text-sm hover:text-indigo-600">
                     Terms & Conditions
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.privacy') }}" 
+                    <a href="{{ route('admin.legal.privacy') }}"
                     class="block px-3 py-1 text-sm hover:text-indigo-600">
                     Privacy Policy
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.booking') }}" 
+                    <a href="{{ route('admin.legal.booking') }}"
                     class="block px-3 py-1 text-sm hover:text-indigo-600">
                     Booking & Return
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.copyright') }}" 
+                    <a href="{{ route('admin.legal.copyright') }}"
                     class="block px-3 py-1 text-sm hover:text-indigo-600">
                     Copyright
                     </a>
@@ -172,6 +191,15 @@
             </ul>
         </li>
 
+        <li>
+            <a href="{{ route('admin.faq.index') ?? '#' }}"
+               class="flex items-center justify-between px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <span class="flex items-center gap-3">
+                    <i class="fas fa-question text-gold"></i> FAQs
+                </span>
+
+            </a>
+        </li>
 
         <!-- Settings -->
         <li>
