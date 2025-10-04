@@ -3,7 +3,7 @@
 @section('page-title', 'Settings')
 
 @section('content')
-<div class="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<div class="max-w-12xl mx-auto bg-white p-6 rounded-lg shadow-md">
     @if(session('success'))
         <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
             {{ session('success') }}
