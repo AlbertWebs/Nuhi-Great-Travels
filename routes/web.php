@@ -27,6 +27,11 @@ Route::get('/services/{slug}', [HomeController::class, 'services_single'])->name
 Route::get('/our-fleet', [HomeController::class, 'fleet'])->name('fleet');
 Route::get('/our-fleet/{slung}', [HomeController::class, 'single_fleet'])->name('single_fleet');
 
+Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact-us');
+Route::get('/blog/{}', [HomeController::class, 'show'])->name('blog.show');
+
+Route::post('/send-message', [HomeController::class, 'contactFormSubmit'])->name('contact.submit');
+
 // ====================
 // ADMIN AUTH
 // ====================
@@ -48,10 +53,13 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('cars', CarController::class)->names('cars');
 
     // Clients CRUD
-    Route::resource('clients', ClientController::class);
+    Route::resource('clients', App\Http\Controllers\Admin\ClientController::class)->names('clients');
+
 
     // Bookings CRUD
     Route::resource('bookings', BookingController::class);
+
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
     // Payments CRUD
     Route::resource('payments', PaymentController::class);
@@ -84,14 +92,14 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     // NEW: Client Feedbacks
     Route::resource('feedbacks', App\Http\Controllers\Admin\FeedbackController::class);
 
+    // NEW: Blog
+    Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class);
+
     // NEW: Notifications
     Route::resource('notifications', App\Http\Controllers\Admin\NotificationController::class);
 
-   Route::get('/terms', [LegalController::class, 'terms'])->name('legal.terms');
-   Route::get('/privacy', [LegalController::class, 'privacy'])->name('legal.privacy');
-   Route::get('/booking', [LegalController::class, 'booking'])->name('legal.booking');
-   Route::get('/copyright', [LegalController::class, 'copyright'])->name('legal.copyright');
-   //
+    Route::get('legals/{page}/edit', [LegalController::class, 'edit'])->name('legals.edit');
+    Route::post('legals/{page}/update', [LegalController::class, 'update'])->name('legals.update');
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');

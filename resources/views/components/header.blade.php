@@ -58,10 +58,10 @@
                             <div class="main-menu__main-menu-box">
                                 <a href="#" class="mobile-nav__toggler"><i class="fa fa-bars"></i></a>
                                 <ul class="main-menu__list">
-                                     <li>
+                                     <li class="@if($page_title=='Home') current @endif">
                                         <a href="{{route('home')}}">Home</a>
                                     </li>
-                                    <li>
+                                    <li  class="@if($page_title=='About Us') current @endif">
                                         <a href="{{route('about')}}">About Us</a>
                                     </li>
 
@@ -77,7 +77,7 @@
                                         </ul>
                                     </li>
                                     {{--  --}}
-                                    <li class="dropdown megamenu current">
+                                    <li class="dropdown megamenu">
                                         <a href="#">Featured Cars </a>
                                         <ul>
                                             <li>
@@ -127,10 +127,10 @@
 
                                     </li>
                                     <li>
-                                        <a href="contact.html">Updates & Travel Guides</a>
+                                        <a href="#">Updates & Travel Guides</a>
                                     </li>
-                                    <li>
-                                        <a href="contact.html">Contact Us</a>
+                                    <li  class="@if($page_title=='Contact Us') current @endif">
+                                        <a href="{{route('contact-us')}}">Contact Us</a>
                                     </li>
                                 </ul>
                             </div>

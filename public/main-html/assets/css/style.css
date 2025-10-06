@@ -3064,7 +3064,45 @@ xs sidebar
     padding-bottom: 100px !important;
 }
 
+/* Target all input and textarea elements within your form */
+.contact-page__form input[type="text"],
+.contact-page__form input[type="email"],
+.contact-page__form textarea {
+    /* 1. Set the background to a light color (e.g., white or light gray) */
+    background-color: #ffffff; /* White background */
 
+    /* 2. Set the text color and placeholder text color to a contrasting dark color (e.g., black or dark gray) */
+    color: #000000; /* Black text */
+    border: 1px solid #cccccc; /* Light border so the field stands out */
+}
+
+/* Ensure the placeholder text is also visible */
+.contact-page__form ::placeholder {
+    color: #666666; /* Darker gray for placeholder text */
+    opacity: 1; /* For Firefox */
+}
+
+/* Optional: Adjust the button color if it is also dark on a dark background */
+.contact-page__btn {
+    background-color: #ffcc00; /* Example: a bright, visible color like amber/gold */
+    color: #000000; /* Dark text for the button */
+    border: none;
+}
+
+
+.error,
+.validation-message,
+.contact-page__form .invalid-feedback {
+    /* Set text to a bright, contrasting color (e.g., white or a light, bright red) */
+    color: #FF4136 !important; /* Bright red is standard for errors */
+    font-weight: bold;
+    background: none; /* Ensure no dark background is covering them */
+}
+
+
+.contact-page__form .message-box {
+    color: #FFFFFF; /* White text for any container surrounding the message */
+}
 
 /*--------------------------------------------------------------
 # End

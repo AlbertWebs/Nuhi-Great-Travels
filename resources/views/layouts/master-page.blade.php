@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from dreamlayout.mnsithub.com/html/gorent/main-html/contact.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 03 Oct 2025 08:53:29 GMT -->
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <!-- Primary Meta Tags -->
+    <title>Nuhi Great Travels | Ride with a Touch of Class – Luxury Car Rental & Chauffeur Services in Kenya</title>
+    <meta name="description" content="Ride with a touch of class. Nuhi Great Travels offers premium Car Rental, airport transfers, and executive chauffeur services in Kenya. Travel in unmatched comfort, elegance, and VIP style.">
+    <meta name="keywords" content="Nuhi Great Travels, Luxury Car Rental Kenya, Executive Transfers Nairobi, Chauffeur Services Kenya, VIP Transport Services, Airport Transfers Kenya, Premium Car Rental Nairobi, Corporate Travel Kenya, Wedding Car Rental Nairobi, High-End Vehicle Rentals Kenya, Ride with a Touch of Class">
+    <meta name="author" content="Nuhi Great Travels">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Nuhi Great Travels | Ride with a Touch of Class">
+    <meta property="og:description" content="Premium Car Rental, chauffeur-driven services, and executive airport transfers in Kenya. Experience VIP travel with Nuhi Great Travels.">
+    <meta property="og:url" content="https://www.nuhigreattravels.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.nuhigreattravels.com/IMG-20250506-WA0000.jpg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nuhi Great Travels | Luxury Car Rental & Chauffeur Services in Kenya">
+    <meta name="twitter:description" content="Ride with a touch of class. Chauffeur-driven luxury cars, VIP transfers, and premium rentals across Kenya.">
+    <meta name="twitter:image" content="https://www.nuhigreattravels.com/IMG-20250506-WA0000.jpg">
+
+    <!-- Schema.org Markup (JSON-LD) -->
+
+    @push('scripts')
+        @verbatim
+        <script type="application/ld+json">
+        {
+        "@context": "https://schema.org",
+        "@type": "TravelAgency",
+        "name": "Nuhi Great Travels",
+        "url": "https://www.nuhigreattravels.com/",
+        "logo": "https://www.nuhigreattravels.com/IMG-20250506-WA0000.jpg",
+        "description": "Luxury car hire, airport transfers, and executive chauffeur services in Kenya.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "KE"
+        },
+        "sameAs": [
+            "https://www.instagram.com/nuhigreattravels",
+            "https://www.facebook.com/nuhiluxurytravel"
+        ],
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+254 700 000000",
+            "contactType": "Customer Support",
+            "areaServed": "KE"
+        }
+        }
+        </script>
+        @endverbatim
+    @endpush
+
+
+
+    <!-- favicons Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="assets/images/favicons/site.webmanifest" />
+    <meta name="description" content="Gorent HTML 5 Template " />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
+        rel="stylesheet">
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&amp;family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap"
+        rel="stylesheet">
+
+
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/animate.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/custom-animate.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/swiper.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/font-awesome-all.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/jarallax.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/jquery.magnific-popup.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/flaticon.css')}}">
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/owl.theme.default.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/nice-select.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/jquery-ui.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/aos.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/odometer.min.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/timePicker.css')}}" />
+
+
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/slider.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/footer.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/sliding-text.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/services.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/about.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/booking.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/counter.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/listing.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/video.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/pricing.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/popular-car.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/testimonial.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/faq.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/team.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/call.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/download-app.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/brand.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/blog.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/lets-talk.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/process.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/why-choose.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/gallery.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/page-header.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/contact.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/feature.css')}}" />
+
+    <!-- template styles -->
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/style.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/responsive.css')}}" />
+</head>
+
+<body class="custom-cursor">
+    <div class="body-bg-shape" style="background-image: url(assets/images/shapes/body-bg-shape.html);"></div>
+    <div class="custom-cursor__cursor"></div>
+    <div class="custom-cursor__cursor-two"></div>
+
+    <!--Start Preloader-->
+    <div class="loader js-preloader">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <!--End Preloader-->
+
+
+
+
+
+
+
+    <!-- Start sidebar widget content -->
+    <div class="xs-sidebar-group info-group info-sidebar">
+        <div class="xs-overlay xs-bg-black"></div>
+        <div class="xs-sidebar-widget">
+            <div class="sidebar-widget-container">
+                <div class="widget-heading">
+                    <a href="#" class="close-side-widget">X</a>
+                </div>
+                <div class="sidebar-textwidget">
+                    <div class="sidebar-info-contents">
+                        <div class="content-inner">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/images/resources/logo-2.png" alt="" /></a>
+                            </div>
+                            <div class="content-box">
+                                <h4>About Us</h4>
+                                <div class="inner-text">
+                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
+                                        roots in a piece of classical Latin literature from 45 BC, making it over
+                                        2000 years old.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="form-inner">
+                                <h4>Get a free quote</h4>
+                                <form action="https://dreamlayout.mnsithub.com/html/gorent/main-html/index.html" method="post">
+                                    <div class="form-group">
+                                        <input type="text" name="name" placeholder="Name" required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="email" placeholder="Email" required="">
+                                    </div>
+                                    <div class="form-group">
+                                        <textarea name="message" placeholder="Message..."></textarea>
+                                    </div>
+                                    <div class="form-group message-btn">
+                                        <button type="submit" class="thm-btn form-inner__btn">Submit Now</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="sidebar-contact-info">
+                                <h4>Contact Info</h4>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <span class="icon-pin"></span> 88 broklyn street, New York
+                                    </li>
+                                    <li>
+                                        <span class="icon-call"></span>
+                                        <a href="tel:123456789">+1 555-9990-153</a>
+                                    </li>
+                                    <li>
+                                        <span class="icon-envelope"></span>
+                                        <a href="mailto:info@example.com">info@example.com</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="thm-social-link1">
+                                <ul class="social-box list-unstyled">
+                                    <li>
+                                        <a href="#"><i class="icon-facebook" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon-twitter" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon-linkedin" aria-hidden="true"></i></a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="icon-dribble-big-logo" aria-hidden="true"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End sidebar widget content -->
+
+
+
+
+
+
+
+
+    <div class="page-wrapper">
+        {{-- header --}}
+        @include('components.header')
+        {{-- end header --}}
+
+        <div class="stricky-header stricked-menu main-menu">
+            <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
+        </div><!-- /.stricky-header -->
+
+
+
+        @yield('content')
+
+        <!--Site Footer Start-->
+        @include('components.footer')
+        <!--Site Footer End-->
+
+
+
+
+
+    </div><!-- /.page-wrapper -->
+
+
+    <div class="mobile-nav__wrapper">
+        <div class="mobile-nav__overlay mobile-nav__toggler"></div>
+        <!-- /.mobile-nav__overlay -->
+        <div class="mobile-nav__content">
+            <span class="mobile-nav__close mobile-nav__toggler"><i class="fa fa-times"></i></span>
+
+            <div class="logo-box">
+                <a href="index.html" aria-label="logo image"><img src="assets/images/resources/logo-2.png" width="140"
+                        alt="" /></a>
+            </div>
+            <!-- /.logo-box -->
+            <div class="mobile-nav__container"></div>
+            <!-- /.mobile-nav__container -->
+
+            <ul class="mobile-nav__contact list-unstyled">
+                <li>
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:needhelp@packageName__.com">needhelp@gorent.com</a>
+                </li>
+                <li>
+                    <i class="fas fa-phone"></i>
+                    <a href="tel:666-888-0000">666 888 0000</a>
+                </li>
+            </ul><!-- /.mobile-nav__contact -->
+            <div class="mobile-nav__top">
+                <div class="mobile-nav__social">
+                    <a href="#" class="fab fa-twitter"></a>
+                    <a href="#" class="fab fa-facebook-square"></a>
+                    <a href="#" class="fab fa-pinterest-p"></a>
+                    <a href="#" class="fab fa-instagram"></a>
+                </div><!-- /.mobile-nav__social -->
+            </div><!-- /.mobile-nav__top -->
+
+
+
+        </div>
+        <!-- /.mobile-nav__content -->
+    </div>
+    <!-- /.mobile-nav__wrapper -->
+
+    <div class="search-popup">
+        <div class="search-popup__overlay search-toggler"></div>
+        <!-- /.search-popup__overlay -->
+        <div class="search-popup__content">
+            <form action="#">
+                <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
+                <input type="text" id="search" placeholder="Search Here..." />
+                <button type="submit" aria-label="search submit" class="thm-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+        <!-- /.search-popup__content -->
+    </div>
+    <!-- /.search-popup -->
+
+    <a href="#" data-target="html" class="scroll-to-target scroll-to-top">
+        <span class="scroll-to-top__wrapper"><span class="scroll-to-top__inner"></span></span>
+        <span class="scroll-to-top__text"> Go Back Top</span>
+    </a>
+
+
+    <script src="{{asset('main-html/assets/js/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jarallax.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.ajaxchimp.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.appear.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/swiper.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.circle-progress.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/knob.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.magnific-popup.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.validate.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/wNumb.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/wow.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/owl.carousel.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery-ui.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery.nice-select.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/jquery-sidebar-content.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/gsap/gsap.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/gsap/ScrollTrigger.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/gsap/SplitText.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/marquee.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/odometer.min.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/timePicker.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/typed-2.0.11.js')}}"></script>
+    <script src="{{asset('main-html/assets/js/aos.js')}}"></script>
+
+
+
+
+    <!-- template js -->
+    <script src="{{asset('main-html/assets/js/script.js')}}"></script>
+    <script>
+$(document).ready(function() {
+    $('#contact-form').on('submit', function(e) {
+        e.preventDefault(); // Stop the traditional form submission
+
+        var form = $(this);
+        var submitButton = form.find('.contact-page__btn');
+        var originalButtonText = submitButton.html();
+
+        // Optional: Perform client-side validation check here (if you rely on JavaScript validation)
+        if (form[0].checkValidity() === false) {
+            // Allow HTML5 validation message to show if fields are missing
+            form.addClass('was-validated');
+            return;
+        }
+
+        // 1. Show loading state
+        submitButton.prop('disabled', true).html(submitButton.data('loading-text'));
+
+        // 2. Send AJAX Request
+        $.ajax({
+            type: form.attr('method'), // POST
+            url: form.attr('action'),  // The Laravel route
+            data: form.serialize(),    // All form data
+            dataType: 'json',
+            success: function(response) {
+                // 3. Success handling
+                if (response.status === 'success') {
+                    alert(response.message); // Use a nicer UI notification in production
+                    form[0].reset();       // Clear the form fields
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function(xhr) {
+                // 4. Error handling
+                var errorMessage = 'An unexpected error occurred. Please check your inputs.';
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    errorMessage = xhr.responseJSON.message;
+                }
+                alert(errorMessage);
+            },
+            complete: function() {
+                // 5. Reset button state
+                submitButton.prop('disabled', false).html(originalButtonText);
+            }
+        });
+    });
+});
+</script>
+</body>
+
+
+</html>

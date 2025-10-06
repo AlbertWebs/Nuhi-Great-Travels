@@ -67,6 +67,32 @@
             </a>
         </li>
 
+        <!-- Feedbacks -->
+        <li>
+            <a href="{{ route('admin.feedbacks.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-comments text-gold"></i> Client Feedbacks
+            </a>
+        </li>
+
+        <!-- Blog -->
+        <li>
+            <a href="{{ route('admin.blogs.index') ?? '#' }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-blog text-gold"></i> Blog Posts
+            </a>
+        </li>
+
+         <!-- Users -->
+        <li>
+            <a href="{{ route('admin.users.index') ?? '#' }}"
+               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/users*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-user-cog text-gold"></i> Users
+            </a>
+        </li>
+
+
+
         <!-- Bookings -->
         <li>
             <a href="{{ route('admin.bookings.index') ?? '#' }}"
@@ -87,7 +113,6 @@
             <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
                 <li><a href="{{ route('admin.payments.mpesa') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">M-Pesa</a></li>
                 <li><a href="{{ route('admin.payments.card') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">Card</a></li>
-                <li><a href="{{ route('admin.payments.crypto') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">Crypto</a></li>
             </ul>
         </li>
 
@@ -99,13 +124,7 @@
             </a>
         </li>
 
-        <!-- Users -->
-        <li>
-            <a href="{{ route('admin.users.index') ?? '#' }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/users*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-user-cog text-gold"></i> Users
-            </a>
-        </li>
+
 
         <!-- KYC -->
         <li>
@@ -131,13 +150,6 @@
             </a>
         </li>
 
-        <!-- Feedbacks -->
-        <li>
-            <a href="{{ route('admin.feedbacks.index') ?? '#' }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
-                <i class="fas fa-comments text-gold"></i> Client Feedbacks
-            </a>
-        </li>
 
         <!-- Notifications with badge -->
         <li>
@@ -155,41 +167,50 @@
 
 
         <!-- Legal Dropdown -->
-        <li x-data="{ open: false }">
-            <button @click="open = !open"
-                    class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+        <li x-data="{ open: {{ request()->is('admin/legals*') ? 'true' : 'false' }} }">
+            <button
+                @click="open = !open"
+                class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm"
+            >
                 <span class="flex items-center gap-3">
-                    <i class="fas fa-balance-scale text-gold"></i> Legal
+                    <i class="fas fa-balance-scale text-yellow-500"></i>
+                    <span>Legal</span>
                 </span>
                 <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
             </button>
-            <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
+
+            <ul
+                x-show="open"
+                x-transition
+                class="pl-8 mt-2 space-y-1"
+            >
                 <li>
-                    <a href="{{ route('admin.legal.terms') }}"
-                    class="block px-3 py-1 text-sm hover:text-indigo-600">
-                    Terms & Conditions
+                    <a href="{{ route('admin.legals.edit', 'terms') }}"
+                        class="block px-3 py-1 text-sm rounded hover:text-indigo-600 {{ request()->is('admin/legals/terms*') ? 'text-indigo-600 font-semibold' : '' }}">
+                        Terms & Conditions
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.privacy') }}"
-                    class="block px-3 py-1 text-sm hover:text-indigo-600">
-                    Privacy Policy
+                    <a href="{{ route('admin.legals.edit', 'privacy') }}"
+                        class="block px-3 py-1 text-sm rounded hover:text-indigo-600 {{ request()->is('admin/legals/privacy*') ? 'text-indigo-600 font-semibold' : '' }}">
+                        Privacy Policy
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.booking') }}"
-                    class="block px-3 py-1 text-sm hover:text-indigo-600">
-                    Booking & Return
+                    <a href="{{ route('admin.legals.edit', 'booking') }}"
+                        class="block px-3 py-1 text-sm rounded hover:text-indigo-600 {{ request()->is('admin/legals/booking*') ? 'text-indigo-600 font-semibold' : '' }}">
+                        Booking & Return
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('admin.legal.copyright') }}"
-                    class="block px-3 py-1 text-sm hover:text-indigo-600">
-                    Copyright
+                    <a href="{{ route('admin.legals.edit', 'copyright') }}"
+                        class="block px-3 py-1 text-sm rounded hover:text-indigo-600 {{ request()->is('admin/legals/copyright*') ? 'text-indigo-600 font-semibold' : '' }}">
+                        Copyright
                     </a>
                 </li>
             </ul>
         </li>
+
 
         <li>
             <a href="{{ route('admin.faq.index') ?? '#' }}"
