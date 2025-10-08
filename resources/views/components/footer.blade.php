@@ -19,16 +19,26 @@
                                         delivered straight to your inbox the moment they're announced.
                                 </p>
 
-                                <form class="footer-widget__form flex justify-center items-center max-w-md mx-auto">
+                               <form id="newsletter-form" class="footer-widget__form flex justify-center items-center max-w-md mx-auto">
                                     <div class="footer-widget__input w-full relative">
-                                        <input style="color:#666666;" type="email" placeholder="Your Email Here"
-                                            class="w-full py-3 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring focus:ring-yellow-400 text-center">
+                                        <input name="email" type="email" required placeholder="Your Email Here"
+                                            class="w-full py-3 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring focus:ring-yellow-400 text-center"
+                                            style="color:#666666;">
                                     </div>
                                     <button type="submit"
-                                        class="footer-widget__btn ml-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-3 rounded-full">
-                                        <i class="icon-right-arrow"></i>
+                                        id="subscribe-btn"
+                                        class="footer-widget__btn ml-2 bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-3 rounded-full flex items-center justify-center">
+                                        <span class="btn-text far fa-paper-plane"></span>
+                                        <svg class="spinner hidden ml-2 w-4 h-4 text-white animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                        </svg>
                                     </button>
                                 </form>
+
+                                <div id="subscribe-message" class="text-center mt-4 text-sm font-medium text-gray-600"></div>
+
                             </div>
                         </div>
                     </div>
@@ -55,3 +65,5 @@
                 </div>
             </div>
         </footer>
+
+

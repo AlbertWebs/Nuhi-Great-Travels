@@ -16,11 +16,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Site Admin',
-            'password' => Hash::make('password123'), // change to a secure password
-            'role' => 'admin',
-            'email' => 'admin@nuhigreattravels.com'
+        // User::factory()->create([
+        //     'name' => 'Site Admin',
+        //     'password' => Hash::make('password123'), // change to a secure password
+        //     'role' => 'admin',
+        //     'email' => 'admin@nuhigreattravels.com'
+        // ]);
+         $this->call([
+            NotificationSeeder::class,
         ]);
     }
 }

@@ -17,6 +17,10 @@ use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FleetController;
 use App\Http\Controllers\Admin\LegalController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\KycController;
+
+use App\Http\Controllers\SubscriberPostController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -24,13 +28,25 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/services/{slug}', [HomeController::class, 'services_single'])->name('services-single');
 
-Route::get('/our-fleet', [HomeController::class, 'fleet'])->name('fleet');
-Route::get('/our-fleet/{slung}', [HomeController::class, 'single_fleet'])->name('single_fleet');
+Route::get('/fleet/{slug}', [HomeController::class, 'show_fleet'])->name('single_fleet');
+Route::get('/fleet/{car}/{fleet}', [HomeController::class, 'show_single_fleets'])->name('single_fleets');
+
 
 Route::get('/contact-us', [HomeController::class, 'contact'])->name('contact-us');
-Route::get('/blog/{}', [HomeController::class, 'show'])->name('blog.show');
+Route::get('/updates', [HomeController::class, 'updates'])->name('updates');
+Route::get('/updates/{slung}', [HomeController::class, 'show'])->name('blogs.show');
 
 Route::post('/send-message', [HomeController::class, 'contactFormSubmit'])->name('contact.submit');
+Route::post('/subscribe/ajax', [SubscriberPostController::class, 'ajaxStore'])->name('subscribe.ajax');
+
+//KYC
+Route::get('/kyc/start/{token}', [KycController::class, 'showPublicForm'])->name('kyc.public.start');
+Route::post('/kyc/submit', [KycController::class, 'storePublic'])->name('kyc.public.store');
+Route::view('/kyc/thankyou', 'kyc.thankyou')->name('kyc.thankyou');
+
+// temporary
+Route::get('fleets/generate-slugs', [HomeController::class, 'generateSlugs'])
+    ->name('admin.fleets.generateSlugs');
 
 // ====================
 // ADMIN AUTH
@@ -81,7 +97,13 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/crypto', [PaymentController::class, 'crypto'])->name('crypto');
     });
        // NEW: KYC
-    Route::resource('kyc', App\Http\Controllers\Admin\KycController::class);
+    Route::get('/kyc', [KycController::class, 'index'])->name('kyc.index');
+    Route::get('/kyc/create', [KycController::class, 'create'])->name('kyc.create');
+    Route::post('/kyc', [KycController::class, 'store'])->name('kyc.store');
+    Route::get('/kyc/{kyc}', [KycController::class, 'show'])->name('kyc.show');
+    Route::put('/kyc/{kyc}/status', [KycController::class, 'updateStatus'])->name('kyc.updateStatus');
+    Route::post('/kyc/liveliness/upload', [KycController::class, 'uploadLiveliness'])->name('kyc.liveliness.upload');
+
 
     // NEW: Subscribers
     Route::resource('subscribers', App\Http\Controllers\Admin\SubscriberController::class);
@@ -96,10 +118,11 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class);
 
     // NEW: Notifications
-    Route::resource('notifications', App\Http\Controllers\Admin\NotificationController::class);
+    Route::resource('notifications', \App\Http\Controllers\Admin\NotificationController::class);
 
-    Route::get('legals/{page}/edit', [LegalController::class, 'edit'])->name('legals.edit');
-    Route::post('legals/{page}/update', [LegalController::class, 'update'])->name('legals.update');
+    Route::get('/legals', [LegalController::class, 'index'])->name('legals.index');
+    Route::get('/legals/{page}/edit', [LegalController::class, 'edit'])->name('legals.edit');
+    Route::put('/legals/{page}', [LegalController::class, 'update'])->name('legals.update');
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
@@ -114,6 +137,7 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('fleets', FleetController::class)->names('fleets');
 
     Route::resource('services', ServiceController::class)->names('services');
+
 
 
 });

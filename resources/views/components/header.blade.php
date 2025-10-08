@@ -68,11 +68,15 @@
                                     <?php
                                        $Cars = \App\Models\Car::all();
                                     ?>
-                                    <li class="dropdown">
+                                    <li class="dropdown @if($page_title=='Fleet') current @endif">
                                         <a href="#">Our Fleet</a>
                                         <ul class="shadow-box">
                                             @foreach($Cars as $car)
-                                            <li><a href="#">{{$car->make}}</a></li>
+                                              <li>
+                                                    <a href="{{ url('fleet') }}/{{$car->slug}}">
+                                                        {{ $car->make }}
+                                                    </a>
+                                                </li>
                                             @endforeach
                                         </ul>
                                     </li>
@@ -84,16 +88,17 @@
                                                 <section class="home-showcase">
                                                     <div class="container">
                                                         <div class="home-showcase__inner">
-                                                            <?php $Fleet = DB::table('fleets')->inRandomOrder()->limit('4')->get(); ?>
+                                                            <?php $Fleet = DB::table('fleets')->inRandomOrder()->limit('4')->get();  ?>
                                                             <div class="row">
                                                                 @foreach($Fleet as $fleets)
+                                                                <?php $car_id = $fleets->car_id; $CarType = DB::table('cars')->where('id', $car_id)->first(); ?>
                                                                 <div class="col-lg-3">
                                                                     <div class="home-showcase__item">
                                                                         <div class="home-showcase__image">
                                                                             <img style="max-height:200px; width:100%; object-fit:cover" src="{{ asset('storage/'.$fleets->image) }}" alt="">
                                                                             <div class="home-showcase__buttons">
-                                                                                <a href="#" class="thm-btn home-showcase__buttons__item">Book Now <span class="fas fa-arrow-right"></span></a>
-                                                                                <a href="#" class="thm-btn home-showcase__buttons__item"> Details <span class="fas fa-arrow-right"></span></a>
+                                                                                <a href="{{route('single_fleet', $CarType->slug)}}" class="thm-btn home-showcase__buttons__item">View More <span class="fas fa-arrow-right"></span></a>
+                                                                                <a href="{{ route('single_fleets', ['car' => $car->slug, 'fleet' => $fleets->slug]) }}" class="thm-btn home-showcase__buttons__item"> Details <span class="fas fa-arrow-right"></span></a>
                                                                             </div>
                                                                             <!-- /.home-showcase__buttons -->
                                                                         </div><!-- /.home-showcase__image -->
@@ -112,7 +117,7 @@
                                         </ul>
                                     </li>
                                     {{--  --}}
-                                    <li class="dropdown">
+                                    <li class="dropdown @if($page_title=='Services') current @endif">
                                         <a href="#">Services</a>
                                         <ul class="shadow-box">
                                             <?php $Services = \App\Models\Service::all(); ?>
@@ -127,7 +132,7 @@
 
                                     </li>
                                     <li>
-                                        <a href="#">Updates & Travel Guides</a>
+                                        <a href="{{route('updates')}}">Updates & Travel Guides</a>
                                     </li>
                                     <li  class="@if($page_title=='Contact Us') current @endif">
                                         <a href="{{route('contact-us')}}">Contact Us</a>

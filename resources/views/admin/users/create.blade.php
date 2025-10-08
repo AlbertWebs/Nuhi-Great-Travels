@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="max-w-lg mx-auto p-6 bg-white shadow rounded">
+<div class="max-w-lg mx-auto p-6 bg-white shadow rounded max-w-10xl">
     <h2 class="text-2xl font-bold mb-4 text-center">Add User</h2>
 
     <form action="{{ route('admin.users.store') }}" method="POST" class="space-y-4">

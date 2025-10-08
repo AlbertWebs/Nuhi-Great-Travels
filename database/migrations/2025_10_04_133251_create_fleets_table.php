@@ -15,6 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('type')->nullable();
+            $table->string('content')->nullable();
+             $table->foreignId('car_id')
+                ->nullable()
+                ->after('id')
+                ->constrained('cars')
+                ->onDelete('cascade');
+                $table->string('transmission')->nullable()->after('type');
+            $table->string('fuel_type')->nullable()->after('transmission');
+            $table->integer('seats')->nullable()->after('fuel_type');
+            $table->string('year')->nullable()->after('seats');
+            $table->decimal('price_per_day', 10, 2)->nullable()->after('price');
+            $table->enum('status', ['available', 'unavailable'])->default('available')->after('description');
+
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2)->nullable();
             $table->text('description')->nullable();

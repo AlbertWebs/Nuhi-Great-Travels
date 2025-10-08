@@ -10,8 +10,8 @@ class LegalController extends Controller
 {
     public function index()
     {
-        $pages = Legal::all();
-        return view('admin.legals.index', compact('pages'));
+        $legals = Legal::all();
+        return view('admin.legals.index', compact('legals'));
     }
 
     public function edit($page)

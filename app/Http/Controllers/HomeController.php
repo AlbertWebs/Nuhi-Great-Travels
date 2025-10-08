@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Models\Fleet;
+use App\Models\Service;
 
 class HomeController extends Controller
 {
@@ -31,13 +34,80 @@ class HomeController extends Controller
     }
 
      public function contact()
+        {
+            $page_title = "Contact Us";
+            $About = \App\Models\About::first();
+            // $teams = \App\Models\Team::where('is_active', true)->get();
+            $Settings = \App\Models\Setting::first();
+            $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+            return view('frontend.contact', compact('About', 'feedbacks','Settings','page_title'));
+        }
+
+    public function updates()
     {
+        $blogs = \App\Models\Blog::latest()->paginate(12);
         $page_title = "Contact Us";
         $About = \App\Models\About::first();
         // $teams = \App\Models\Team::where('is_active', true)->get();
-         $Settings = \App\Models\Setting::first();
+        $Settings = \App\Models\Setting::first();
         $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
-        return view('frontend.contact', compact('About', 'feedbacks','Settings','page_title'));
+        return view('frontend.updates', compact('blogs', 'feedbacks','Settings','page_title'));
+    }
+
+    public function show($slug){
+        $blogs = \App\Models\Blog::where('slug', $slug)->first();
+        $page_title = "Contact Us";
+        $About = \App\Models\About::first();
+        // $teams = \App\Models\Team::where('is_active', true)->get();
+        $Settings = \App\Models\Setting::first();
+        $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+        return view('frontend.update', compact('blogs', 'feedbacks','Settings','page_title'));
+    }
+
+    public function show_fleet($slug){
+        $car = \App\Models\Car::where('slug', $slug)->first();
+        $Fleet = \App\Models\Fleet::where('car_id', $car->id)->get();
+        $page_title = "Fleet";
+        $About = \App\Models\About::first();
+        // $teams = \App\Models\Team::where('is_active', true)->get();
+        $Settings = \App\Models\Setting::first();
+        $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+        return view('frontend.show_fleet', compact('feedbacks','Settings','page_title','car','Fleet'));
+    }
+
+
+    public function services_single($slug){
+        $page_title = "Services";
+        $Services = \App\Models\Service::where('slug' ,$slug)->first();
+        $Settings = \App\Models\Setting::first();
+        $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+        return view('frontend.services_single', compact('feedbacks','Settings','page_title','Services'));
+    }
+
+    public function show_single_fleets($car,$slug){
+        $car = \App\Models\Car::where('slug', $slug)->first();
+        $Fleet = \App\Models\Fleet::where('slug', $slug)->first();
+
+        $page_title = "Fleet";
+        $About = \App\Models\About::first();
+        // $teams = \App\Models\Team::where('is_active', true)->get();
+        $Settings = \App\Models\Setting::first();
+        $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+        return view('frontend.show_single_fleets', compact('feedbacks','Settings','page_title','car','Fleet'));
+    }
+
+
+
+    public function generateSlugs()
+    {
+        $fleets = Fleet::whereNull('slug')->orWhere('slug', '')->get();
+
+        foreach ($fleets as $fleet) {
+            $fleet->slug = Str::slug($fleet->name . '-' . $fleet->id);
+            $fleet->save();
+        }
+
+        return redirect()->back()->with('success', 'Fleet slugs generated successfully.');
     }
 
     public function contactFormSubmit(Request $request)

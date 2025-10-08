@@ -93,13 +93,21 @@
 
 
 
-        <!-- Bookings -->
+
+
+        <!-- Notifications with badge -->
         <li>
             <a href="{{ route('admin.bookings.index') ?? '#' }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/bookings*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-calendar-check text-gold"></i> Bookings
+               class="flex items-center justify-between px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <span class="flex items-center gap-3">
+                    <i class="fas fa-calendar-check text-gold"></i> Bookings
+                </span>
+                <span class="text-xs font-semibold text-white bg-red-500 rounded-full px-2 py-0.5">
+                    {{ $notificationCount ?? 1 }}
+                </span>
             </a>
         </li>
+
 
         <!-- Payments Dropdown -->
         <li x-data="{ open: false }">
@@ -126,6 +134,7 @@
 
 
 
+
         <!-- KYC -->
         <li>
             <a href="{{ route('admin.kyc.index') ?? '#' }}"
@@ -133,6 +142,16 @@
                 <i class="fas fa-id-card text-gold"></i> KYC
             </a>
         </li>
+
+        <?php $kyc_token = Auth::User()->kyc_token ?>
+
+        <li>
+            <a href="{{ url('/kyc/start/' . $kyc_token) }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
+                <i class="fas fa-id-card text-gold"></i> KYC Mobile
+            </a>
+        </li>
+
 
         <!-- Subscribers -->
         <li>
@@ -152,7 +171,7 @@
 
 
         <!-- Notifications with badge -->
-        <li>
+        {{-- <li>
             <a href="{{ route('admin.notifications.index') ?? '#' }}"
                class="flex items-center justify-between px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
                 <span class="flex items-center gap-3">
@@ -162,7 +181,7 @@
                     {{ $notificationCount ?? 1 }}
                 </span>
             </a>
-        </li>
+        </li> --}}
 
 
 

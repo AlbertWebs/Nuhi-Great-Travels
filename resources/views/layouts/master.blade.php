@@ -145,6 +145,9 @@
 
 
 
+    <?php
+      $Settings = \App\Models\Setting::first();
+    ?>
     <!-- Start sidebar widget content -->
     <div class="xs-sidebar-group info-group info-sidebar">
         <div class="xs-overlay xs-bg-black"></div>
@@ -162,16 +165,15 @@
                             <div class="content-box">
                                 <h4>About Us</h4>
                                 <div class="inner-text">
-                                    <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has
-                                        roots in a piece of classical Latin literature from 45 BC, making it over
-                                        2000 years old.
+                                    <p>
+                                        Nuhi Great Travels is your trusted partner in reliable and comfortable transportation solutions. We specialize in corporate car rentals, airport transfers, fleet leasing, and chauffeured services tailored to meet the unique needs of individuals and businesses.
                                     </p>
                                 </div>
                             </div>
 
                             <div class="form-inner">
                                 <h4>Get a free quote</h4>
-                                <form action="https://dreamlayout.mnsithub.com/html/gorent/main-html/index.html" method="post">
+                                <form action="#" method="post">
                                     <div class="form-group">
                                         <input type="text" name="name" placeholder="Name" required="">
                                     </div>
@@ -191,15 +193,15 @@
                                 <h4>Contact Info</h4>
                                 <ul class="list-unstyled">
                                     <li>
-                                        <span class="icon-pin"></span> Hurlingham Nairobi, Kenya
+                                        <span class="icon-pin"></span> {{$Settings->location}}
                                     </li>
                                     <li>
                                         <span class="icon-call"></span>
-                                        <a href="tel:+254 712 675 673">+254 712 675 673 </a>
+                                        <a href="tel:{{$Settings->mobile}}">{{$Settings->mobile}} </a>
                                     </li>
                                     <li>
                                         <span class="icon-envelope"></span>
-                                        <a href="mailto:info@nuhigreattravels.co.ke">info@nuhigreattravels.co.ke</a>
+                                        <a href="mailto:{{$Settings->email}}">{{$Settings->email}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -350,6 +352,7 @@
 
     <!-- template js -->
     <script src="{{asset('main-html/assets/js/script.js')}}"></script>
+    @include('layouts.scripts')
 </body>
 
 

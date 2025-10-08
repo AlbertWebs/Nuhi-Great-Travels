@@ -66,7 +66,7 @@
                             </p>
                             <div class="about-one__btn-box-and-call-box mt-6 flex items-center gap-4">
                                 <div class="about-one__btn-box">
-                                    <a href="{{route('fleet')}}" class="about-one__btn thm-btn">Our Fleet
+                                    <a href="{{route('single_fleet', 'suv')}}" class="about-one__btn thm-btn">Our Fleet
                                         <span class="fas fa-arrow-right"></span>
                                     </a>
                                 </div>
@@ -101,7 +101,7 @@
                                      Kenya's premier luxury and executive rental service. We provide a modern, safe fleet and tailored services—from corporate leasing to airport transfers—to ensure your journey is always comfortable and seamless
                                 </p>
                                 <div class="feature-one__inner-btn-box">
-                                    <a href="{{route('fleet')}}" class="thm-btn">Get Started</a>
+                                    <a href="{{route('single_fleet', 'suv')}}" class="thm-btn">Get Started</a>
                                 </div>
                             </div>
                         </div>
@@ -331,21 +331,21 @@
                                 <div class="blog-one__content">
                                     <ul class="blog-one__meta list-unstyled">
                                         <li>
-                                            <a href="{{ route('blog.show', $blog->slug) }}">
+                                            <a href="{{ route('blogs.show', $blog->slug) }}">
                                                 <span class="fas fa-user"></span> {{ $blog->author ?? 'Admin' }}
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('blog.show', $blog->slug) }}">
+                                            <a href="{{ route('blogs.show', $blog->slug) }}">
                                                 <span class="fas fa-comments"></span> 0 Comments
                                             </a>
                                         </li>
                                     </ul>
                                     <h3 class="blog-one__title">
-                                        <a href="{{ route('blog.show', $blog->slug) }}">{{ Str::limit($blog->title, 50) }}</a>
+                                        <a href="{{ route('blogs.show', $blog->slug) }}">{{ Str::limit($blog->title, 50) }}</a>
                                     </h3>
                                     <p class="blog-one__text">{{ Str::limit($blog->excerpt ?? strip_tags($blog->content), 100) }}</p>
-                                    <a href="{{ route('blog.show', $blog->slug) }}" class="blog-one__read-more">
+                                    <a href="{{ route('blogs.show', $blog->slug) }}" class="blog-one__read-more">
                                         Read More <span class="fas fa-arrow-right"></span>
                                     </a>
                                 </div>
