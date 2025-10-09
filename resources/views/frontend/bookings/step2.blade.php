@@ -74,7 +74,7 @@
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="booking-one__input-box">
                                                 <p class="booking-one__input-title">
-                                                    <span class="icon-cash"></span> Total Price
+                                                    <span class="icon-cash"></span> Total Price({{ session('booking.step1.car') ?? '' }} For {{ session('booking.step1.days') ?? '' }})
                                                 </p>
                                                 <input type="text" name="total_price"
                                                     value="{{ session('booking.step1.total_price') ?? '' }}"

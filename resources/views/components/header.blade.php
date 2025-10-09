@@ -127,7 +127,7 @@
 
                                         </ul>
                                     </li>
-                                    <li>
+                                    <li class="@if($page_title=='Bookings') current @endif">
                                         <a href="{{url('/')}}/#booking">Booking</a>
 
                                     </li>

@@ -77,7 +77,9 @@ class BookingController extends Controller
                 'pickup_datetime' => $pickup->toDateTimeString(),   // "YYYY-MM-DD HH:MM:SS"
                 'dropoff_datetime' => $dropoff->toDateTimeString(),
                 'pickup_location' => $request->pickup_location,
-                'total_price' => $totalPrice,
+                'total_price' => round($totalPrice / 100) * 100,
+                'days' => round($days),
+                'car' =>$car->name,
             ],
         ]);
 
