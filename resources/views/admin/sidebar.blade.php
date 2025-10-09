@@ -110,19 +110,34 @@
 
 
         <!-- Payments Dropdown -->
+        <!-- Billing Dropdown -->
         <li x-data="{ open: false }">
             <button @click="open = !open"
                     class="flex items-center justify-between w-full px-3 py-2 rounded-md border border-gray-200 transition hover:bg-gray-100 hover:shadow-sm">
                 <span class="flex items-center gap-3">
-                    <i class="fas fa-credit-card text-gold"></i> Payments
+                    <i class="fas fa-file-invoice-dollar text-gold"></i> Billing
                 </span>
                 <i :class="open ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
             </button>
             <ul x-show="open" class="pl-8 mt-2 space-y-1" x-transition>
-                <li><a href="{{ route('admin.payments.mpesa') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">M-Pesa</a></li>
-                <li><a href="{{ route('admin.payments.card') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">Card</a></li>
+                <li>
+                    <a href="{{ route('admin.invoices.create') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
+                        Create Invoice
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.invoices.index') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
+                        Invoices
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.payments.index') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
+                        Payments
+                    </a>
+                </li>
             </ul>
         </li>
+
 
         <!-- Reports -->
         <li>

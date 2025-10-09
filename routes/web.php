@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\FleetController;
 use App\Http\Controllers\Admin\LegalController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\KycController;
+use App\Http\Controllers\Admin\InvoiceController;
+
 
 use App\Http\Controllers\SubscriberPostController;
 
@@ -152,6 +154,35 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::resource('services', ServiceController::class)->names('services');
 
 
+    Route::prefix('billing')->group(function () {
+        // Create Invoice Page
+        Route::get('/create', [App\Http\Controllers\Admin\InvoiceController::class, 'create'])
+            ->name('invoices.create');
+
+        Route::get('/index', [App\Http\Controllers\Admin\InvoiceController::class, 'index'])
+            ->name('invoices.index');
+        Route::get('/invoices/{id}', [App\Http\Controllers\Admin\InvoiceController::class, 'show'])
+            ->name('invoices.show');
+
+        Route::get('/invoices/{id}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit'); // 👈 add this
+        Route::put('/invoices/{id}', [InvoiceController::class, 'update'])->name('invoices.update');
+        Route::delete('/invoices/{id}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+        Route::post('/invoices/{id}/send-sms', [InvoiceController::class, 'sendSms'])
+        ->name('invoices.send-sms');
+
+
+        // Store Invoice
+        Route::post('/store', [App\Http\Controllers\Admin\InvoiceController::class, 'store'])
+            ->name('invoices.store');
+
+        // Payments List Page
+        Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])
+            ->name('payments.index');
+
+        // Payment Details (optional)
+        Route::get('/payments/{id}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])
+            ->name('payments.show');
+    });
 
 });
 

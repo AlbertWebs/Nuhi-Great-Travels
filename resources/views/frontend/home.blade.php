@@ -290,7 +290,7 @@
                     </div>
                     <div class="lets-talk__btn-boxes">
                         <div class="lets-talk__btn-1">
-                            <a href="contact.html" class="thm-btn">Contact Us<span
+                            <a href="{{route('contact-us')}}" class="thm-btn">Contact Us<span
                                     class="fas fa-arrow-right"></span></a>
                         </div>
                         <div class="lets-talk__btn-2">
@@ -317,7 +317,7 @@
                                         <span class="icon-car"></span>
                                     </div>
                                     <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="1000">00</h3>
+                                        <h3 class="odometer" data-count="100">00</h3>
                                         <span>+</span>
                                     </div>
                                     <p class="counter-two__count-text">Vehicle fleet</p>
@@ -349,10 +349,10 @@
                                         <span class="icon-range"></span>
                                     </div>
                                     <div class="counter-two__count-box">
-                                        <h3 class="odometer" data-count="15">00</h3>
+                                        <h3 class="odometer" data-count="4">00</h3>
                                         <span>K+</span>
                                     </div>
-                                    <p class="counter-two__count-text">Booking reserved</p>
+                                    <p class="counter-two__count-text">Booking Completed</p>
                                 </div>
                             </div>
                         </li>
@@ -368,7 +368,7 @@
                                         <h3 class="odometer" data-count="50">00</h3>
                                         <span>K+</span>
                                     </div>
-                                    <p class="counter-two__count-text">Pickup & drop</p>
+                                    <p class="counter-two__count-text">Pickups & drops</p>
                                 </div>
                             </div>
                         </li>
