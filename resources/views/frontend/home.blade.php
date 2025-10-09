@@ -294,7 +294,7 @@
                                     class="fas fa-arrow-right"></span></a>
                         </div>
                         <div class="lets-talk__btn-2">
-                            <a href="car-list-v-1.html" class="thm-btn">Rent Now<span
+                            <a href="{{url('/')}}/fleet/suv" class="thm-btn">Rent Now<span
                                     class="fas fa-arrow-right"></span></a>
                         </div>
                     </div>
@@ -408,7 +408,7 @@
                                     </a>
                                 </div>
                                 <div class="lets-talk__btn-2">
-                                    <a href="car-list-v-1.html" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
+                                    <a href="{{url('/')}}/fleet/suv" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -533,7 +533,7 @@
                                     </a>
                                 </div>
                                 <div class="lets-talk__btn-2">
-                                    <a href="car-list-v-1.html" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
+                                    <a href="{{url('/')}}/fleet/suv" class="thm-btn">Check Fleet<span class="fas fa-arrow-right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -568,7 +568,7 @@
                             </div>
                         </div>
                         <div class="call-one__btn-box">
-                            <a href="car-list-v-1.html" class="thm-btn">Rent Now<span
+                            <a href="{{url('/')}}/fleet/suv" class="thm-btn">Rent Now<span
                                     class="fas fa-arrow-right"></span></a>
                         </div>
                     </div>
@@ -601,7 +601,7 @@
                                 <span class="icon-sports-car"></span>
                             </div>
                             <div class="popular-car-one__single-inner">
-                                <h4 class="popular-car-one__title"><a href="car-list-v-1.html">{{$cars->make}}</a></h4>
+                                <h4 class="popular-car-one__title"><a href="{{url('/')}}/fleet/suv">{{$cars->make}}</a></h4>
                             </div>
                             <?php $countFleet = DB::table('fleets')->where('car_id', $cars->id)->count(); ?>
                             <p class="popular-car-one__count">{{$countFleet}} Cars</p>
