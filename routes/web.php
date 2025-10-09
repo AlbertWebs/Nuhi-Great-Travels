@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\CarController;
 use App\Http\Controllers\Admin\ClientController;
-use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController;
@@ -47,6 +47,19 @@ Route::view('/kyc/thankyou', 'kyc.thankyou')->name('kyc.thankyou');
 // temporary
 Route::get('fleets/generate-slugs', [HomeController::class, 'generateSlugs'])
     ->name('admin.fleets.generateSlugs');
+
+
+//
+Route::prefix('bookings')->group(function () {
+    Route::get('/step1', [BookingController::class, 'step1'])->name('bookings.step1');
+    Route::post('/step1', [BookingController::class, 'storeStep1'])->name('bookings.storeStep1');
+
+    Route::get('/step2', [BookingController::class, 'step2'])->name('bookings.step2');
+    Route::post('/step2', [BookingController::class, 'storeStep2'])->name('bookings.storeStep2');
+
+    Route::get('/step3', [BookingController::class, 'step3'])->name('bookings.step3');
+    Route::post('/complete', [BookingController::class, 'complete'])->name('bookings.complete');
+});
 
 // ====================
 // ADMIN AUTH

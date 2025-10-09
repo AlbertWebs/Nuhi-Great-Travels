@@ -202,39 +202,36 @@
                                     </div>
                                     <h3 class="booking-one__title">Book a car</h3>
                                 </div>
-                                <form class="contact-form-validated booking-one__form" action="https://dreamlayout.mnsithub.com/html/gorent/main-html/assets/inc/sendemail.php"
-                                    method="post" novalidate="novalidate">
+                                <form class="contact-form-validateds booking-one__form" action="{{ route('bookings.storeStep1') }}" method="post" novalidate="novalidate">
+                                    @csrf
                                     <div class="row">
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="booking-one__input-box">
                                                 <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
-                                                    Pickup</p>
-                                                <div class="select-box">
-                                                    <select class="selectmenu wide">
-                                                        <option selected="selected">Enter a Location</option>
-                                                        <option>Enter a Location 01</option>
-                                                        <option>Enter a Location 02</option>
-                                                        <option>Enter a Location 03</option>
-                                                        <option>Enter a Location 04</option>
-                                                        <option>Enter a Location 05</option>
-                                                    </select>
-                                                </div>
+                                                    Pickup Date</p>
+
+                                                    <input type="datetime-local" placeholder="mm/dd/yyy" name="pickup_datetime"
+                                                        id="datepicker-2">
+                                                        @error('pickup_datetime') <p class="text-red-600">{{ $message }}</p> @enderror
+
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="booking-one__input-box">
                                                 <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
                                                     Drop of</p>
-                                                <div class="select-box">
-                                                    <select class="selectmenu wide">
-                                                        <option selected="selected">Enter a Location</option>
-                                                        <option>Enter a Location 01</option>
-                                                        <option>Enter a Location 02</option>
-                                                        <option>Enter a Location 03</option>
-                                                        <option>Enter a Location 04</option>
-                                                        <option>Enter a Location 05</option>
-                                                    </select>
-                                                </div>
+
+                                                <input type="datetime-local" placeholder="mm/dd/yyy" name="dropoff_datetime"
+                                                        id="datepicker">
+                                                        @error('dropoff_datetime') <p class="text-red-600">{{ $message }}</p> @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6">
+                                            <div class="booking-one__input-box">
+                                                <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
+                                                    Pickup Location</p>
+                                                <input type="text"  name="pickup_location">
+                                                @error('pickup_location') <p class="text-red-600">{{ $message }}</p> @enderror
                                             </div>
                                         </div>
                                         <div class="col-xl-6 col-lg-6 col-md-6">
@@ -242,25 +239,22 @@
                                                 <p class="booking-one__input-title"> <span class="icon-cuv"></span>
                                                     Your car type</p>
                                                 <div class="select-box">
-                                                    <select class="selectmenu wide">
+                                                    <select name="car_id" class="selectmenu wide">
                                                         <option selected="selected">Your Car Type
                                                         </option>
-                                                        <option>Your Car Type 01</option>
-                                                        <option>Your Car Type 02</option>
-                                                        <option>Your Car Type 03</option>
-                                                        <option>Your Car Type 04</option>
-                                                        <option>Your Car Type 05</option>
+                                                        <?php
+                                                          $Car = \App\Models\Fleet::all();
+                                                        ?>
+                                                        @foreach ($Car as $car)
+                                                            <option value="{{$car->id}}">{{$car->name}}</option>
+                                                        @endforeach
+
                                                     </select>
+                                                    @error('car_id') <p class="text-red-600">{{ $message }}</p> @enderror
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6 col-lg-6 col-md-6">
-                                            <div class="booking-one__input-box">
-                                                <p class="booking-one__input-title"> <span class="icon-date"></span>
-                                                    Date</p>
-                                                <input type="text" placeholder="mm/dd/yyy" name="date" id="datepicker">
-                                            </div>
-                                        </div>
+
                                         <div class="col-xl-12">
                                             <div class="booking-one__btn-box">
                                                 <button type="submit" class="thm-btn">Book Now<span

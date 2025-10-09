@@ -138,7 +138,10 @@
 }
 
 .booking-one__input-box input[type="text"],
-.booking-one__input-box input[type="email"] {
+.booking-one__input-box input[type="email"],
+.booking-one__input-box input[type="datetime"],
+.booking-one__input-box input[type="datetime-local"]
+{
     height: 50px;
     width: 100%;
     background-color: transparent;
