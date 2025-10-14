@@ -9,6 +9,7 @@ use App\Models\Car;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
+
 class FleetController extends Controller
 {
     public function index()
@@ -41,8 +42,13 @@ class FleetController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Generate slug
-        $data['slug'] = Str::slug($data['name'], '-');
+        // Generate unique slug
+        $baseSlug = Str::slug($data['name']);
+        $count = Fleet::where('slug', 'like', "{$baseSlug}%")->count();
+        $data['slug'] = $count ? "{$baseSlug}-{$count}" : $baseSlug;
+
+        // Default status
+        $data['status'] = $data['status'] ?? 'available';
 
         // Handle image upload
         if ($request->hasFile('image')) {
@@ -51,7 +57,8 @@ class FleetController extends Controller
 
         Fleet::create($data);
 
-        return redirect()->route('admin.fleets.index')->with('success', 'Fleet added successfully.');
+        return redirect()->route('admin.fleets.index')
+            ->with('success', 'Fleet added successfully.');
     }
 
     public function edit(Fleet $fleet)

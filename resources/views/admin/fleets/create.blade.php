@@ -133,6 +133,16 @@
                       placeholder="Enter content here...">{{ old('content', $fleet->content ?? '') }}</textarea>
         </div>
 
+        @if ($errors->any())
+            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         {{-- CKEditor --}}
         <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
         <script>
