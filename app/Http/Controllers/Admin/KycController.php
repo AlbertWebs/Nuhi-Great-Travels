@@ -79,29 +79,36 @@ class KycController extends Controller
         return back()->with('success', 'KYC status updated.');
     }
 
-   public function uploadLiveliness(Request $request)
+    public function uploadLiveliness(Request $request)
     {
-        $request->validate([
-            'image' => 'required|string',
-            'instruction' => 'required|string',
-        ]);
+        try {
+            $request->validate([
+                'image' => 'required|string',
+                'instruction' => 'required|string',
+            ]);
 
-        $imageData = str_replace('data:image/png;base64,', '', $request->image);
-        $imageData = str_replace(' ', '+', $imageData);
-        $imageName = 'kyc/selfies/' . uniqid() . '.png';
-        Storage::disk('public')->put($imageName, base64_decode($imageData));
+            $imageData = str_replace('data:image/png;base64,', '', $request->image);
+            $imageData = str_replace(' ', '+', $imageData);
+            $imageName = 'kyc/selfies/' . uniqid() . '.png';
 
-        return response()->json([
-            'success' => true,
-            'image_path' => $imageName,
-            'details' => [
-                'timestamp' => now()->toDateTimeString(),
-                'instruction_followed' => $request->instruction,
-                'detection_confidence' => $request->input('details.detection_confidence'),
-                'expressions' => $request->input('details.expressions'),
-            ]
-        ]);
+            Storage::disk('public')->put($imageName, base64_decode($imageData));
+
+            return response()->json([
+                'success' => true,
+                'image_path' => asset('storage/' . $imageName),
+                'details' => [
+                    'timestamp' => now()->toDateTimeString(),
+                    'instruction_followed' => $request->instruction,
+                    'detection_confidence' => $request->input('details.detection_confidence'),
+                    'expressions' => $request->input('details.expressions'),
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            \Log::error('Liveliness Upload Error: ' . $th->getMessage());
+            return response()->json(['success' => false, 'message' => 'Upload failed', 'error' => $th->getMessage()], 500);
+        }
     }
+
 
     public function showPublicForm($token)
     {
