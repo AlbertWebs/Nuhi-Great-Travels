@@ -94,36 +94,32 @@
 
 
         {{-- STEP 3 --}}
-        <div id="step3" x-show="step === 3" class="space-y-6">
-            <h2 class="text-2xl font-bold text-gray-800">Step 3: Liveliness Test</h2>
+        <div id="step3" x-show="step === 3" x-transition
+     x-effect="if(step === 3) window.initLivelinessTest()"
+     class="space-y-6">
+    <h2 class="text-2xl font-bold text-gray-800">Step 3: Liveliness Test</h2>
 
-            {{-- Instruction display --}}
-            <div id="instructionBox" class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800 text-center">
-                Click <strong>Start Liveliness Test</strong> to begin
-            </div>
+    <div id="instructionBox" class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800 text-center">
+        Click <strong>Start Liveliness Test</strong> to begin
+    </div>
 
-            {{-- Live video feed --}}
-            <div class="flex justify-center">
-                <video id="liveVideo" autoplay muted playsinline class="w-80 h-60 bg-black rounded-md"></video>
-            </div>
+    <div class="flex justify-center">
+        <video id="liveVideo" autoplay muted playsinline class="w-80 h-60 bg-black rounded-md"></video>
+    </div>
 
-            {{-- Hidden canvas to capture frame --}}
-            <canvas id="snapshotCanvas" class="hidden"></canvas>
+    <canvas id="snapshotCanvas" class="hidden"></canvas>
 
-            {{-- Hidden form fields to hold liveliness results --}}
-            <input type="hidden" name="livelinessData" id="livelinessData">
-            <input type="hidden" name="selfieImage" id="selfieImage">
+    <input type="hidden" name="livelinessData" id="livelinessData">
+    <input type="hidden" name="selfieImage" id="selfieImage">
 
-            {{-- Start test button --}}
-            <div class="text-center">
-                <button type="button" id="startTestBtn"
-                    class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
-                    Start Liveliness Test
-                </button>
-            </div>
-        </div>
-            </form>
-        </div>
+    <div class="text-center">
+        <button type="button" id="startTestBtn"
+            class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+            Start Liveliness Test
+        </button>
+    </div>
+</div>
+
 
    {{-- ✅ Liveliness Test Partial --}}
     @include('kyc.partials.liveliness')
