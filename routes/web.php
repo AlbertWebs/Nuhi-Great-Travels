@@ -50,6 +50,7 @@ Route::view('/kyc/thankyou', 'kyc.thankyou')->name('kyc.thankyou');
 Route::get('fleets/generate-slugs', [HomeController::class, 'generateSlugs'])
     ->name('admin.fleets.generateSlugs');
 
+Route::post('/kyc/liveliness/upload', [KycController::class, 'uploadLiveliness'])->name('kyc.liveliness.upload');
 
 //
 Route::prefix('bookings')->group(function () {
@@ -62,6 +63,8 @@ Route::prefix('bookings')->group(function () {
     Route::get('/step3', [BookingController::class, 'step3'])->name('bookings.step3');
     Route::post('/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 });
+
+
 
 // ====================
 // ADMIN AUTH
