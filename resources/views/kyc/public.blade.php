@@ -90,14 +90,21 @@
             </div>
         </div>
 
+
+
+
         {{-- STEP 3 --}}
         <div x-show="step === 3" x-transition>
             <h2 class="text-lg font-bold mb-2">Step 3: Liveliness Test</h2>
             <p class="text-sm text-gray-600 mb-2">Ensure your camera is active and follow on-screen instructions.</p>
 
             <div class="border rounded p-3 bg-gray-50">
-                <video id="liveVideo" width="100%" height="300" autoplay muted class="rounded mb-2"></video>
+                <video id="liveVideo" width="100%" height="200" autoplay muted class="rounded mb-2"></video>
                 <canvas id="snapshotCanvas" class="hidden"></canvas>
+
+                <div id="instructionBox" class="text-lg font-semibold text-center mt-4 text-indigo-600">
+                    Waiting for instruction...
+                </div>
 
                 <button type="button" id="startTestBtn"
                         class="bg-gold text-white px-4 py-2 rounded hover:bg-yellow-600">
