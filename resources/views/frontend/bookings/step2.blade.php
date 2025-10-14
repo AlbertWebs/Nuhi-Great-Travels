@@ -87,7 +87,7 @@
                                         <div class="col-xl-12">
                                             <div class="booking-one__btn-box">
                                                 <button type="submit" class="thm-btn">
-                                                    Next Step <span class="fas fa-arrow-right"></span>
+                                                    Next Step(KYC) <span class="fas fa-arrow-right"></span>
                                                 </button>
                                             </div>
                                         </div>

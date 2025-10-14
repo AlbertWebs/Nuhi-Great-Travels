@@ -94,32 +94,86 @@
 
 
         {{-- STEP 3 --}}
-        <div id="step3" x-show="step === 3" x-transition
-     x-effect="if(step === 3) window.initLivelinessTest()"
-     class="space-y-6">
-    <h2 class="text-2xl font-bold text-gray-800">Step 3: Liveliness Test</h2>
+        {{--  --}}
+<!-- Step 3: Smile ID -->
+<div x-show="step === 3" x-transition class="space-y-4">
+    <h2 class="text-lg font-bold">Step 3: Liveliness & Face Verification</h2>
 
-    <div id="instructionBox" class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800 text-center">
-        Click <strong>Start Liveliness Test</strong> to begin
+    <div id="smileIDContainer" class="p-4 border rounded bg-gray-50 text-center">
+        <p class="mb-3 text-sm text-gray-600">Click below to begin SmileID verification (liveliness + face capture).</p>
+
+        <a href="https://links.sandbox.usesmileid.com/7578/ce4bd7ab-87df-4eea-a07e-3770e8829d0e" type="button"
+                class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+            Start SmileID Verification
+        </a>
     </div>
 
-    <div class="flex justify-center">
-        <video id="liveVideo" autoplay muted playsinline class="w-80 h-60 bg-black rounded-md"></video>
-    </div>
-
-    <canvas id="snapshotCanvas" class="hidden"></canvas>
-
-    <input type="hidden" name="livelinessData" id="livelinessData">
-    <input type="hidden" name="selfieImage" id="selfieImage">
-
-    <div class="text-center">
-        <button type="button" id="startTestBtn"
-            class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
-            Start Liveliness Test
-        </button>
-    </div>
+    <input type="hidden" name="smile_job_id" id="smileJobId">
+    <input type="hidden" name="smile_result" id="smileResult">
 </div>
 
+{{-- Smile Identity Web SDK (load once at bottom of page) --}}
+<script src="https://web-sdk.smileidentity.com/v1.0/smileidentity.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('startSmileBtn');
+    if (!startBtn) return;
+
+    startBtn.addEventListener('click', async () => {
+        startBtn.disabled = true;
+        startBtn.textContent = 'Starting...';
+
+        try {
+            // Request a short-lived signature from server
+            const res = await fetch("{{ route('smile.init') }}");
+            if (!res.ok) throw new Error('Failed to fetch signature from server');
+            const cfg = await res.json();
+
+            // Build the SmileIdentity SDK options using server data
+            const smileOptions = {
+                partner_id: cfg.partner_id,
+                // The web SDK may expect 'auth_token' or 'signature' depending on version.
+                // Check your SDK docs — below we use 'auth_token' as an example property name.
+                auth_token: cfg.signature,
+                timestamp: cfg.timestamp,
+                environment: "{{ config('services.smile.environment', 'sandbox') }}",
+            };
+
+            // Initialize the SmileIdentity SDK
+            const smile = new SmileIdentity(smileOptions);
+
+            // Prepare job params — you can fill dynamically from Step 1 form fields
+            const jobParams = {
+                job_type: cfg.job_type || 5, // e.g. 5 = enhanced liveliness
+                country: "{{ config('services.smile.country', 'KE') }}",
+                // id_type and id_number can be passed dynamically if you have them
+                // id_type: 'NATIONAL_ID',
+                // id_number: '12345678',
+            };
+
+            // Start Smile flow
+            const result = await smile.start(jobParams);
+
+            // result shape depends on SDK — store useful bits in hidden fields
+            document.getElementById('smileJobId').value = result.job_id || '';
+            document.getElementById('smileResult').value = JSON.stringify(result || {});
+
+            alert('SmileID verification completed successfully.');
+        } catch (err) {
+            console.error('SmileID error', err);
+            alert('SmileID verification failed or was cancelled. See console for details.');
+        } finally {
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start SmileID Verification';
+        }
+    });
+});
+</script>
+
+        {{--  --}}
+    </form>
+</div>
 
    {{-- ✅ Liveliness Test Partial --}}
     @include('kyc.partials.liveliness')

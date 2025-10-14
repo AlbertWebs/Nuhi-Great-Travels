@@ -98,10 +98,9 @@ class BookingController extends Controller
         return view('frontend.bookings.step2', compact('page_title'));
     }
 
+
     public function storeStep2(Request $request)
     {
-        $page_title = "Bookings";
-
         $request->validate([
             'full_name' => 'required|string|max:255',
             'email' => 'required|email',
@@ -112,22 +111,16 @@ class BookingController extends Controller
         $car = Fleet::findOrFail($step1['car_id']);
 
         // --- Check or Create User ---
-        $user = User::where('email', $request->email)->first();
-
-        if ($user) {
-            // Log the user in
-            Auth::login($user);
-        } else {
-            // Create new user
-            $user = User::create([
+        $user = User::firstOrCreate(
+            ['email' => $request->email],
+            [
                 'name' => $request->full_name,
-                'email' => $request->email,
                 'phone' => $request->mobile,
-                'password' => Hash::make(Str::random(10)), // random password for auto signup
-            ]);
+                'password' => Hash::make(Str::random(10)),
+            ]
+        );
 
-            Auth::login($user);
-        }
+        Auth::login($user);
 
         // --- Calculate total price ---
         $pickup = Carbon::parse($step1['pickup_datetime']);
@@ -135,14 +128,19 @@ class BookingController extends Controller
         $hours = $dropoff->diffInHours($pickup);
         $total_price = $hours * $car->rate_per_hour;
 
-        // Store step 2 data in session
+        // --- Store step 2 data ---
         session([
             'booking.step2' => $request->only(['full_name', 'email', 'mobile']),
             'booking.total_price' => $total_price,
         ]);
 
-        return redirect()->route('bookings.step3');
+        // --- Redirect to Smile ID verification link ---
+        $smileIdUrl = "https://links.sandbox.usesmileid.com/7578/ce4bd7ab-87df-4eea-a07e-3770e8829d0e";
+
+
+        return redirect()->away($smileIdUrl);
     }
+
 
     public function step3()
     {

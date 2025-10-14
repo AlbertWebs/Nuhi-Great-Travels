@@ -40,5 +40,13 @@ return [
         'list_id' => env('MAILCHIMP_LIST_ID'),
     ],
 
+    'smile' => [
+        'partner_id' => env('SMILE_ID_PARTNER_ID'),
+        'api_key'    => env('SMILE_ID_API_KEY'),
+        'environment'=> env('SMILE_ID_ENVIRONMENT', 'sandbox'),
+        'country'    => env('SMILE_ID_COUNTRY', 'KE'),
+    ],
+
+
 
 ];

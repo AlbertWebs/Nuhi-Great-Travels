@@ -8,6 +8,9 @@ use App\Models\KycSubmission;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Setting;
+use App\Models\SmileIdVerification;
+use Illuminate\Support\Facades\Log;
+
 use Auth;
 
 class KycController extends Controller
@@ -145,5 +148,40 @@ public function generateKYCToken(){
     $client->update(['kyc_token' => Str::uuid()]);
 }
 
+public function smileIdCallback(Request $request)
+{
+    $payload = $request->all();
+    Log::info('Smile ID Callback received', $payload);
+
+    $jobId = $payload['job_id'] ?? null;
+    $partnerParams = $payload['partner_params'] ?? [];
+    $userId = $partnerParams['user_id'] ?? null;
+
+    // Save or update verification
+    $verification = SmileIdVerification::updateOrCreate(
+        ['job_id' => $jobId],
+        [
+            'user_id' => $userId,
+            'job_type' => $partnerParams['job_type'] ?? null,
+            'result_code' => $payload['result_code'] ?? null,
+            'result_text' => $payload['result_text'] ?? null,
+            'partner_params' => $partnerParams,
+            'actions' => $payload['actions'] ?? null,
+            'images' => $payload['images'] ?? null,
+            'raw_response' => $payload,
+            'completed_at' => now(),
+        ]
+    );
+
+    // Optionally, mark user as KYC-verified
+    if ($verification->result_code === '0' && $userId) {
+        $user = \App\Models\User::find($userId);
+        if ($user) {
+            $user->update(['kyc_verified' => true]);
+        }
+    }
+
+    return response()->json(['status' => 'received']);
+}
 
 }

@@ -19,7 +19,7 @@ use App\Http\Controllers\Admin\LegalController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\KycController;
 use App\Http\Controllers\Admin\InvoiceController;
-
+use App\Http\Controllers\SmileController;
 
 use App\Http\Controllers\SubscriberPostController;
 
@@ -51,7 +51,7 @@ Route::get('fleets/generate-slugs', [HomeController::class, 'generateSlugs'])
     ->name('admin.fleets.generateSlugs');
 
 Route::post('/kyc/liveliness/upload', [KycController::class, 'uploadLiveliness'])->name('kyc.liveliness.upload');
-
+Route::get('/smile/init', [SmileController::class, 'init'])->name('smile.init');
 //
 Route::prefix('bookings')->group(function () {
     Route::get('/step1', [BookingController::class, 'step1'])->name('bookings.step1');
@@ -64,7 +64,7 @@ Route::prefix('bookings')->group(function () {
     Route::post('/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 });
 
-
+Route::post('/kyc/smileid/callback', [KycController::class, 'smileIdCallback'])->name('kyc.smileid.callback');
 
 // ====================
 // ADMIN AUTH
