@@ -33,8 +33,8 @@
                         <div class="about-one__lefts wow slideInLeft flex-1 flex flex-col justify-center"
                             data-wow-delay="100ms" data-wow-duration="2500ms">
                             <div class="about-one__img-box">
-                                <div class="about-one__img">
-                                    <img style="height:740px; object-fit:cover" class="border-3 border-white w-full h-auto" src="{{ asset('storage/' . $Services->image) }}" alt="Nuhi Great Travels">
+                                <div class="about-one__img" style="height:640px;">
+                                    <img style="object-fit:cover" class="border-3 border-white w-full h-auto" src="{{ asset('storage/' . $Services->image) }}" alt="Nuhi Great Travels">
                                 </div>
 
                             </div>

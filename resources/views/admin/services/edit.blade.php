@@ -21,7 +21,7 @@
 
         <div>
             <label class="block text-gray-700 font-medium mb-2">Description</label>
-            <textarea name="description" rows="5"
+            <textarea id="editor" name="description" rows="5"
                       class="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none">{{ $service->description }}</textarea>
         </div>
 
@@ -52,4 +52,17 @@
         </div>
     </form>
 </div>
+<!-- Include CKEditor 5 from CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error('CKEditor initialization error:', error);
+            });
+    </script>
+@endsection
+
+@section('scripts')
+
 @endsection
