@@ -94,45 +94,40 @@
 
 
         {{-- STEP 3 --}}
-        <div x-show="step === 3" x-transition>
-            <h2 class="text-lg font-bold mb-2">Step 3: Liveliness Test</h2>
-            <p class="text-sm text-gray-600 mb-2">Ensure your camera is active and follow on-screen instructions.</p>
+        <div id="step3" x-show="step === 3" class="space-y-6">
+            <h2 class="text-2xl font-bold text-gray-800">Step 3: Liveliness Test</h2>
 
-            <div class="border rounded p-3 bg-gray-50">
-                <video id="liveVideo" width="100%" height="200" autoplay muted class="rounded mb-2"></video>
-                <canvas id="snapshotCanvas" class="hidden"></canvas>
+            {{-- Instruction display --}}
+            <div id="instructionBox" class="p-4 bg-blue-50 border border-blue-200 rounded text-blue-800 text-center">
+                Click <strong>Start Liveliness Test</strong> to begin
+            </div>
 
-                <div id="instructionBox" class="text-lg font-semibold text-center mt-4 text-indigo-600">
-                    Waiting for instruction...
-                </div>
+            {{-- Live video feed --}}
+            <div class="flex justify-center">
+                <video id="liveVideo" autoplay muted playsinline class="w-80 h-60 bg-black rounded-md"></video>
+            </div>
 
+            {{-- Hidden canvas to capture frame --}}
+            <canvas id="snapshotCanvas" class="hidden"></canvas>
+
+            {{-- Hidden form fields to hold liveliness results --}}
+            <input type="hidden" name="livelinessData" id="livelinessData">
+            <input type="hidden" name="selfieImage" id="selfieImage">
+
+            {{-- Start test button --}}
+            <div class="text-center">
                 <button type="button" id="startTestBtn"
-                        class="bg-gold text-white px-4 py-2 rounded hover:bg-yellow-600">
+                    class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
                     Start Liveliness Test
                 </button>
             </div>
-
-            <input type="hidden" name="liveliness_data" id="livelinessData">
-            <input type="hidden" name="selfie_image" id="selfieImage">
-
-            <div class="flex justify-between mt-4">
-                <button type="button" @click="step--"
-                        class="px-4 py-2 rounded border border-gray-300 text-gray-600 hover:bg-gray-100">
-                    Back
-                </button>
-                <button type="submit"
-                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                    Submit KYC
-                </button>
-            </div>
         </div>
-    </form>
-</div>
+            </form>
+        </div>
 
    {{-- ✅ Liveliness Test Partial --}}
-            <div class="border-t border-gray-200 pt-4">
-                @include('kyc.partials.liveliness')
-            </div>
+    @include('kyc.partials.liveliness')
+
 
 <footer class="text-center text-gray-400 text-xs mt-6">
     © {{ date('Y') }} {{ config('app.name') }} — Secure KYC Verification.
