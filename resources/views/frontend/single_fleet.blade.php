@@ -42,7 +42,7 @@
                             </div>
 
                             <div class="listing-one__content">
-                                <h3 class="listing-one__title">
+                                <h3 class="listing-one__title text-center">
                                     <a href="{{ route('single_fleets', ['car' => $car->slug, 'fleet' => $fleet->slug]) }}">
                                         {{ $fleet->name }}
                                     </a>
