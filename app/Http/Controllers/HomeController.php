@@ -75,6 +75,16 @@ class HomeController extends Controller
         return view('frontend.show_fleet', compact('feedbacks','Settings','page_title','car','Fleet'));
     }
 
+    public function single_fleet(){
+        $Fleet = \App\Models\Fleet::all();
+        $page_title = "Fleet";
+        $About = \App\Models\About::first();
+        // $teams = \App\Models\Team::where('is_active', true)->get();
+        $Settings = \App\Models\Setting::first();
+        $feedbacks = \App\Models\Feedback::latest()->take(10)->get();
+        return view('frontend.single_fleet', compact('feedbacks','Settings','page_title','Fleet'));
+    }
+
 
     public function services_single($slug){
         $page_title = "Services";

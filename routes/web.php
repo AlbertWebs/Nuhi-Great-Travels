@@ -30,6 +30,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/services/{slug}', [HomeController::class, 'services_single'])->name('services-single');
 
+Route::get('/fleet', [HomeController::class, 'single_fleet'])->name('single_fleet_each');
 Route::get('/fleet/{slug}', [HomeController::class, 'show_fleet'])->name('single_fleet');
 Route::get('/fleet/{car}/{fleet}', [HomeController::class, 'show_single_fleets'])->name('single_fleets');
 
