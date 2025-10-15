@@ -9,7 +9,7 @@
 
 
         <!-- Sliding Text One Start -->
-        <section class="sliding-text-one">
+        <section class="sliding-text-one d-none d-md-block">
             <div class="sliding-text-one__wrap">
                 <ul class="sliding-text__list list-unstyled marquee_modes">
                     <li>
