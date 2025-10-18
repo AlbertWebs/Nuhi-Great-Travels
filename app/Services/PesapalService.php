@@ -14,9 +14,11 @@ class PesapalService
 
     public function __construct()
     {
+        // Choose correct endpoint based on environment
         $this->baseUrl = config('pesapal.env') === 'live'
             ? 'https://pay.pesapal.com/v3'
             : 'https://cybqa.pesapal.com/pesapalv3';
+
         $this->consumerKey = config('pesapal.consumer_key');
         $this->consumerSecret = config('pesapal.consumer_secret');
         $this->callbackUrl = config('pesapal.callback_url');
@@ -27,17 +29,33 @@ class PesapalService
      */
     public function getAccessToken()
     {
-        $response = Http::post("{$this->baseUrl}/api/Auth/RequestToken", [
-            'consumer_key' => $this->consumerKey,
-            'consumer_secret' => $this->consumerSecret,
-        ]);
+        try {
+            $response = Http::withOptions(['verify' => false]) // disable SSL verify for sandbox
+                ->post("{$this->baseUrl}/api/Auth/RequestToken", [
+                    'consumer_key' => $this->consumerKey,
+                    'consumer_secret' => $this->consumerSecret,
+                ]);
 
-        if ($response->successful()) {
-            return $response->json()['token'];
+            if (!$response->successful()) {
+                Log::error('Pesapal Token Request Failed', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+                throw new \Exception('Pesapal token request failed.');
+            }
+
+            $data = $response->json();
+
+            if (!isset($data['token'])) {
+                Log::error('Pesapal Token Missing', ['response' => $data]);
+                throw new \Exception('Pesapal did not return a valid token.');
+            }
+
+            return $data['token'];
+        } catch (\Throwable $e) {
+            Log::error('Pesapal Auth Exception', ['message' => $e->getMessage()]);
+            return null;
         }
-
-        Log::error('Pesapal Token Error', ['response' => $response->json()]);
-        return null;
     }
 
     /**
@@ -46,45 +64,76 @@ class PesapalService
     public function makePayment(array $data)
     {
         $token = $this->getAccessToken();
-        if (!$token) return null;
-
-        $response = Http::withToken($token)
-            ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", [
-                'id' => $data['reference'],
-                'currency' => 'KES',
-                'amount' => $data['amount'],
-                'description' => $data['description'],
-                'callback_url' => $this->callbackUrl,
-                'notification_id' => '', // optional: if you have IPN setup
-                'billing_address' => [
-                    'email_address' => $data['email'],
-                    'phone_number' => $data['phone_number'],
-                    'country_code' => 'KE',
-                    'first_name' => $data['first_name'],
-                    'line_1' => 'N/A',
-                    'city' => 'Nairobi',
-                ],
-            ]);
-
-        if ($response->successful()) {
-            return $response->json()['redirect_url'] ?? null;
+        if (!$token) {
+            Log::error('Pesapal: Token missing, cannot create payment.');
+            return null;
         }
 
-        Log::error('Pesapal Order Error', ['response' => $response->json()]);
-        return null;
+        try {
+            $response = Http::withOptions(['verify' => false])
+                ->withToken($token)
+                ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", [
+                    'id' => $data['reference'], // unique reference number
+                    'currency' => 'KES',
+                    'amount' => $data['amount'],
+                    'description' => $data['description'],
+                    'callback_url' => $this->callbackUrl,
+                    'notification_id' => '', // optional IPN setup
+                    'billing_address' => [
+                        'email_address' => $data['email'],
+                        'phone_number' => $data['phone_number'],
+                        'country_code' => 'KE',
+                        'first_name' => $data['first_name'],
+                        'line_1' => $data['line_1'] ?? 'N/A',
+                        'city' => $data['city'] ?? 'Nairobi',
+                    ],
+                ]);
+
+            if ($response->successful()) {
+                $json = $response->json();
+                Log::info('Pesapal Order Response', ['response' => $json]);
+
+                return $json['redirect_url'] ?? null;
+            }
+
+            Log::error('Pesapal Order Creation Failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Throwable $e) {
+            Log::error('Pesapal makePayment Exception', ['message' => $e->getMessage()]);
+            return null;
+        }
     }
 
     /**
      * Check payment status
      */
-    public function getPaymentStatus($reference)
+    public function getPaymentStatus($orderTrackingId)
     {
         $token = $this->getAccessToken();
         if (!$token) return null;
 
-        $response = Http::withToken($token)
-            ->get("{$this->baseUrl}/api/Transactions/GetTransactionStatus?orderTrackingId={$reference}");
+        try {
+            $response = Http::withOptions(['verify' => false])
+                ->withToken($token)
+                ->get("{$this->baseUrl}/api/Transactions/GetTransactionStatus?orderTrackingId={$orderTrackingId}");
 
-        return $response->json();
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('Pesapal Status Error', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Throwable $e) {
+            Log::error('Pesapal getPaymentStatus Exception', ['message' => $e->getMessage()]);
+            return null;
+        }
     }
 }
