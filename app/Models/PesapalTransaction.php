@@ -24,5 +24,6 @@ class PesapalTransaction extends Model
 
     protected $casts = [
         'raw_response' => 'array',
+        'amount' => 'decimal:2',
     ];
 }

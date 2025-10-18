@@ -112,4 +112,31 @@ class PaymentController extends Controller
         }
     }
 
+    public function testPesapalToken()
+    {
+        try {
+            $pesapal = new PesapalService();
+            dd($pesapal);
+            $token = $pesapal->getAccessToken();
+
+            if ($token) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Pesapal token generated successfully!',
+                    'token' => $token,
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to generate Pesapal token. Check logs for details.',
+                ], 500);
+            }
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error generating Pesapal token: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }

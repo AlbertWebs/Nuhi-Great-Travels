@@ -30,7 +30,9 @@ class PesapalService
     public function getAccessToken()
     {
         try {
-            $response = Http::withOptions(['verify' => false]) // disable SSL verify for sandbox
+            $response = Http::withOptions([
+                    'verify' => config('pesapal.env') === 'live', // verify SSL only in live
+                ])
                 ->post("{$this->baseUrl}/api/Auth/RequestToken", [
                     'consumer_key' => $this->consumerKey,
                     'consumer_secret' => $this->consumerSecret,
@@ -41,14 +43,14 @@ class PesapalService
                     'status' => $response->status(),
                     'body' => $response->body(),
                 ]);
-                throw new \Exception('Pesapal token request failed.');
+                return null;
             }
 
             $data = $response->json();
 
             if (!isset($data['token'])) {
                 Log::error('Pesapal Token Missing', ['response' => $data]);
-                throw new \Exception('Pesapal did not return a valid token.');
+                return null;
             }
 
             return $data['token'];
@@ -70,30 +72,36 @@ class PesapalService
         }
 
         try {
-            $response = Http::withOptions(['verify' => false])
-                ->withToken($token)
-                ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", [
-                    'id' => $data['reference'], // unique reference number
-                    'currency' => 'KES',
-                    'amount' => $data['amount'],
-                    'description' => $data['description'],
-                    'callback_url' => $this->callbackUrl,
-                    'notification_id' => '', // optional IPN setup
-                    'billing_address' => [
-                        'email_address' => $data['email'],
-                        'phone_number' => $data['phone_number'],
-                        'country_code' => 'KE',
-                        'first_name' => $data['first_name'],
-                        'line_1' => $data['line_1'] ?? 'N/A',
-                        'city' => $data['city'] ?? 'Nairobi',
-                    ],
-                ]);
+            $payload = [
+                'id' => $data['reference'], // unique reference number
+                'currency' => 'KES',
+                'amount' => $data['amount'],
+                'description' => $data['description'],
+                'callback_url' => $this->callbackUrl,
+                'billing_address' => [
+                    'email_address' => $data['email'],
+                    'phone_number' => $data['phone_number'],
+                    'country_code' => 'KE',
+                    'first_name' => $data['first_name'],
+                    'line_1' => $data['line_1'] ?? 'N/A',
+                    'city' => $data['city'] ?? 'Nairobi',
+                ],
+            ];
 
-            if ($response->successful()) {
-                $json = $response->json();
-                Log::info('Pesapal Order Response', ['response' => $json]);
+            // Only add notification_id if provided
+            if (!empty($this->ipnId)) {
+                $payload['notification_id'] = $this->ipnId;
+            }
 
-                return $json['redirect_url'] ?? null;
+            $response = Http::withToken($token)
+                ->withOptions(['verify' => config('pesapal.env') === 'live'])
+                ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", $payload);
+
+            $json = $response->json();
+            Log::info('Pesapal Order Response', ['response' => $json]);
+
+            if ($response->successful() && isset($json['redirect_url'])) {
+                return $json['redirect_url'];
             }
 
             Log::error('Pesapal Order Creation Failed', [
@@ -117,8 +125,8 @@ class PesapalService
         if (!$token) return null;
 
         try {
-            $response = Http::withOptions(['verify' => false])
-                ->withToken($token)
+            $response = Http::withToken($token)
+                ->withOptions(['verify' => config('pesapal.env') === 'live'])
                 ->get("{$this->baseUrl}/api/Transactions/GetTransactionStatus?orderTrackingId={$orderTrackingId}");
 
             if ($response->successful()) {

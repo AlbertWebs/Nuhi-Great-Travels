@@ -81,6 +81,9 @@ Route::get('/payment/thank-you', function () {
     return view('frontend.payment.thankyou');
 })->name('frontend.payment.thankyou');
 
+Route::get('/test-pesapal-token', [App\Http\Controllers\PaymentController::class, 'testPesapalToken']);
+
+
 // ====================
 // ADMIN AUTH
 // ====================
@@ -110,8 +113,8 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
-    // Payments CRUD
-    Route::resource('payments', PaymentController::class);
+
+
 
     // Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
@@ -123,12 +126,7 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
     Route::get('/settings', [SettingController::class, 'index'])->name('settings');
     Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
 
-      // Payments
-    Route::prefix('payments')->name('payments.')->group(function () {
-    Route::get('/mpesa', [PaymentController::class, 'mpesa'])->name('mpesa');
-    Route::get('/card', [PaymentController::class, 'card'])->name('card');
-    Route::get('/crypto', [PaymentController::class, 'crypto'])->name('crypto');
-    });
+
        // NEW: KYC
     Route::get('/kyc', [KycController::class, 'index'])->name('kyc.index');
     Route::get('/kyc/create', [KycController::class, 'create'])->name('kyc.create');
@@ -194,8 +192,9 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
             ->name('invoices.store');
 
         // Payments List Page
-        Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])
-            ->name('payments.index');
+            // Payments CRUD
+        Route::get('payments', [App\Http\Controllers\Admin\AdminPaymentsController::class, 'index'])
+        ->name('payments.index');
 
         // Payment Details (optional)
         Route::get('/payments/{id}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])
