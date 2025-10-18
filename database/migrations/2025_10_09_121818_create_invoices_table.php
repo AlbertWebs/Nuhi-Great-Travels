@@ -11,6 +11,8 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
 
+            // Auto-generated invoice number
+            $table->string('invoice_number')->unique()->nullable();
             // Relations
             $table->foreignId('fleet_id')->constrained('fleets')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');

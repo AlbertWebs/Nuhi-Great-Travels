@@ -10,10 +10,10 @@
     </h2>
 
     <form action="{{ route('admin.invoices.store') }}" method="POST"
-          x-data="{ userType: 'existing', total: 0, rate: 0 }">
+          x-data="{ userType: 'existing', total: 0, days: 0 }">
         @csrf
 
-        {{-- Fleet Selection --}}
+        {{-- Fleet --}}
         <div class="mb-6">
             <label class="block text-sm font-semibold mb-2">Select Fleet</label>
             <select name="fleet_id" id="fleet_id" class="w-full border-gray-300 rounded-md" required>
@@ -24,7 +24,6 @@
                     </option>
                 @endforeach
             </select>
-            {{-- Hidden price per day --}}
             <input type="hidden" name="price_per_day" id="price_per_day">
         </div>
 
@@ -42,12 +41,15 @@
             </div>
         </div>
 
-        {{-- Total Price --}}
+        {{-- Total --}}
         <div class="mb-6">
-            <label class="block text-sm font-semibold mb-2">Total Price</label>
-            <input type="text" x-model="total" readonly name="total_price"
+            <label class="block text-sm font-semibold mb-2">Total Price (Ksh)</label>
+            <input type="text" readonly x-model="total"
+                   name="total_price"
                    class="w-full border-gray-300 rounded-md bg-gray-50 font-semibold text-lg">
         </div>
+
+        <input type="hidden" name="days" x-model="days">
 
         {{-- Client Type --}}
         <div class="mb-4">
@@ -103,34 +105,33 @@
     </form>
 </div>
 
-{{-- Auto Calculate Script --}}
+{{-- Calculation Script --}}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const fleetSelect = document.getElementById('fleet_id');
-        const pickupInput = document.getElementById('pickup_date');
-        const dropoffInput = document.getElementById('dropoff_date');
-        const totalInput = document.querySelector('[x-model="total"]');
-        const priceInput = document.getElementById('price_per_day');
+document.addEventListener('DOMContentLoaded', function() {
+    const fleetSelect = document.getElementById('fleet_id');
+    const pickupInput = document.getElementById('pickup_date');
+    const dropoffInput = document.getElementById('dropoff_date');
+    const totalInput = document.querySelector('[x-model="total"]');
+    const daysInput = document.querySelector('[x-model="days"]');
+    const priceInput = document.getElementById('price_per_day');
 
-        function calculateTotal() {
-            const rate = parseFloat(fleetSelect.selectedOptions[0]?.dataset.rate || 0);
-            const pickup = new Date(pickupInput.value);
-            const dropoff = new Date(dropoffInput.value);
+    function calculateTotal() {
+        const rate = parseFloat(fleetSelect.selectedOptions[0]?.dataset.rate || 0);
+        const pickup = new Date(pickupInput.value);
+        const dropoff = new Date(dropoffInput.value);
+        priceInput.value = rate;
 
-            // update hidden price field
-            priceInput.value = rate;
-
-            if (pickup && dropoff && !isNaN(pickup) && !isNaN(dropoff)) {
-                const days = Math.max(1, Math.ceil((dropoff - pickup) / (1000 * 60 * 60 * 24)));
-                totalInput.value = Math.round(days * rate);
-            } else {
-                totalInput.value = 0;
-            }
+        if (pickup && dropoff && !isNaN(pickup) && !isNaN(dropoff)) {
+            const days = Math.max(1, Math.ceil((dropoff - pickup) / (1000 * 60 * 60 * 24)));
+            daysInput.value = days;
+            totalInput.value = (days * rate).toFixed(2);
+        } else {
+            totalInput.value = 0;
+            daysInput.value = 0;
         }
+    }
 
-        fleetSelect.addEventListener('change', calculateTotal);
-        pickupInput.addEventListener('change', calculateTotal);
-        dropoffInput.addEventListener('change', calculateTotal);
-    });
+    [fleetSelect, pickupInput, dropoffInput].forEach(el => el.addEventListener('change', calculateTotal));
+});
 </script>
 @endsection

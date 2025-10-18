@@ -3,7 +3,7 @@
 @section('page-title', 'About Us')
 
 @section('content')
-<div class="max-w-4xl mx-auto py-10">
+<div class="max-w-7xl mx-auto py-10">
     <h1 class="text-2xl font-bold mb-6">Edit About Us Page</h1>
 
     @if(session('success'))

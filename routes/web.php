@@ -67,6 +67,20 @@ Route::prefix('bookings')->group(function () {
 
 Route::post('/kyc/smileid/callback', [KycController::class, 'smileIdCallback'])->name('kyc.smileid.callback');
 
+// Payment Page
+Route::get('/payment/{invoice}', [App\Http\Controllers\PaymentController::class, 'showPaymentPage'])
+    ->name('frontend.payment.show');
+
+Route::post('/payment/{invoice}/confirm', [App\Http\Controllers\PaymentController::class, 'processPayment'])
+    ->name('frontend.payment.process');
+
+Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'paymentCallback'])
+     ->name('frontend.payment.callback');
+
+Route::get('/payment/thank-you', function () {
+    return view('frontend.payment.thankyou');
+})->name('frontend.payment.thankyou');
+
 // ====================
 // ADMIN AUTH
 // ====================

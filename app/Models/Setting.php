@@ -25,5 +25,8 @@ class Setting extends Model
         'linkedin',
         'tawkto',
         'whatsapp',
+        'payment_type',
+        'payment_number',
+        'payment_name',
     ];
 }

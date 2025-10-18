@@ -40,6 +40,10 @@ class SettingController extends Controller
             'twitter' => 'nullable|url',
             'youtube' => 'nullable|url',
             'map_iframe' => 'nullable|string',
+              // ✅ New payment fields
+            'payment_type' => 'nullable|string|max:100',
+            'payment_number' => 'nullable|string|max:50',
+            'payment_name' => 'nullable|string|max:255',
         ]);
 
         $setting = Setting::firstOrNew(['id' => 1]);

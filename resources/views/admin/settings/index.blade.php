@@ -15,7 +15,6 @@
 
         {{-- 2 Column Grid --}}
         <div class="grid md:grid-cols-2 gap-6">
-
             {{-- Website URL --}}
             <div>
                 <label class="block font-semibold">Website URL</label>
@@ -154,7 +153,7 @@
                 </div>
             </div>
 
-            {{-- WhatsApp Link --}}
+            {{-- WhatsApp --}}
             <div>
                 <label class="block font-semibold">WhatsApp Link</label>
                 <div class="relative">
@@ -165,6 +164,40 @@
                         class="w-full border rounded p-2 pl-10"
                         placeholder="https://wa.me/2547XXXXXXXX">
                 </div>
+            </div>
+
+            {{-- Payment Section Header --}}
+            <div class="md:col-span-2 border-t pt-6">
+                <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                    <i class="fas fa-credit-card text-gold"></i> Payment Information
+                </h3>
+            </div>
+
+            {{-- Payment Type --}}
+            <div>
+                <label class="block font-semibold">Payment Type</label>
+                <input type="text" name="payment_type"
+                       value="{{ old('payment_type', $setting->payment_type ?? '') }}"
+                       class="w-full border rounded p-2"
+                       placeholder="e.g. Paybill, Till, Bank">
+            </div>
+
+            {{-- Payment Number --}}
+            <div>
+                <label class="block font-semibold">Payment Number</label>
+                <input type="text" name="payment_number"
+                       value="{{ old('payment_number', $setting->payment_number ?? '') }}"
+                       class="w-full border rounded p-2"
+                       placeholder="e.g. 123456">
+            </div>
+
+            {{-- Payment Name --}}
+            <div class="md:col-span-2">
+                <label class="block font-semibold">Payment Name</label>
+                <input type="text" name="payment_name"
+                       value="{{ old('payment_name', $setting->payment_name ?? '') }}"
+                       class="w-full border rounded p-2"
+                       placeholder="e.g. Nuhi Great Travels Ltd">
             </div>
 
             {{-- Tawk.to Script --}}
@@ -179,7 +212,6 @@
                 <label class="block font-semibold">Google Map Iframe</label>
                 <textarea name="map_iframe" rows="3" class="w-full border rounded p-2">{{ old('map_iframe', $setting->map_iframe ?? '') }}</textarea>
             </div>
-
         </div>
 
         {{-- Submit --}}

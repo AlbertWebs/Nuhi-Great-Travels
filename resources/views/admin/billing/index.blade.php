@@ -3,6 +3,8 @@
 @section('page-title', 'Invoices')
 
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
 <div class="max-w-12xl mx-auto bg-white p-6 rounded-lg shadow">
     <div class="flex items-center justify-between mb-6">
         <h2 class="text-2xl font-bold flex items-center gap-2">
@@ -69,6 +71,59 @@
                         <td class="px-4 py-2 text-gray-600">{{ $invoice->created_at->format('d M Y') }}</td>
                         <td class="px-4 py-2 text-center">
                             <div class="flex justify-center gap-2">
+                                {{-- Pay --}}
+                               {{-- Payment Popup Trigger --}}
+                                <div x-data="{ open: false, link: '{{ route('frontend.payment.show', $invoice->invoice_number) }}' }" class="relative">
+                                    <button @click="open = true" class="text-gold hover:text-yellow-600" title="Make Payment">
+                                        <i class="fas fa-link"></i>
+                                    </button>
+
+                                    {{-- Popup Modal --}}
+                                    <div x-show="open"
+                                        x-transition
+                                        class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                                        <div @click.away="open = false"
+                                            class="bg-white rounded-lg shadow-lg w-96 p-6 relative">
+                                            {{-- Close Button --}}
+                                            <button @click="open = false" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+
+                                            {{-- Header --}}
+                                            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800">
+                                                <i class="fas fa-credit-card text-gold"></i> Payment Link
+                                            </h3>
+
+                                            {{-- Payment Link Box --}}
+                                            <div class="flex items-center bg-gray-100 border border-gray-300 rounded-lg p-2 mb-4">
+                                                <input type="text" x-model="link" readonly
+                                                    class="w-full bg-transparent focus:outline-none text-sm text-gray-700">
+                                                <button @click="navigator.clipboard.writeText(link)"
+                                                        class="text-sm text-gold font-medium hover:underline ml-2">
+                                                    Copy
+                                                </button>
+                                            </div>
+
+                                            {{-- Actions --}}
+                                            <div class="flex justify-between items-center mt-4">
+                                                {{-- WhatsApp --}}
+                                                <a :href="'https://wa.me/?text=' + encodeURIComponent('Please make your payment here: ' + link)"
+                                                target="_blank"
+                                                class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded">
+                                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                                </a>
+
+                                                {{-- SMS --}}
+                                                <a :href="'sms:?body=' + encodeURIComponent('Please make your payment here: ' + link)"
+                                                class="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded">
+                                                    <i class="fas fa-sms"></i> SMS
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- Pay  --}}
                                 {{-- View --}}
                                 <a href="{{ route('admin.invoices.show', $invoice->id) }}"
                                    class="text-blue-600 hover:text-blue-800" title="View">

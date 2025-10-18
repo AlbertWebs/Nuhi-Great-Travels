@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Fleet;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\Setting;
+use Illuminate\Support\Str;
 
 class InvoiceController extends Controller
 {
@@ -28,7 +30,6 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         try {
-            // Validate inputs
             $request->validate([
                 'fleet_id' => 'required|exists:fleets,id',
                 'pickup_date' => 'required|date',
@@ -38,50 +39,50 @@ class InvoiceController extends Controller
                 'full_name' => 'nullable|string|max:255',
                 'email' => 'nullable|email|max:255',
                 'mpesa_number' => 'nullable|string|max:20',
+                'days' => 'required|integer|min:1',
+                'total_price' => 'required|numeric|min:0',
+                'price_per_day' => 'nullable|numeric|min:0',
             ]);
 
-            // Calculate days
-            $pickup = Carbon::parse($request->pickup_date);
-            $dropoff = Carbon::parse($request->dropoff_date);
-            $days = max(1, $pickup->diffInDays($dropoff));
-
-            // Get fleet rate
             $fleet = Fleet::findOrFail($request->fleet_id);
-            $totalPrice = round($days * $fleet->price_per_day, -2); // nearest 100
+            $days = $request->days ?? 1;
 
-            // Create invoice
+            // Generate a unique random invoice number, e.g., INV-20251018-AB123
+            $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
+
             $invoice = Invoice::create([
+                'invoice_number' => $invoiceNumber,
                 'fleet_id' => $fleet->id,
                 'user_id' => $request->userType === 'existing' ? $request->user_id : null,
                 'full_name' => $request->userType === 'new' ? $request->full_name : null,
                 'email' => $request->userType === 'new' ? $request->email : null,
                 'mpesa_number' => $request->userType === 'new' ? $request->mpesa_number : null,
-                'pickup_date' => $pickup,
-                'dropoff_date' => $dropoff,
-                'days' => round($days),
-                'total_price' => $totalPrice,
+                'pickup_date' => $request->pickup_date,
+                'dropoff_date' => $request->dropoff_date,
+                'days' => $days,
+                'price_per_day' => $fleet->price_per_day,
+                'total_price' => round($request->total_price, 2),
             ]);
 
             return redirect()->route('admin.invoices.index')
-                ->with('success', 'Invoice created successfully.');
+                ->with('success', 'Invoice created successfully with number: ' . $invoice->invoice_number);
         } catch (\Throwable $e) {
-            // Log error details
             Log::error('Invoice creation failed', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
-
-            return back()
-                ->withInput()
-                ->with('error', 'Failed to create invoice. Please check the logs.');
+            return back()->withInput()->with('error', 'Failed to create invoice. Please check the logs.');
         }
     }
 
+
+
     public function show($id)
-{
-    $invoice = Invoice::with(['fleet', 'user'])->findOrFail($id);
-    return view('admin.billing.show', compact('invoice'));
-}
+    {
+        $Settings = Setting::first(); // fetch first row
+        $invoice = Invoice::with(['fleet', 'user'])->findOrFail($id);
+        return view('admin.billing.show', compact('invoice','Settings'));
+    }
 
     public function edit($id)
 {
