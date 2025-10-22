@@ -20,6 +20,10 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\KycController;
 use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\SmileController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\LeadController;
+
+
 
 use App\Http\Controllers\SubscriberPostController;
 
@@ -64,6 +68,7 @@ Route::prefix('bookings')->group(function () {
     Route::get('/step3', [BookingController::class, 'step3'])->name('bookings.step3');
     Route::post('/complete', [BookingController::class, 'complete'])->name('bookings.complete');
 });
+
 
 Route::post('/kyc/smileid/callback', [KycController::class, 'smileIdCallback'])->name('kyc.smileid.callback');
 
@@ -113,7 +118,8 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
-
+ Route::resource('leads', App\Http\Controllers\Admin\LeadController::class)->names('leads');
+Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class)->names('tasks');
 
 
     // Reports
@@ -203,12 +209,27 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
 });
 
-// ====================
-// USER AREA
-// ====================
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+//====================
+// User Dashboard
+//====================
+Route::middleware(['auth'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+    // Tasks
+    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
+    Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::patch('/tasks/{task}/toggle', [TaskController::class, 'toggle'])->name('tasks.toggle');
+    Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+
+    // Leads
+    Route::get('/leads', [LeadController::class, 'index'])->name('leads.index');
+    Route::get('/leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
+    Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

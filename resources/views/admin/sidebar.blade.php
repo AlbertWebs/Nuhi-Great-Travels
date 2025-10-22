@@ -140,10 +140,20 @@
 
 
         <!-- Reports -->
+
+        <!-- Leads (Admin) -->
         <li>
-            <a href="{{ route('admin.reports.index') ?? '#' }}"
-               class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/reports*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
-                <i class="fas fa-chart-bar text-gold"></i> Reports
+            <a href="{{ route('admin.leads.index') ?? '#' }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/leads*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-address-book text-gold"></i> Sales Leads
+            </a>
+        </li>
+
+        <!-- Tasks (Admin) -->
+        <li>
+            <a href="{{ route('admin.tasks.index') ?? '#' }}"
+            class="flex items-center gap-3 px-3 py-2 rounded-md border transition hover:bg-gray-100 hover:shadow-sm {{ Request::is('admin/tasks*') ? 'bg-gray-100 font-semibold border-indigo-500' : 'border-gray-200' }}">
+                <i class="fas fa-tasks text-gold"></i> Sales Tasks
             </a>
         </li>
 
