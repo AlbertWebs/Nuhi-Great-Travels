@@ -124,7 +124,7 @@
     <!-- template styles -->
     <link rel="stylesheet" href="{{asset('main-html/assets/css/style.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/responsive.css')}}" />
-    {{-- <link rel="stylesheet" href="{{asset('main-html/assets/css/dark.css')}}" /> --}}
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/dark.css')}}" />
 </head>
 
 <body class="custom-cursor">
