@@ -60,7 +60,7 @@
     @endpush
 
 
-<link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
   <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
   <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')}}">
   <link rel="manifest" href="{{asset('favicon/site.webmanifest')}}">
@@ -129,6 +129,18 @@
 </head>
 
 <body class="custom-cursor">
+
+    {{--  --}}
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/{{$Settings->whatsapp ?? '254700000000'}}?text=Hello%20Nuhi%20Great%20Travels!%20I%20would%20like%20to%20inquire%20about%20your%20services."
+    target="_blank"
+    class="whatsapp-float"
+    aria-label="Chat with us on WhatsApp">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        alt="WhatsApp"
+        class="whatsapp-icon">
+    </a>
+    {{--  --}}
     <div class="custom-cursor__cursor"></div>
     <div class="custom-cursor__cursor-two"></div>
 
