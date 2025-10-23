@@ -33,7 +33,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="listing-one__single">
                             <div class="listing-one__img">
-                                <img style="height:3250px; width:100%; object-fit:cover" src="{{ asset('storage/' . $fleet->image) }}" alt="{{ $fleet->make }}">
+                                <img style="height:350px; width:100%; object-fit:cover" src="{{ asset('storage/' . $fleet->image) }}" alt="{{ $fleet->make }}">
                                 <div class="listing-one__brand-name">
                                     {{-- <p>{{ $car->make }}</p> --}}
                                 </div>
