@@ -9,7 +9,7 @@ class Lead extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','task_id','name','email','phone','company','notes','status'
+        'user_id','latitude','longitude','task_id','name','email','phone','company','notes','status'
     ];
 
     public function user()

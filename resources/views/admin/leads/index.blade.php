@@ -5,8 +5,6 @@
 @section('content')
 <div class="max-w-7xl mx-auto py-10">
 
-
-
     <!-- Success / Error Messages -->
     @if(session('success'))
         <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">{{ session('success') }}</div>
@@ -28,9 +26,9 @@
                     <th class="px-4 py-2 border-b">Task</th>
                     <th class="px-4 py-2 border-b">Status</th>
                     <th class="px-4 py-2 border-b">Notes</th>
+                    <th class="px-4 py-2 border-b">Location</th>
                     <th class="px-4 py-2 border-b">Created By</th>
                     <th class="px-4 py-2 border-b">Created</th>
-                    {{-- <th class="px-4 py-2 border-b">Actions</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -65,16 +63,22 @@
                             </span>
                         </td>
                         <td class="px-4 py-2 border-b">{{ Str::limit($lead->notes, 50) ?? '--' }}</td>
+
+                        {{-- Location Column --}}
+                        <td class="px-4 py-2 border-b">
+                            @if($lead->latitude && $lead->longitude)
+                                <a href="https://www.google.com/maps?q={{ $lead->latitude }},{{ $lead->longitude }}"
+                                   target="_blank"
+                                   class="text-blue-600 hover:underline">
+                                   View Location
+                                </a>
+                            @else
+                                --
+                            @endif
+                        </td>
+
                         <td class="px-4 py-2 border-b">{{ $lead->user->name ?? 'Unknown' }}</td>
                         <td class="px-4 py-2 border-b text-sm text-gray-400">{{ $lead->created_at->diffForHumans() }}</td>
-                        {{-- <td class="px-4 py-2 border-b space-x-2">
-                            <a href="{{ route('admin.leads.edit', $lead) }}" class="text-blue-600 hover:underline">Edit</a>
-                            <form action="{{ route('admin.leads.destroy', $lead) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</button>
-                            </form>
-                        </td> --}}
                     </tr>
                 @empty
                     <tr>

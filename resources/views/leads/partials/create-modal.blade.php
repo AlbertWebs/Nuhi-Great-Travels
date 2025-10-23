@@ -3,6 +3,8 @@
     <h3 class="text-lg font-semibold mb-4">Log Lead</h3>
     <form action="{{ route('leads.store') }}" method="POST" class="space-y-3">
       @csrf
+      <input type="hidden" name="latitude" id="latitude">
+      <input type="hidden" name="longitude" id="longitude">
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-sm">Name</label>

@@ -37,6 +37,8 @@ class LeadController extends Controller
             $data = $request->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'nullable|email|max:255',
+                'longitude' => 'required|string|max:255',
+                'latitude' => 'required|string|max:255',
                 'phone' => 'nullable|string|max:50',
                 'company' => 'nullable|string|max:255',
                 'notes' => 'nullable|string',

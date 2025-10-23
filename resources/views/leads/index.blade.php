@@ -182,4 +182,32 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const newLeadBtn = document.getElementById('newLeadBtn');
+        const leadModal = document.getElementById('leadModal');
+
+        if(newLeadBtn && leadModal){
+            newLeadBtn.addEventListener('click', () => {
+                leadModal.classList.remove('hidden');
+
+                // Check if geolocation is supported
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(
+                        function(position) {
+                            document.getElementById('latitude').value = position.coords.latitude;
+                            document.getElementById('longitude').value = position.coords.longitude;
+                        },
+                        function(error) {
+                            console.warn('Geolocation error:', error.message);
+                        }
+                    );
+                } else {
+                    console.warn('Geolocation is not supported by this browser.');
+                }
+            });
+        }
+    });
+</script>
+
 @endsection
