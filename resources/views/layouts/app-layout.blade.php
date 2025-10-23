@@ -32,12 +32,12 @@
 
         <!-- Desktop Links -->
         <div class="hidden sm:flex items-center space-x-6">
-          <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-yellow-600 transition">Dashboard</a>
-          <a href="{{ route('tasks.index') }}" class="text-gray-700 hover:text-yellow-600 transition">Tasks</a>
-          <a href="{{ route('leads.index') }}" class="text-gray-700 hover:text-yellow-600 transition">Leads</a>
+          <a href="{{ route('dashboard') }}" class="text-gray-700 hover:text-yellow-600 transition font-semibold">Dashboard</a>
+          <a href="{{ route('tasks.index') }}" class="text-gray-700 hover:text-yellow-600 transition font-semibold">Tasks</a>
+          <a href="{{ route('leads.index') }}" class="text-gray-700 hover:text-yellow-600 transition font-semibold">Leads</a>
           <form method="POST" action="{{ route('logout') }}">
             @csrf
-            <button type="submit" class="text-gray-700 hover:text-red-500 transition">Logout</button>
+            <button type="submit" class="text-gray-700 hover:text-red-500 transition font-semibold">Logout</button>
           </form>
         </div>
 
@@ -54,9 +54,9 @@
 
       <!-- Mobile Menu -->
       <div id="mobileMenu" class="hidden sm:hidden mt-2 space-y-2 pb-2">
-        <a href="{{ route('dashboard') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1">Dashboard</a>
-        <a href="{{ route('tasks.index') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1">Tasks</a>
-        <a href="{{ route('leads.index') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1">Leads</a>
+        <a href="{{ route('dashboard') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1 font-semibold">Dashboard</a>
+        <a href="{{ route('tasks.index') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1 font-semibold">Tasks</a>
+        <a href="{{ route('leads.index') }}" class="block text-gray-700 hover:text-yellow-600 transition px-2 py-1 font-semibold">Leads</a>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit" class="w-full text-left px-2 py-1 text-gray-700 hover:text-red-500 transition">Logout</button>
