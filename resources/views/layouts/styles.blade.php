@@ -44,4 +44,16 @@
         .text{
             color:#ffff;
         }
+        .faq-one .faq-one-accrodion .accrodion-content p {
+            margin: 0;
+            color: #fff;
+        }
+        .blog-one__meta li a {
+            position: relative;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            color: #ffffff;
+            gap: 8px;
+        }
     </style>
