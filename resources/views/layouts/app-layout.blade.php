@@ -13,15 +13,22 @@
 
   <!-- Tailwind & App Scripts -->
   @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+  <link rel="apple-touch-icon" sizes="180x180" href="{{asset('favicon/apple-touch-icon.png')}}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{asset('favicon/favicon-32x32.png')}}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{asset('favicon/favicon-16x16.png')}}">
+  <link rel="manifest" href="{{asset('favicon//site.webmanifest')}}">
 </head>
 <body class="font-sans antialiased bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-
+<?php $Settings = \App\Models\Setting::first(); ?>
   <!-- Navigation -->
   <nav class="bg-white border-b border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <!-- Logo -->
-        <a href="{{ url('/dashboard') }}" class="text-xl font-bold text-yellow-600 hover:text-yellow-700 transition">Nuhi Great Travels</a>
+        <a href="{{ url('/dashboard') }}" class="text-xl font-bold text-yellow-600 hover:text-yellow-700 transition">
+        <img style="width:100px; object-fit:cover;" src="{{ asset('storage/'.$Settings->logo) }}" alt="">
+        </a>
 
         <!-- Desktop Links -->
         <div class="hidden sm:flex items-center space-x-6">
