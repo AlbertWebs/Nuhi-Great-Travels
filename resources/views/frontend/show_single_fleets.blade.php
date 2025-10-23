@@ -73,7 +73,7 @@
                 <div class="listing-single__tag">
                     <a href="#">Share <span class="icon-arrow-up-from"></span> </a>
                     <a href="#">Save <span class="icon-bookmark"></span> </a>
-                    <a href="#">Compare <span class="icon-compress"></span> </a>
+                    <a href="{{ route('fleets.compare.form') }}">Compare <span class="icon-compress"></span> </a>
                 </div>
                 <h2 class="listing-single__price">kes {{$Fleet->price_per_day}}</h2>
                 <div class="listing-single__offer-price">
@@ -86,105 +86,120 @@
                 </div>
             </div>
         </div>
-        <div class="row g-4 align-items-start">
+
+        {{--  --}}
+        <!-- Include Lightbox2 -->
+        <!-- Include Lightbox2 -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+        <style>
+            /* Make both columns stretch equally */
+            .equal-height {
+                display: flex;
+                align-items: stretch;
+            }
+
+            /* Ensure the card fills its parent height */
+            .equal-height .card {
+                height: 100%;
+            }
+
+            /* Optional: Keep gallery images uniform */
+            .gallery-image {
+                aspect-ratio: 1 / 1;
+                object-fit: cover;
+            }
+        </style>
+
+        <div class="row g-4 align-items-start equal-height">
             <!-- Left Column: Image Gallery -->
             <div class="col-lg-8">
-                <div class="row g-2">
-                    <!-- Main Image -->
-                    <div class="col-12 col-md-8">
-                        <img src="{{ asset('storage/' . $Fleet->image) }}"
-                             class="img-fluid rounded shadow-sm w-100 h-100 object-fit-cover"
-                             alt="{{ $Fleet->name }}" style="object-fit:cover">
-                    </div>
-                    <!-- Side Images -->
-                    <div class="col-12 col-md-4 d-flex flex-column gap-2">
-                        @for ($i = 0; $i < 3; $i++)
-                            <img src="{{ asset('storage/' . $Fleet->image) }}"
-                                 class="img-fluid rounded shadow-sm"
-                                 alt="Gallery Image">
-                        @endfor
-                    </div>
+                <div class="row g-3 h-100">
+
+                    {{-- 🖼️ 1. Main Fleet Image --}}
+                    @if ($Fleet->image)
+                        <div class="col-12 col-md-4">
+                            <a href="{{ asset('storage/' . $Fleet->image) }}"
+                            data-lightbox="fleet-gallery"
+                            data-title="{{ $Fleet->name }} - Main Image">
+                                <img src="{{ asset('storage/' . $Fleet->image) }}"
+                                    class="img-fluid rounded shadow-sm w-100 gallery-image"
+                                    alt="{{ $Fleet->name }} Main Image">
+                            </a>
+                        </div>
+                    @endif
+
+                    {{-- 🖼️ 2. Additional Fleet Images from fleet_images table --}}
+                    @foreach ($Fleet->images as $index => $image)
+                        <div class="col-12 col-md-4">
+                            <a href="{{ asset('storage/' . $image->image_path) }}"
+                            data-lightbox="fleet-gallery"
+                            data-title="{{ $Fleet->name }} - Image {{ $index + 2 }}">
+                                <img src="{{ asset('storage/' . $image->image_path) }}"
+                                    class="img-fluid rounded shadow-sm w-100 gallery-image"
+                                    alt="{{ $Fleet->name }} Image {{ $index + 2 }}">
+                            </a>
+                        </div>
+                    @endforeach
+
                 </div>
-
-
             </div>
 
+
+
+
             <!-- Right Column: Booking Form -->
-            <div class="col-lg-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
+            <div class="col-lg-4 d-flex">
+                <div class="card shadow-sm border-0 flex-fill">
+                    <div class="card-body p-4 d-flex flex-column">
                         <h4 class="fw-bold mb-3">Book This Car</h4>
-                        <form action="{{ route('bookings.storeStep1') }}" method="POST">
+                        <form action="{{ route('bookings.storeStep1') }}" method="POST" class="flex-grow-1 d-flex flex-column">
                             @csrf
                             <input type="hidden" name="car_id" value="{{ $Fleet->id }}">
                             <input type="hidden" name="price_per_day" value="{{ $Fleet->price_per_day }}">
 
-                             <div class="col-xl-12 col-lg-12 col-md-12">
-                                <div class="booking-one__input-box">
-                                    <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
-                                        Pickup Date</p>
-
-                                        <input type="datetime-local" placeholder="mm/dd/yyy" name="pickup_datetime"
-                                            id="datepicker-2">
-                                            @error('pickup_datetime') <p class="text-red-600">{{ $message }}</p> @enderror
-
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pickup Date</label>
+                                <input type="datetime-local" name="pickup_datetime" class="form-control" id="datepicker-2">
+                                @error('pickup_datetime') <p class="text-danger small">{{ $message }}</p> @enderror
                             </div>
 
-                            <div class="col-xl-12 col-lg-12 col-md-12">
-                                <div class="booking-one__input-box">
-                                    <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
-                                        Drop of</p>
-
-                                    <input type="datetime-local" placeholder="mm/dd/yyy" name="dropoff_datetime"
-                                            id="datepicker">
-                                            @error('dropoff_datetime') <p class="text-red-600">{{ $message }}</p> @enderror
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Drop-off Date</label>
+                                <input type="datetime-local" name="dropoff_datetime" class="form-control" id="datepicker">
+                                @error('dropoff_datetime') <p class="text-danger small">{{ $message }}</p> @enderror
                             </div>
 
-                            <div class="col-xl-12 col-lg-12 col-md-12">
-                                <div class="booking-one__input-box">
-                                    <p class="booking-one__input-title"> <span class="icon-pin-2"></span>
-                                        Pickup Location</p>
-                                    <input type="text"  name="pickup_location">
-                                    @error('pickup_location') <p class="text-red-600">{{ $message }}</p> @enderror
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Pickup Location</label>
+                                <input type="text" name="pickup_location" class="form-control">
+                                @error('pickup_location') <p class="text-danger small">{{ $message }}</p> @enderror
                             </div>
 
-                            <div class="col-xl-12 col-lg-12 col-md-12">
-                                <div class="booking-one__input-box">
-                                    <p class="booking-one__input-title"> <span class="icon-cuv"></span>
-                                        Your car type</p>
-                                    <div class="select-box">
-                                        <select name="car_id" class="selectmenu wide">
-                                            <option selected="selected">Your Car Type
-                                            </option>
-                                            <?php
-                                                $Car = \App\Models\Fleet::all();
-                                            ?>
-                                            @foreach ($Car as $car)
-                                                <option value="{{$car->id}}">{{$car->name}}</option>
-                                            @endforeach
-
-                                        </select>
-                                        @error('car_id') <p class="text-red-600">{{ $message }}</p> @enderror
-                                    </div>
-                                </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Car Type</label>
+                                <select name="car_id" class="form-select">
+                                    <option selected disabled>Your Car Type</option>
+                                    @foreach (\App\Models\Fleet::all() as $car)
+                                        <option value="{{ $car->id }}">{{ $car->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('car_id') <p class="text-danger small">{{ $message }}</p> @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
-                                Confirm Booking
-                            </button>
+                            <div class="mt-auto">
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold">
+                                    Confirm Booking
+                                </button>
+                            </div>
                         </form>
                     </div>
-
                 </div>
-
-                <!-- Contact Card -->
-
             </div>
-
         </div>
+
+
         {{--  --}}
             <div class="col-xl-12 col-lg-12">
                 <div class="listing-single__bottom-left">

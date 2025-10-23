@@ -5,7 +5,7 @@
 
   <!-- Page Title -->
   <h1 class="text-2xl sm:text-3xl font-bold mb-8 text-yellow-600 text-center sm:text-left">
-    Sales Dashboard
+    Welcome Back! {{Auth::User()->name}}
   </h1>
 
   <!-- Display Success Message -->

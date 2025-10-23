@@ -22,9 +22,8 @@ use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\SmileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\LeadController;
-
-
-
+use App\Http\Controllers\Admin\FleetImageController;
+use App\Http\Controllers\FleetComparisonController;
 use App\Http\Controllers\SubscriberPostController;
 
 
@@ -88,6 +87,10 @@ Route::get('/payment/thank-you', function () {
 
 Route::get('/test-pesapal-token', [App\Http\Controllers\PaymentController::class, 'testPesapalToken']);
 
+Route::get('/compare', [CompareController::class, 'index'])->name('compare');
+
+Route::get('/compare', [FleetComparisonController::class, 'showCompareForm'])->name('fleets.compare.form');
+Route::get('/compare/result', [FleetComparisonController::class, 'compare'])->name('fleets.compare.result');
 
 // ====================
 // ADMIN AUTH
@@ -118,8 +121,8 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 
- Route::resource('leads', App\Http\Controllers\Admin\LeadController::class)->names('leads');
-Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class)->names('tasks');
+    Route::resource('leads', App\Http\Controllers\Admin\LeadController::class)->names('leads');
+    Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class)->names('tasks');
 
 
     // Reports
@@ -172,6 +175,15 @@ Route::resource('tasks', App\Http\Controllers\Admin\TaskController::class)->name
 
     Route::resource('faq', FaqController::class)->names('faq');
     Route::resource('fleets', FleetController::class)->names('fleets');
+
+    //
+    Route::get('/fleets/{fleet}/images', [FleetImageController::class, 'index'])
+    ->name('fleets.images');
+
+    Route::get('fleets/{fleet}/images', [FleetImageController::class, 'index'])->name('fleets.images');
+    Route::post('fleets/{fleet}/images', [FleetImageController::class, 'store'])->name('fleets.images.store');
+    Route::delete('fleets/{fleet}/images/{image}', [FleetImageController::class, 'destroy'])->name('fleets.images.destroy');
+    //
 
     Route::resource('services', ServiceController::class)->names('services');
 
@@ -228,6 +240,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/leads', [LeadController::class, 'index'])->name('leads.index');
     Route::get('/leads/{lead}', [LeadController::class, 'show'])->name('leads.show');
     Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
+    // Route::patch('/leads/{lead}/status', [App\Http\Controllers\LeadController::class, 'updateStatus'])->name('leads.updateStatus');
+Route::patch('/leads/{lead}/status', [App\Http\Controllers\LeadController::class, 'updateStatus'])->name('leads.updateStatus');
+
 });
 
 

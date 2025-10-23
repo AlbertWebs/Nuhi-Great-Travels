@@ -31,4 +31,10 @@ class Fleet extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function images()
+    {
+        return $this->hasMany(FleetImage::class);
+    }
+
 }

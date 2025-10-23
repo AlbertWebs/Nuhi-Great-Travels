@@ -121,13 +121,16 @@
     <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/contact.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/module-css/feature.css')}}" />
 
+
     <!-- template styles -->
     <link rel="stylesheet" href="{{asset('main-html/assets/css/style.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/responsive.css')}}" />
+    <link rel="stylesheet" href="{{asset('main-html/assets/css/dark.css')}}" />
+    @include('layouts.styles')
 </head>
 
 <body class="custom-cursor">
-    <div class="body-bg-shape" style="background-image: url(assets/images/shapes/body-bg-shape.html);"></div>
+    <div class="body-bg-shape" style="background-image: url('{{asset('theme/assets/images/shapes/body-bg-shape.html')}}');"></div>
     <div class="custom-cursor__cursor"></div>
     <div class="custom-cursor__cursor-two"></div>
 

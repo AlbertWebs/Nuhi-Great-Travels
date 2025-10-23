@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Sales Portal') }}</title>
+  <title>{{Auth::User()->name}} - Dashboard - Nuhi Great Travels</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.bunny.net">
@@ -21,7 +21,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
         <!-- Logo -->
-        <a href="{{ url('/dashboard') }}" class="text-xl font-bold text-yellow-600 hover:text-yellow-700 transition">Sales Portal</a>
+        <a href="{{ url('/dashboard') }}" class="text-xl font-bold text-yellow-600 hover:text-yellow-700 transition">Nuhi Great Travels</a>
 
         <!-- Desktop Links -->
         <div class="hidden sm:flex items-center space-x-6">
@@ -76,7 +76,7 @@
 
   <!-- Footer -->
   <footer class="bg-white border-t border-gray-200 text-center py-6 mt-auto shadow-inner">
-    <p class="text-gray-500 text-sm">© {{ date('Y') }} {{ config('app.name', 'Sales Portal') }}. All rights reserved.</p>
+    <p class="text-gray-500 text-sm">© {{ date('Y') }} Nuhi Great Travels Limited. All rights reserved.</p>
   </footer>
 
   <!-- Page Scripts -->

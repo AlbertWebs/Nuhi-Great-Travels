@@ -61,12 +61,8 @@
 
 
 
-    <!-- favicons Icons -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('main-html/assets/images/favicons/apple-touch-icon.png')}}" />
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('main-html/assets/images/favicons/favicon-32x32.png')}}" />
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('main-html/assets/images/favicons/favicon-16x16.png')}}" />
-    <link rel="manifest" href="{{asset('main-html/assets/images/favicons/site.webmanifest')}}" />
-    <meta name="description" content="Gorent HTML 5 Template " />
+
+
 
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com/">
@@ -125,6 +121,8 @@
     <link rel="stylesheet" href="{{asset('main-html/assets/css/style.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/responsive.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/dark.css')}}" />
+    @include('layouts.styles')
+
 </head>
 
 <body class="custom-cursor">

@@ -12,12 +12,24 @@ class LeadController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $leads = Lead::where('user_id', $user->id)
-            ->orderBy('created_at','desc')
-            ->paginate(20);
+
+        // Start query for leads belonging to the current user
+        $query = Lead::where('user_id', $user->id);
+
+        // Apply status filter if provided
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+
+        // Order by latest and paginate
+        $leads = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        // Preserve query parameters in pagination links
+        $leads->appends($request->only('status'));
 
         return view('leads.index', compact('leads'));
     }
+
 
     public function store(Request $request)
     {
@@ -74,4 +86,19 @@ class LeadController extends Controller
         $this->authorize('view', $lead);
         return view('leads.show', compact('lead'));
     }
+
+    public function updateStatus(Request $request, Lead $lead)
+        {
+            $request->validate([
+                'status' => 'required|in:new,contacted,qualified,lost,converted',
+            ]);
+
+            $lead->update([
+                'status' => $request->status,
+            ]);
+
+            return redirect()->back()->with('success', 'Lead status updated successfully!');
+        }
+
+
 }

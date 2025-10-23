@@ -60,12 +60,21 @@
                         </span>
                     </td>
                     <td class="p-3 text-right flex justify-end gap-2">
+                        <!-- ✏️ Edit Button -->
                         <a href="{{ route('admin.fleets.edit', $fleet->id) }}"
-                           class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded">
                             <i class="fas fa-edit"></i>
                         </a>
+
+                        <!-- 🖼️ Manage Images Button -->
+                        <a href="{{ route('admin.fleets.images', $fleet->id) }}"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
+                            <i class="fas fa-images"></i>
+                        </a>
+
+                        <!-- 🗑️ Delete Button -->
                         <form action="{{ route('admin.fleets.destroy', $fleet->id) }}" method="POST"
-                              onsubmit="return confirm('Are you sure you want to delete this fleet?')">
+                            onsubmit="return confirm('Are you sure you want to delete this fleet?')">
                             @csrf
                             @method('DELETE')
                             <button type="submit"
@@ -74,6 +83,7 @@
                             </button>
                         </form>
                     </td>
+
                 </tr>
                 @empty
                 <tr>

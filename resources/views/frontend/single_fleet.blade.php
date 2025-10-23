@@ -2,27 +2,25 @@
 
 @section('content')
 
-
-
-        <!--Page Header Start -->
-        <section class="page-header">
-            <div class="page-header__bg" style="background-image: url('{{asset('main-html/assets/images/backgrounds/page-header-bg.jpg')}}');">
-            </div>
-            <div class="page-header__shape-1" style="background-image: url('{{asset('uploads/e350.png')}}');"></div>
-            <div class="container">
-                <div class="page-header__inner">
-                    <h3>Our FLeet</h3>
-                    <div class="thm-breadcrumb__inner">
-                        <ul class="thm-breadcrumb list-unstyled">
-                            <li><a href="{{url('/')}}">Home</a></li>
-                            <li><span class="icon-arrow-left"></span></li>
-                            <li>Our FLeet</li>
-                        </ul>
-                    </div>
+    <!--Page Header Start -->
+    <section class="page-header">
+        <div class="page-header__bg" style="background-image: url('{{asset('main-html/assets/images/backgrounds/page-header-bg.jpg')}}');">
+        </div>
+        <div class="page-header__shape-1" style="background-image: url('{{asset('uploads/e350.png')}}');"></div>
+        <div class="container">
+            <div class="page-header__inner">
+                <h3>Our FLeet</h3>
+                <div class="thm-breadcrumb__inner">
+                    <ul class="thm-breadcrumb list-unstyled">
+                        <li><a href="{{url('/')}}">Home</a></li>
+                        <li><span class="icon-arrow-left"></span></li>
+                        <li>Our FLeet</li>
+                    </ul>
                 </div>
             </div>
-        </section>
-        <!--Page Header End -->
+        </div>
+    </section>
+    <!--Page Header End -->
 
     <!-- Cars Page Start -->
     <section class="cars-page">
@@ -35,7 +33,7 @@
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="listing-one__single">
                             <div class="listing-one__img">
-                                <img style="height:350px; width:100%; object-fit:cover" src="{{ asset('storage/' . $fleet->image) }}" alt="{{ $fleet->make }}">
+                                <img style="height:3250px; width:100%; object-fit:cover" src="{{ asset('storage/' . $fleet->image) }}" alt="{{ $fleet->make }}">
                                 <div class="listing-one__brand-name">
                                     {{-- <p>{{ $car->make }}</p> --}}
                                 </div>
