@@ -50,6 +50,9 @@ Route::get('/kyc/start/{token}', [KycController::class, 'showPublicForm'])->name
 Route::post('/kyc/submit', [KycController::class, 'storePublic'])->name('kyc.public.store');
 Route::view('/kyc/thankyou', 'kyc.thankyou')->name('kyc.thankyou');
 
+Route::get('/fleets-search', [HomeController::class, 'index_search'])->name('fleets.search');
+
+
 // temporary
 Route::get('fleets/generate-slugs', [HomeController::class, 'generateSlugs'])
     ->name('admin.fleets.generateSlugs');

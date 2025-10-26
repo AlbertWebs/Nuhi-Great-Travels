@@ -64,6 +64,51 @@ class HomeController extends Controller
         return view('frontend.update', compact('blogs', 'feedbacks','Settings','page_title'));
     }
 
+    
+    public function index_searchs(Request $request)
+    {
+        $search = $request->input('search');
+        $page_title = "Fleet";
+        $fleets = Fleet::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('type', 'like', "%{$search}%")
+                      ->orWhere('transmission', 'like', "%{$search}%")
+                      ->orWhere('fuel_type', 'like', "%{$search}%")
+                      ->orWhere('year', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('frontend.search-fleet', compact('fleets', 'search','page_title'));
+    }
+
+    public function index_search(Request $request)
+    {
+        $search = $request->input('search');
+        $page_title = "Fleet";
+        // Search fleets by name, type, transmission, or fuel type
+        $Fleet = Fleet::query()
+            ->when($search, function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('type', 'like', "%{$search}%")
+                      ->orWhere('transmission', 'like', "%{$search}%")
+                      ->orWhere('fuel_type', 'like', "%{$search}%")
+                      ->orWhere('year', 'like', "%{$search}%");
+            })
+            ->with('car') // if Fleet has a relation to Car
+            ->get();
+
+        // Optional: get the first related car (for header display)
+        $car = $Fleet->first()?->car ?? (object)[
+            'make' => 'Search Results',
+            'slug' => 'search-results',
+        ];
+
+        return view('frontend.search-results', compact('Fleet', 'car','page_title'));
+    }
+
+
     public function show_fleet($slug){
         $car = \App\Models\Car::where('slug', $slug)->first();
         $Fleet = \App\Models\Fleet::where('car_id', $car->id)->get();

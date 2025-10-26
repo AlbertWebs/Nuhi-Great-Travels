@@ -77,6 +77,10 @@
     height: 40px;
   }
 
+  .main-menu__call-sub-title {
+    color: #D9D9D9;
+  }
+
   /* Adjust for mobile */
   @media (max-width: 768px) {
     .whatsapp-float {
