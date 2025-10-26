@@ -125,7 +125,6 @@
     <link rel="stylesheet" href="{{asset('main-html/assets/css/responsive.css')}}" />
     <link rel="stylesheet" href="{{asset('main-html/assets/css/dark.css')}}" />
     @include('layouts.styles')
-    
 
 </head>
 
@@ -331,7 +330,6 @@
                     <i class="fas fa-search"></i>
                 </button>
             </form>
-
         </div>
         <!-- /.search-popup__content -->
     </div>
