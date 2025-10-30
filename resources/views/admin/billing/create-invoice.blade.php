@@ -13,21 +13,24 @@
           x-data="{ userType: 'existing', total: 0, days: 0 }">
         @csrf
 
-        {{-- Fleet --}}
+        {{-- Fleet Selection --}}
         <div class="mb-6">
-            <label class="block text-sm font-semibold mb-2">Select Fleet</label>
-            <select name="fleet_id" id="fleet_id" class="w-full border-gray-300 rounded-md" required>
-                <option value="">-- Select Vehicle --</option>
+            <label class="block text-sm font-semibold mb-3">Select Vehicle(s)</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                 @foreach ($fleets as $fleet)
-                    <option value="{{ $fleet->id }}" data-rate="{{ $fleet->price_per_day }}">
-                        {{ $fleet->name }} - {{ number_format($fleet->price_per_day, 2) }} / day
-                    </option>
+                    <label class="flex items-center gap-2 border p-3 rounded-md hover:bg-gray-50 cursor-pointer">
+                        <input type="checkbox" name="fleet_ids[]" value="{{ $fleet->id }}"
+                            data-rate="{{ $fleet->price_per_day }}" class="fleet-checkbox">
+                        <span>{{ $fleet->name }} — Ksh {{ number_format($fleet->price_per_day, 2) }} / day</span>
+                    </label>
                 @endforeach
-            </select>
-            <input type="hidden" name="price_per_day" id="price_per_day">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">Select one or more vehicles for this invoice.</p>
+            {{-- <input type="hidden" name="price_per_day" id="price_per_day"> --}}
+            <input type="hidden" name="price_per_day_total" id="price_per_day">
         </div>
 
-        {{-- Dates --}}
+        {{-- Pickup & Dropoff Dates --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
                 <label class="block text-sm font-semibold mb-2">Pickup Date</label>
@@ -41,7 +44,7 @@
             </div>
         </div>
 
-        {{-- Total --}}
+        {{-- Total Price --}}
         <div class="mb-6">
             <label class="block text-sm font-semibold mb-2">Total Price (Ksh)</label>
             <input type="text" readonly x-model="total"
@@ -108,30 +111,69 @@
 {{-- Calculation Script --}}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const fleetSelect = document.getElementById('fleet_id');
+    const checkboxes = document.querySelectorAll('.fleet-checkbox');
     const pickupInput = document.getElementById('pickup_date');
     const dropoffInput = document.getElementById('dropoff_date');
     const totalInput = document.querySelector('[x-model="total"]');
     const daysInput = document.querySelector('[x-model="days"]');
     const priceInput = document.getElementById('price_per_day');
 
-    function calculateTotal() {
-        const rate = parseFloat(fleetSelect.selectedOptions[0]?.dataset.rate || 0);
-        const pickup = new Date(pickupInput.value);
-        const dropoff = new Date(dropoffInput.value);
-        priceInput.value = rate;
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-        if (pickup && dropoff && !isNaN(pickup) && !isNaN(dropoff)) {
-            const days = Math.max(1, Math.ceil((dropoff - pickup) / (1000 * 60 * 60 * 24)));
+    // Parse YYYY-MM-DD into a local Date at midnight (avoid timezone offset)
+    function parseDateLocal(dateString) {
+        if (!dateString) return null;
+        const parts = dateString.split('-').map(Number);
+        // parts: [year, month, day] — month is 1-based
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function calculateTotal() {
+        // Sum selected vehicles' daily rates
+        let totalRate = 0;
+        checkboxes.forEach(cb => {
+            if (cb.checked) totalRate += parseFloat(cb.dataset.rate || 0);
+        });
+
+        priceInput.value = totalRate; // total daily rate (sum of each vehicle's day rate)
+
+        const pickup = parseDateLocal(pickupInput.value);
+        const dropoff = parseDateLocal(dropoffInput.value);
+
+        if (pickup && dropoff) {
+            // compute difference in full days using local-midnight dates
+            const diffMs = dropoff.getTime() - pickup.getTime();
+
+            // If dropoff is before pickup, show 0 and leave validation for server/HTML
+            if (diffMs < 0) {
+                daysInput.value = 0;
+                totalInput.value = '0.00';
+                return;
+            }
+
+            // Convert to days (use Math.round to avoid tiny floating / DST gaps after local-midnight parsing)
+            const diffDays = Math.round(diffMs / MS_PER_DAY);
+            // If same day diffDays === 0 -> rental should be 1 day
+            const days = Math.max(1, diffDays);
             daysInput.value = days;
-            totalInput.value = (days * rate).toFixed(2);
+
+            // Total = days * totalRate
+            const total = days * totalRate;
+            // Update Alpine x-model bound field (string)
+            totalInput.value = total.toFixed(2);
         } else {
-            totalInput.value = 0;
             daysInput.value = 0;
+            totalInput.value = '0.00';
         }
     }
 
-    [fleetSelect, pickupInput, dropoffInput].forEach(el => el.addEventListener('change', calculateTotal));
+    // Attach listeners
+    checkboxes.forEach(cb => cb.addEventListener('change', calculateTotal));
+    pickupInput.addEventListener('change', calculateTotal);
+    dropoffInput.addEventListener('change', calculateTotal);
+
+    // Optionally run at load to prefill if dates/checkboxes are pre-populated
+    calculateTotal();
 });
 </script>
 @endsection

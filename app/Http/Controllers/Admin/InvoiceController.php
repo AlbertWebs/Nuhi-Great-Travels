@@ -27,11 +27,13 @@ class InvoiceController extends Controller
         return view('admin.billing.index', compact('invoices'));
     }
 
+
     public function store(Request $request)
     {
         try {
             $request->validate([
-                'fleet_id' => 'required|exists:fleets,id',
+                'fleet_ids' => 'required|array|min:1',
+                'fleet_ids.*' => 'exists:fleets,id',
                 'pickup_date' => 'required|date',
                 'dropoff_date' => 'required|date|after_or_equal:pickup_date',
                 'userType' => 'required|string',
@@ -41,18 +43,17 @@ class InvoiceController extends Controller
                 'mpesa_number' => 'nullable|string|max:20',
                 'days' => 'required|integer|min:1',
                 'total_price' => 'required|numeric|min:0',
-                'price_per_day' => 'nullable|numeric|min:0',
+                'price_per_day_total' => 'nullable|numeric|min:0',
             ]);
 
-            $fleet = Fleet::findOrFail($request->fleet_id);
+            $fleets = Fleet::whereIn('id', $request->fleet_ids)->get();
             $days = $request->days ?? 1;
 
-            // Generate a unique random invoice number, e.g., INV-20251018-AB123
+            $totalRate = $fleets->sum('price_per_day');
             $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
 
             $invoice = Invoice::create([
                 'invoice_number' => $invoiceNumber,
-                'fleet_id' => $fleet->id,
                 'user_id' => $request->userType === 'existing' ? $request->user_id : null,
                 'full_name' => $request->userType === 'new' ? $request->full_name : null,
                 'email' => $request->userType === 'new' ? $request->email : null,
@@ -60,9 +61,13 @@ class InvoiceController extends Controller
                 'pickup_date' => $request->pickup_date,
                 'dropoff_date' => $request->dropoff_date,
                 'days' => $days,
-                'price_per_day' => $fleet->price_per_day,
+                'price_per_day' => $totalRate,
                 'total_price' => round($request->total_price, 2),
             ]);
+
+            $invoice->fleets()->attach($request->fleet_ids);
+
+
 
             return redirect()->route('admin.invoices.index')
                 ->with('success', 'Invoice created successfully with number: ' . $invoice->invoice_number);
@@ -74,6 +79,9 @@ class InvoiceController extends Controller
             return back()->withInput()->with('error', 'Failed to create invoice. Please check the logs.');
         }
     }
+
+
+
 
 
 

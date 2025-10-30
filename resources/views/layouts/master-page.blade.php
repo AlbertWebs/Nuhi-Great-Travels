@@ -262,7 +262,7 @@
     </div><!-- /.page-wrapper -->
 
 
-    <div class="mobile-nav__wrapper">
+      <div class="mobile-nav__wrapper">
         <div class="mobile-nav__overlay mobile-nav__toggler"></div>
         <!-- /.mobile-nav__overlay -->
         <div class="mobile-nav__content">
@@ -279,19 +279,20 @@
             <ul class="mobile-nav__contact list-unstyled">
                 <li>
                     <i class="fa fa-envelope"></i>
-                    <a href="mailto:needhelp@packageName__.com">needhelp@gorent.com</a>
+                    <a href="mailto:{{$Settings->email}}">{{$Settings->email}}</a>
                 </li>
                 <li>
                     <i class="fas fa-phone"></i>
-                    <a href="tel:666-888-0000">666 888 0000</a>
+                    <a href="tel:{{$Settings->mobile}}">{{$Settings->mobile}}</a>
                 </li>
             </ul><!-- /.mobile-nav__contact -->
             <div class="mobile-nav__top">
                 <div class="mobile-nav__social">
-                    <a href="#" class="fab fa-twitter"></a>
-                    <a href="#" class="fab fa-facebook-square"></a>
-                    <a href="#" class="fab fa-pinterest-p"></a>
-                    <a href="#" class="fab fa-instagram"></a>
+                    <a href="{{$Settings->twitter}}" class="fab fa-twitter"></a>
+                    <a href="{{$Settings->facebook}}" class="fab fa-facebook-square"></a>
+                    <a href="{{$Settings->youtube}}" class="fab fa-youtube"></a>
+                    <a href="{{$Settings->instagram}}" class="fab fa-instagram"></a>
+                    <a href="{{$Settings->linkedin}}" class="fab fa-linkedin"></a>
                 </div><!-- /.mobile-nav__social -->
             </div><!-- /.mobile-nav__top -->
 

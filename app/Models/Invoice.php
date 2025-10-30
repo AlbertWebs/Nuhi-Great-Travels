@@ -41,6 +41,21 @@ class Invoice extends Model
         return 'invoice_number';
     }
 
+    public function fleets()
+    {
+        return $this->belongsToMany(Fleet::class, 'invoice_fleet')
+                    ->withPivot('price_per_day')
+                    ->withTimestamps();
+    }
+
+
+    // Fleet.php
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class, 'invoice_fleet');
+    }
+
+
     protected static function boot()
     {
         parent::boot();

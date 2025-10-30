@@ -33,9 +33,9 @@
                 {{ $invoice->email ?? $invoice->user->email ?? 'N/A' }}
             </p>
             @if($invoice->mpesa_number)
-            <p class="text-gray-600 text-sm">
-                M-Pesa: {{ $invoice->mpesa_number }}
-            </p>
+                <p class="text-gray-600 text-sm">
+                    M-Pesa: {{ $invoice->mpesa_number }}
+                </p>
             @endif
         </div>
 
@@ -59,20 +59,30 @@
         <thead>
             <tr class="bg-gray-100 text-gray-700">
                 <th class="p-3 border-b">#</th>
-                <th class="p-3 border-b">Description</th>
+                <th class="p-3 border-b">Vehicle</th>
                 <th class="p-3 border-b text-right">Rate (Ksh)</th>
                 <th class="p-3 border-b text-right">Days</th>
                 <th class="p-3 border-b text-right">Total (Ksh)</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="p-3 border-b">1</td>
-                <td class="p-3 border-b">{{ $invoice->fleet->name ?? 'Vehicle Rental' }}</td>
-                <td class="p-3 border-b text-right">{{ number_format($invoice->price_per_day, 2) }}</td>
-                <td class="p-3 border-b text-right">{{ $invoice->days }}</td>
-                <td class="p-3 border-b text-right font-semibold">{{ number_format($invoice->total_price, 2) }}</td>
-            </tr>
+            @php $grandTotal = 0; @endphp
+            @foreach($invoice->fleets as $index => $fleet)
+                @php
+                    $vehicleTotal = $fleet->price_per_day * $invoice->days;
+                    $grandTotal += $vehicleTotal;
+                @endphp
+                <tr>
+                    <td class="p-3 border-b">{{ $index + 1 }}</td>
+                    <td class="p-3 border-b">
+                        {{ $fleet->name }}
+                        <div class="text-sm text-gray-500">{{ $fleet->registration_number ?? '' }}</div>
+                    </td>
+                    <td class="p-3 border-b text-right">{{ number_format($fleet->price_per_day, 2) }}</td>
+                    <td class="p-3 border-b text-right">{{ $invoice->days }}</td>
+                    <td class="p-3 border-b text-right font-semibold">{{ number_format($vehicleTotal, 2) }}</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 
@@ -81,7 +91,7 @@
         <div class="w-1/2 md:w-1/3">
             <div class="flex justify-between border-t py-2 font-semibold">
                 <span>Total:</span>
-                <span>Ksh {{ number_format($invoice->total_price, 2) }}</span>
+                <span>Ksh {{ number_format($grandTotal, 2) }}</span>
             </div>
         </div>
     </div>
