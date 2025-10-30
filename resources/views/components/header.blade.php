@@ -30,17 +30,17 @@
                         </li>
                     </ul>
                     <div class="main-menu__top-right">
-                        <div class="main-menu__top-login-reg-box">
+                        <!-- <div class="main-menu__top-login-reg-box">
                             <a href="login.html">Login</a>
                             <p>or</p>
                             <a href="sign-up.html">Register</a>
-                        </div>
+                        </div> -->
                         <div class="main-menu__social">
                             <a href="{{$Settings->facebook}}"><i class="icon-facebook"></i></a>
                             <a href="{{$Settings->twitter}}"><i class="icon-twitter"></i></a>
                             <a href="{{$Settings->instagram}}"><i class="icon-instagram"></i></a>
                             <a href="{{$Settings->youtube}}"><i class="icon-youtube"></i></a>
-                            <a href="{{$Settings->tiktok}}"><i class="fab fa-tiktok"></i></a>
+                            <!-- <a href="{{$Settings->tiktok}}"><i class="fab fa-tiktok"></i></a> -->
                             <a href="{{$Settings->linkedin}}"><i class="icon-linkedin"></i></a>
                         </div>
                     </div>
@@ -127,13 +127,13 @@
 
                                         </ul>
                                     </li>
-                                    <li class="@if($page_title=='Bookings') current @endif">
+                                    <!-- <li class="@if($page_title=='Bookings') current @endif">
                                         <a href="{{url('/')}}/#booking">Booking</a>
 
-                                    </li>
-                                    <li>
+                                    </li> -->
+                                    <!-- <li>
                                         <a href="{{route('updates')}}">Updates & Travel Guides</a>
-                                    </li>
+                                    </li> -->
                                     <li  class="@if($page_title=='Contact Us') current @endif">
                                         <a href="{{route('contact-us')}}">Contact Us</a>
                                     </li>

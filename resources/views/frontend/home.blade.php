@@ -47,7 +47,7 @@
                         <div class="section-title__tagline-shape">
                             <img src="{{asset('main-html/assets/images/shapes/section-title-tagline-shape-2.png')}}" alt="">
                         </div>
-                        <span class="section-title__tagline">What We’re Offering</span>
+                        <span class="section-title__tagline">Your No #1 Car Rental Partner</span>
                     </div>
                     <h2 class="section-title__title title-animation">Tailored <strong>Luxury</strong> Experience<br> for Every Journey</h2>
                 </div>

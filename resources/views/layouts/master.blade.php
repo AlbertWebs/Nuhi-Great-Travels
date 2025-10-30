@@ -317,9 +317,15 @@
         <div class="search-popup__overlay search-toggler"></div>
         <!-- /.search-popup__overlay -->
         <div class="search-popup__content">
-            <form action="#">
-                <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
-                <input type="text" id="search" placeholder="Search Here..." />
+            <form action="{{ route('fleets.search') }}" method="GET">
+                <label for="search" class="sr-only">Search here</label>
+                <input 
+                    type="text" 
+                    id="search" 
+                    name="search" 
+                    placeholder="Search Car Here..." 
+                    value="{{ request('search') }}" 
+                />
                 <button type="submit" aria-label="search submit" class="thm-btn">
                     <i class="fas fa-search"></i>
                 </button>

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,16 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Site Admin',
-        //     'password' => Hash::make('password123'), // change to a secure password
-        //     'role' => 'admin',
-        //     'email' => 'admin@nuhigreattravels.com'
-        // ]);
-         $this->call([
-            NotificationSeeder::class,
+        User::updateOrCreate(
+            ['email' => 'admin@nuhigreattravels.com'],
+            [
+                'name' => 'Site Admin',
+                'password' => Hash::make('password123'),
+                'role' => 'admin',
+            ]
+        );
+        $this->call([
+            SettingsTableSeeder::class,
         ]);
     }
 }
