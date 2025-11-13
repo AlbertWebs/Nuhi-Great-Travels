@@ -176,35 +176,61 @@
     document.addEventListener('DOMContentLoaded', function() {
         const newLeadBtn = document.getElementById('newLeadBtn');
         const leadModal = document.getElementById('leadModal');
+        const latitudeInput = document.getElementById('latitude');
+        const longitudeInput = document.getElementById('longitude');
+        const saveLeadButton = document.getElementById('saveLeadButton');
+        const locationMessage = document.getElementById('locationMessage');
+
+        const showLocationMessage = (message) => {
+            if (!locationMessage) {
+                return;
+            }
+            if (message) {
+                locationMessage.textContent = message;
+            }
+            locationMessage.classList.remove('hidden');
+        };
+
+        const hideLocationMessage = () => {
+            if (locationMessage) {
+                locationMessage.classList.add('hidden');
+            }
+        };
+
+        const resetLocationState = () => {
+            if (latitudeInput) latitudeInput.value = '';
+            if (longitudeInput) longitudeInput.value = '';
+            if (saveLeadButton) saveLeadButton.disabled = true;
+            showLocationMessage('Please share your location to enable saving this lead.');
+        };
+
+        const enableSaveButton = () => {
+            if (saveLeadButton) saveLeadButton.disabled = false;
+            hideLocationMessage();
+        };
 
         if (newLeadBtn && leadModal) {
-            newLeadBtn.addEventListener('click', () => leadModal.classList.remove('hidden'));
-        }
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const newLeadBtn = document.getElementById('newLeadBtn');
-        const leadModal = document.getElementById('leadModal');
-
-        if(newLeadBtn && leadModal){
             newLeadBtn.addEventListener('click', () => {
                 leadModal.classList.remove('hidden');
+                resetLocationState();
 
-                // Check if geolocation is supported
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        function(position) {
-                            document.getElementById('latitude').value = position.coords.latitude;
-                            document.getElementById('longitude').value = position.coords.longitude;
-                        },
-                        function(error) {
-                            console.warn('Geolocation error:', error.message);
-                        }
-                    );
-                } else {
+                if (!navigator.geolocation) {
                     console.warn('Geolocation is not supported by this browser.');
+                    showLocationMessage('Location access is not supported in this browser. Please use a device that allows sharing location.');
+                    return;
                 }
+
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        if (latitudeInput) latitudeInput.value = position.coords.latitude;
+                        if (longitudeInput) longitudeInput.value = position.coords.longitude;
+                        enableSaveButton();
+                    },
+                    function(error) {
+                        console.warn('Geolocation error:', error.message);
+                        showLocationMessage('Please enable location sharing in your browser to save this lead.');
+                    }
+                );
             });
         }
     });
