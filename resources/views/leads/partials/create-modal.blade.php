@@ -44,6 +44,7 @@
       <div id="locationMessage" class="text-sm text-red-600 hidden">Please share your location to enable saving this lead.</div>
 
       <div class="flex justify-end gap-2">
+        <button type="button" id="shareLocationButton" class="px-4 py-2 rounded border bg-yellow-500 text-white hidden">Share Location</button>
         <button type="button" onclick="document.getElementById('leadModal').classList.add('hidden')" class="px-4 py-2 rounded border">Cancel</button>
         <button type="submit" id="saveLeadButton" class="px-4 py-2 rounded bg-green-600 text-white disabled:opacity-50 disabled:cursor-not-allowed" disabled>Save Lead</button>
       </div>

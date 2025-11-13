@@ -180,6 +180,7 @@
         const longitudeInput = document.getElementById('longitude');
         const saveLeadButton = document.getElementById('saveLeadButton');
         const locationMessage = document.getElementById('locationMessage');
+        const shareLocationButton = document.getElementById('shareLocationButton');
 
         const showLocationMessage = (message) => {
             if (!locationMessage) {
@@ -202,35 +203,57 @@
             if (longitudeInput) longitudeInput.value = '';
             if (saveLeadButton) saveLeadButton.disabled = true;
             showLocationMessage('Please share your location to enable saving this lead.');
+            if (shareLocationButton) {
+                shareLocationButton.classList.remove('hidden');
+                shareLocationButton.disabled = false;
+            }
         };
 
         const enableSaveButton = () => {
             if (saveLeadButton) saveLeadButton.disabled = false;
             hideLocationMessage();
+            if (shareLocationButton) {
+                shareLocationButton.classList.add('hidden');
+            }
+        };
+
+        const requestLocation = () => {
+            if (!navigator.geolocation) {
+                console.warn('Geolocation is not supported by this browser.');
+                showLocationMessage('Location access is not supported in this browser. Please use a device that allows sharing location.');
+                if (shareLocationButton) {
+                    shareLocationButton.disabled = true;
+                }
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    if (latitudeInput) latitudeInput.value = position.coords.latitude;
+                    if (longitudeInput) longitudeInput.value = position.coords.longitude;
+                    enableSaveButton();
+                },
+                function(error) {
+                    console.warn('Geolocation error:', error.message);
+                    showLocationMessage('Please enable location sharing in your browser to save this lead.');
+                    if (shareLocationButton) {
+                        shareLocationButton.disabled = false;
+                    }
+                }
+            );
         };
 
         if (newLeadBtn && leadModal) {
             newLeadBtn.addEventListener('click', () => {
                 leadModal.classList.remove('hidden');
                 resetLocationState();
+            });
+        }
 
-                if (!navigator.geolocation) {
-                    console.warn('Geolocation is not supported by this browser.');
-                    showLocationMessage('Location access is not supported in this browser. Please use a device that allows sharing location.');
-                    return;
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        if (latitudeInput) latitudeInput.value = position.coords.latitude;
-                        if (longitudeInput) longitudeInput.value = position.coords.longitude;
-                        enableSaveButton();
-                    },
-                    function(error) {
-                        console.warn('Geolocation error:', error.message);
-                        showLocationMessage('Please enable location sharing in your browser to save this lead.');
-                    }
-                );
+        if (shareLocationButton) {
+            shareLocationButton.addEventListener('click', () => {
+                shareLocationButton.disabled = true;
+                requestLocation();
             });
         }
     });
