@@ -95,5 +95,6 @@
 
   <!-- Alpine.js -->
   <script src="https://unpkg.com/alpinejs@3" defer></script>
+  @stack('scripts')
 </body>
 </html>

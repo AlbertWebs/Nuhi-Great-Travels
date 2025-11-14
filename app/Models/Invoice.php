@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Invoice extends Model
 {
@@ -44,7 +45,7 @@ class Invoice extends Model
     public function fleets()
     {
         return $this->belongsToMany(Fleet::class, 'invoice_fleet')
-                    ->withPivot('price_per_day')
+                    ->withPivot(['price_per_day', 'quantity'])
                     ->withTimestamps();
     }
 

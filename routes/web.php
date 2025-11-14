@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CarouselController;
+use App\Http\Controllers\Admin\EstimateController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FleetController;
 use App\Http\Controllers\Admin\LegalController;
@@ -192,6 +193,12 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
 
     Route::prefix('billing')->group(function () {
+        // Estimates
+        Route::post('/estimates/{estimate}/convert', [EstimateController::class, 'convert'])->name('estimates.convert');
+        Route::resource('estimates', EstimateController::class)
+            ->only(['index', 'create', 'store', 'show'])
+            ->names('estimates');
+
         // Create Invoice Page
         Route::get('/create', [App\Http\Controllers\Admin\InvoiceController::class, 'create'])
             ->name('invoices.create');

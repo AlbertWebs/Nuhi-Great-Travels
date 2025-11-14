@@ -11,10 +11,16 @@
             <i class="fas fa-file-invoice text-gold"></i>
             Invoices
         </h2>
-        <a href="{{ route('admin.invoices.create') }}"
-           class="px-4 py-2 bg-gold text-white rounded hover:bg-yellow-600 flex items-center gap-2">
-            <i class="fas fa-plus"></i> Create New Invoice
-        </a>
+        <div class="flex gap-3">
+            <a href="{{ route('admin.invoices.create') }}"
+               class="px-4 py-2 bg-gold text-white rounded hover:bg-yellow-600 flex items-center gap-2">
+                <i class="fas fa-plus"></i> New Invoice
+            </a>
+            <a href="{{ route('admin.estimates.create') }}"
+               class="px-4 py-2 border border-gray-200 rounded hover:bg-gray-50 flex items-center gap-2">
+                <i class="fas fa-file-signature"></i> New Estimate
+            </a>
+        </div>
     </div>
 
     {{-- Table --}}
@@ -49,7 +55,9 @@
                                 <span class="text-gray-500 text-xs">{{ $invoice->email }}</span>
                             @endif
                         </td>
-                        <td class="px-4 py-2">{{ $invoice->fleet->name ?? '—' }}</td>
+                        <td class="px-4 py-2">
+                            {{ $invoice->fleets->pluck('name')->join(', ') ?: '—' }}
+                        </td>
                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($invoice->pickup_date)->format('d M Y') }}</td>
                         <td class="px-4 py-2">{{ \Carbon\Carbon::parse($invoice->dropoff_date)->format('d M Y') }}</td>
                         <td class="px-4 py-2 text-center">{{ $invoice->days }}</td>

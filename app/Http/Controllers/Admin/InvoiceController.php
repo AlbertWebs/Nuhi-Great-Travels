@@ -23,7 +23,7 @@ class InvoiceController extends Controller
     }
 
     public function index(){
-        $invoices = Invoice::with(['user', 'fleet'])->latest()->paginate(10);
+        $invoices = Invoice::with(['user', 'fleets'])->latest()->paginate(10);
         return view('admin.billing.index', compact('invoices'));
     }
 
@@ -32,8 +32,8 @@ class InvoiceController extends Controller
     {
         try {
             $request->validate([
-                'fleet_ids' => 'required|array|min:1',
-                'fleet_ids.*' => 'exists:fleets,id',
+                'fleets' => 'required|array',
+                'fleets.*' => 'nullable|integer|min:0',
                 'pickup_date' => 'required|date',
                 'dropoff_date' => 'required|date|after_or_equal:pickup_date',
                 'userType' => 'required|string',
@@ -42,14 +42,26 @@ class InvoiceController extends Controller
                 'email' => 'nullable|email|max:255',
                 'mpesa_number' => 'nullable|string|max:20',
                 'days' => 'required|integer|min:1',
-                'total_price' => 'required|numeric|min:0',
-                'price_per_day_total' => 'nullable|numeric|min:0',
+                'total_price' => 'nullable|numeric|min:0',
             ]);
 
-            $fleets = Fleet::whereIn('id', $request->fleet_ids)->get();
-            $days = $request->days ?? 1;
+            $fleetSelections = collect($request->fleets ?? [])
+                ->map(fn ($qty) => (int) $qty)
+                ->filter(fn ($qty) => $qty > 0);
 
-            $totalRate = $fleets->sum('price_per_day');
+            if ($fleetSelections->isEmpty()) {
+                return back()
+                    ->withErrors(['fleets' => 'Select at least one vehicle.'])
+                    ->withInput();
+            }
+
+            $fleets = Fleet::whereIn('id', $fleetSelections->keys())->get();
+            $days = max(1, (int) ($request->days ?? 1));
+
+            $totalRate = $fleets->sum(function (Fleet $fleet) use ($fleetSelections) {
+                return $fleet->price_per_day * $fleetSelections->get($fleet->id, 1);
+            });
+            $totalPrice = round($totalRate * $days, 2);
             $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
 
             $invoice = Invoice::create([
@@ -62,10 +74,19 @@ class InvoiceController extends Controller
                 'dropoff_date' => $request->dropoff_date,
                 'days' => $days,
                 'price_per_day' => $totalRate,
-                'total_price' => round($request->total_price, 2),
+                'total_price' => $totalPrice,
             ]);
 
-            $invoice->fleets()->attach($request->fleet_ids);
+            $invoice->fleets()->attach(
+                $fleets->mapWithKeys(function (Fleet $fleet) use ($fleetSelections) {
+                    return [
+                        $fleet->id => [
+                            'price_per_day' => $fleet->price_per_day,
+                            'quantity' => $fleetSelections->get($fleet->id, 1),
+                        ],
+                    ];
+                })
+            );
 
 
 
@@ -88,7 +109,7 @@ class InvoiceController extends Controller
     public function show($id)
     {
         $Settings = Setting::first(); // fetch first row
-        $invoice = Invoice::with(['fleet', 'user'])->findOrFail($id);
+        $invoice = Invoice::with(['fleets', 'user'])->findOrFail($id);
         return view('admin.billing.show', compact('invoice','Settings'));
     }
 

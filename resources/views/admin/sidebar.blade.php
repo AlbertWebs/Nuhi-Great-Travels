@@ -126,6 +126,16 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('admin.estimates.create') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
+                        Create Estimate
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.estimates.index') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
+                        Estimates
+                    </a>
+                </li>
+                <li>
                     <a href="{{ route('admin.invoices.index') }}" class="block px-3 py-1 text-sm hover:text-indigo-600">
                         Invoices
                     </a>

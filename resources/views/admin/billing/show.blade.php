@@ -61,6 +61,7 @@
                 <th class="p-3 border-b">#</th>
                 <th class="p-3 border-b">Vehicle</th>
                 <th class="p-3 border-b text-right">Rate (Ksh)</th>
+                <th class="p-3 border-b text-right">Qty</th>
                 <th class="p-3 border-b text-right">Days</th>
                 <th class="p-3 border-b text-right">Total (Ksh)</th>
             </tr>
@@ -69,7 +70,8 @@
             @php $grandTotal = 0; @endphp
             @foreach($invoice->fleets as $index => $fleet)
                 @php
-                    $vehicleTotal = $fleet->price_per_day * $invoice->days;
+                    $lineDaily = $fleet->pivot->price_per_day * $fleet->pivot->quantity;
+                    $vehicleTotal = $lineDaily * $invoice->days;
                     $grandTotal += $vehicleTotal;
                 @endphp
                 <tr>
@@ -78,7 +80,8 @@
                         {{ $fleet->name }}
                         <div class="text-sm text-gray-500">{{ $fleet->registration_number ?? '' }}</div>
                     </td>
-                    <td class="p-3 border-b text-right">{{ number_format($fleet->price_per_day, 2) }}</td>
+                    <td class="p-3 border-b text-right">{{ number_format($fleet->pivot->price_per_day, 2) }}</td>
+                    <td class="p-3 border-b text-right">{{ $fleet->pivot->quantity }}</td>
                     <td class="p-3 border-b text-right">{{ $invoice->days }}</td>
                     <td class="p-3 border-b text-right font-semibold">{{ number_format($vehicleTotal, 2) }}</td>
                 </tr>

@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('invoice_fleet', function (Blueprint $table) {
+        Schema::create('estimate_fleet', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('estimate_id')->constrained()->cascadeOnDelete();
             $table->foreignId('fleet_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('quantity')->default(1);
-            $table->decimal('price_per_day', 10, 2)->nullable();
+            $table->decimal('price_per_day', 10, 2)->default(0);
             $table->timestamps();
+            $table->unique(['estimate_id', 'fleet_id']);
         });
-
     }
 
     /**
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('invoice_fleet');
+        Schema::dropIfExists('estimate_fleet');
     }
 };
