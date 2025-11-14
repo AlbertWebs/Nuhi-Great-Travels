@@ -17,7 +17,7 @@
     </div>
 
     <form action="{{ route('admin.invoices.store') }}" method="POST"
-          x-data="{ userType: '{{ old('userType', 'existing') }}', total: {{ old('total_price', 0) }}, days: {{ old('days', 0) }} }">
+          x-data="{ userType: '{{ old('userType', 'existing') }}', total: {{ json_encode(old('total_price', '0.00')) }}, days: {{ (int) old('days', 0) }} }">
         @csrf
 
         @include('admin.billing.partials.form-fields', [
