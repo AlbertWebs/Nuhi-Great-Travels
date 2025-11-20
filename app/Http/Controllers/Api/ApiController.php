@@ -1,0 +1,278 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use App\Http\Controllers\Controller;
+use App\Models\Car;
+use App\Models\Fleet;
+use App\Models\Booking;
+use App\Models\Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+class ApiController extends Controller
+{
+    /**
+     * Get all car categories
+     */
+    public function getCars()
+    {
+        $cars = Car::all();
+        return response()->json([
+            'success' => true,
+            'data' => $cars
+        ]);
+    }
+
+    /**
+     * Get all fleets (vehicles)
+     */
+    public function getFleets(Request $request)
+    {
+        $query = Fleet::with(['car', 'images'])
+            ->where('status', 'available');
+
+        // Filter by car category if provided
+        if ($request->has('car_id')) {
+            $query->where('car_id', $request->car_id);
+        }
+
+        // Search by name
+        if ($request->has('search') && !empty($request->search) && trim($request->search) !== '') {
+            $query->where('name', 'like', '%' . trim($request->search) . '%');
+        }
+
+        $fleets = $query->get()->map(function ($fleet) {
+            return [
+                'id' => $fleet->id,
+                'name' => $fleet->name,
+                'type' => $fleet->type,
+                'transmission' => $fleet->transmission,
+                'fuel_type' => $fleet->fuel_type,
+                'seats' => $fleet->seats,
+                'year' => $fleet->year,
+                'price_per_day' => $fleet->price_per_day,
+                'description' => $fleet->description,
+                'image' => $fleet->image ? asset('storage/' . $fleet->image) : null,
+                'images' => $fleet->images->map(function ($img) {
+                    return asset('storage/' . $img->image_path);
+                }),
+                'car' => $fleet->car ? [
+                    'id' => $fleet->car->id,
+                    'make' => $fleet->car->make,
+                ] : null,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'data' => $fleets
+        ]);
+    }
+
+    /**
+     * Get single fleet by ID
+     */
+    public function getFleet($id)
+    {
+        $fleet = Fleet::with(['car', 'images'])->find($id);
+
+        if (!$fleet) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Fleet not found'
+            ], 404);
+        }
+
+        $data = [
+            'id' => $fleet->id,
+            'name' => $fleet->name,
+            'type' => $fleet->type,
+            'transmission' => $fleet->transmission,
+            'fuel_type' => $fleet->fuel_type,
+            'seats' => $fleet->seats,
+            'year' => $fleet->year,
+            'price_per_day' => $fleet->price_per_day,
+            'description' => $fleet->description,
+            'content' => $fleet->content,
+            'image' => $fleet->image ? asset('storage/' . $fleet->image) : null,
+            'images' => $fleet->images->map(function ($img) {
+                return asset('storage/' . $img->image_path);
+            }),
+            'car' => $fleet->car ? [
+                'id' => $fleet->car->id,
+                'make' => $fleet->car->make,
+            ] : null,
+        ];
+
+        return response()->json([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+
+    /**
+     * Calculate booking price
+     */
+    public function calculatePrice(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'fleet_id' => 'required|exists:fleets,id',
+            'pickup_datetime' => 'required|date',
+            'dropoff_datetime' => 'required|date|after:pickup_datetime',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $fleet = Fleet::findOrFail($request->fleet_id);
+        $pickup = Carbon::parse($request->pickup_datetime);
+        $dropoff = Carbon::parse($request->dropoff_datetime);
+        
+        $days = max(1, $pickup->diffInDays($dropoff));
+        $totalPrice = $days * $fleet->price_per_day;
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'days' => $days,
+                'price_per_day' => $fleet->price_per_day,
+                'total_price' => round($totalPrice, 2),
+            ]
+        ]);
+    }
+
+    /**
+     * Create a new booking
+     */
+    public function createBooking(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'fleet_id' => 'required|exists:fleets,id',
+            'pickup_datetime' => 'required|date|after:now',
+            'dropoff_datetime' => 'required|date|after:pickup_datetime',
+            'pickup_location' => 'required|string|max:255',
+            'dropoff_location' => 'nullable|string|max:255',
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'mobile' => 'required|string|max:20',
+            'notes' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $fleet = Fleet::findOrFail($request->fleet_id);
+        $pickup = Carbon::parse($request->pickup_datetime);
+        $dropoff = Carbon::parse($request->dropoff_datetime);
+        $days = max(1, $pickup->diffInDays($dropoff));
+        $totalPrice = $days * $fleet->price_per_day;
+
+        // Create or get user
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => $request->email],
+            [
+                'name' => $request->full_name,
+                'phone' => $request->mobile,
+                'password' => bcrypt(\Illuminate\Support\Str::random(10)),
+            ]
+        );
+
+        // Create booking
+        $booking = Booking::create([
+            'car_id' => $fleet->car_id,
+            'user_id' => $user->id,
+            'pickup_datetime' => $pickup,
+            'dropoff_datetime' => $dropoff,
+            'pickup_location' => $request->pickup_location,
+            'dropoff_location' => $request->dropoff_location ?? $request->pickup_location,
+            'status' => 'pending',
+            'total_price' => $totalPrice,
+            'notes' => $request->notes,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Booking created successfully',
+            'data' => [
+                'id' => $booking->id,
+                'fleet_name' => $fleet->name,
+                'pickup_datetime' => $booking->pickup_datetime,
+                'dropoff_datetime' => $booking->dropoff_datetime,
+                'total_price' => $booking->total_price,
+                'status' => $booking->status,
+            ]
+        ], 201);
+    }
+
+    /**
+     * Get booking by ID
+     */
+    public function getBooking($id)
+    {
+        $booking = Booking::with(['car', 'user'])->find($id);
+
+        if (!$booking) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Booking not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $booking->id,
+                'pickup_datetime' => $booking->pickup_datetime,
+                'dropoff_datetime' => $booking->dropoff_datetime,
+                'pickup_location' => $booking->pickup_location,
+                'dropoff_location' => $booking->dropoff_location,
+                'total_price' => $booking->total_price,
+                'status' => $booking->status,
+                'notes' => $booking->notes,
+            ]
+        ]);
+    }
+
+    /**
+     * Get settings
+     */
+    public function getSettings()
+    {
+        $settings = Setting::first();
+        
+        if (!$settings) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'logo' => null,
+                    'name' => 'Nuhi Great Travels',
+                ]
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'logo' => $settings->logo ? asset('storage/' . $settings->logo) : null,
+                'name' => 'Nuhi Great Travels',
+                'email' => $settings->email ?? null,
+                'mobile' => $settings->mobile ?? null,
+                'location' => $settings->location ?? null,
+            ]
+        ]);
+    }
+}
+
