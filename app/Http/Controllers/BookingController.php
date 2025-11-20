@@ -190,14 +190,44 @@ class BookingController extends Controller
      * Generate payment URL for a booking
      * Creates an invoice if one doesn't exist and returns the payment URL
      */
-    public function generatePaymentUrl($id)
+    public function generatePaymentUrl(Request $request, $id)
     {
+        // Log the incoming request
+        Log::info('Generate Payment URL Request', [
+            'endpoint' => '/bookings/{id}/generate-payment-url',
+            'booking_id' => $id,
+            'method' => $request->method(),
+            'url' => $request->fullUrl(),
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'user_id' => Auth::id(),
+            'user_email' => Auth::user()?->email,
+            'request_data' => $request->all(),
+            'timestamp' => now()->toDateTimeString(),
+        ]);
+
         try {
             $booking = Booking::with(['user', 'invoice'])->findOrFail($id);
+            
+            // Log booking found
+            Log::info('Booking found for payment URL generation', [
+                'booking_id' => $booking->id,
+                'user_id' => $booking->user_id,
+                'total_price' => $booking->total_price,
+                'status' => $booking->status,
+                'has_invoice' => !is_null($booking->invoice_id),
+            ]);
 
             // Check if booking already has an invoice
             if ($booking->invoice_id && $booking->invoice) {
                 $paymentUrl = route('frontend.payment.show', $booking->invoice->invoice_number);
+                
+                Log::info('Payment URL generated from existing invoice', [
+                    'booking_id' => $booking->id,
+                    'invoice_id' => $booking->invoice_id,
+                    'invoice_number' => $booking->invoice->invoice_number,
+                    'payment_url' => $paymentUrl,
+                ]);
                 
                 return response()->json([
                     'success' => true,
@@ -250,6 +280,15 @@ class BookingController extends Controller
             DB::commit();
 
             $paymentUrl = route('frontend.payment.show', $invoice->invoice_number);
+
+            Log::info('Payment URL generated with new invoice created', [
+                'booking_id' => $booking->id,
+                'invoice_id' => $invoice->id,
+                'invoice_number' => $invoice->invoice_number,
+                'total_price' => $invoice->total_price,
+                'days' => $days,
+                'payment_url' => $paymentUrl,
+            ]);
 
             return response()->json([
                 'success' => true,
