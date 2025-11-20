@@ -136,15 +136,17 @@ class ApiController extends Controller
         $pickup = Carbon::parse($request->pickup_datetime);
         $dropoff = Carbon::parse($request->dropoff_datetime);
         
-        $days = max(1, $pickup->diffInDays($dropoff));
-        $totalPrice = $days * $fleet->price_per_day;
+        // Calculate days using hours for more accuracy, then round to nearest whole number
+        $hours = $pickup->diffInHours($dropoff);
+        $days = max(1, round($hours / 24));
+        $totalPrice = round($days * $fleet->price_per_day, 2);
 
         return response()->json([
             'success' => true,
             'data' => [
                 'days' => $days,
                 'price_per_day' => $fleet->price_per_day,
-                'total_price' => round($totalPrice, 2),
+                'total_price' => $totalPrice,
             ]
         ]);
     }
@@ -178,8 +180,11 @@ class ApiController extends Controller
         $fleet = Fleet::findOrFail($request->fleet_id);
         $pickup = Carbon::parse($request->pickup_datetime);
         $dropoff = Carbon::parse($request->dropoff_datetime);
-        $days = max(1, $pickup->diffInDays($dropoff));
-        $totalPrice = $days * $fleet->price_per_day;
+        
+        // Calculate days using hours for more accuracy, then round to nearest whole number
+        $hours = $pickup->diffInHours($dropoff);
+        $days = max(1, round($hours / 24));
+        $totalPrice = round($days * $fleet->price_per_day, 2);
 
         // Create or get user
         $user = \App\Models\User::firstOrCreate(
