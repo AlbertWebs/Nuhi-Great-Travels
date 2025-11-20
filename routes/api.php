@@ -20,6 +20,27 @@ use App\Http\Controllers\Api\GoogleAuthController;
 
 // Public API routes
 Route::prefix('v1')->group(function () {
+    // API info endpoint
+    Route::get('/', function () {
+        return response()->json([
+            'success' => true,
+            'message' => 'Nuhi Great Travels API v1',
+            'version' => '1.0.0',
+            'endpoints' => [
+                'GET /api/v1/settings' => 'Get app settings',
+                'GET /api/v1/cars' => 'Get car categories',
+                'GET /api/v1/fleets' => 'Get vehicles',
+                'GET /api/v1/fleets/{id}' => 'Get vehicle details',
+                'POST /api/v1/bookings' => 'Create booking',
+                'GET /api/v1/bookings/{id}' => 'Get booking details',
+                'POST /api/v1/calculate-price' => 'Calculate booking price',
+                'POST /api/v1/register' => 'Register user',
+                'POST /api/v1/login' => 'Login user',
+                'POST /api/v1/google-login' => 'Google login',
+            ]
+        ]);
+    });
+    
     // Settings
     Route::get('/settings', [ApiController::class, 'getSettings']);
     
