@@ -164,6 +164,7 @@ class ApiController extends Controller
             'email' => 'required|email',
             'mobile' => 'required|string|max:20',
             'notes' => 'nullable|string',
+            'payment_preference' => 'nullable|in:pay_now,pay_later',
         ]);
 
         if ($validator->fails()) {
@@ -190,6 +191,8 @@ class ApiController extends Controller
             ]
         );
 
+        $paymentPreference = $request->payment_preference ?? 'pay_later';
+        
         // Create booking
         $booking = Booking::create([
             'car_id' => $fleet->car_id,
@@ -201,19 +204,77 @@ class ApiController extends Controller
             'status' => 'pending',
             'total_price' => $totalPrice,
             'notes' => $request->notes,
+            'payment_preference' => $paymentPreference,
         ]);
+
+        $responseData = [
+            'id' => $booking->id,
+            'fleet_name' => $fleet->name,
+            'pickup_datetime' => $booking->pickup_datetime,
+            'dropoff_datetime' => $booking->dropoff_datetime,
+            'total_price' => $booking->total_price,
+            'status' => $booking->status,
+            'payment_preference' => $booking->payment_preference,
+        ];
+
+        // If pay now, create invoice and initiate payment
+        if ($paymentPreference === 'pay_now') {
+            $invoice = \App\Models\Invoice::create([
+                'invoice_number' => 'INV-' . now()->format('Ymd') . '-' . strtoupper(\Illuminate\Support\Str::random(5)),
+                'fleet_id' => $fleet->id,
+                'user_id' => $user->id,
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'mpesa_number' => $request->mobile,
+                'pickup_date' => $pickup->format('Y-m-d'),
+                'dropoff_date' => $dropoff->format('Y-m-d'),
+                'days' => $days,
+                'price_per_day' => $fleet->price_per_day,
+                'total_price' => $totalPrice,
+                'status' => 'pending',
+            ]);
+
+            // Attach fleet to invoice via pivot table
+            $invoice->fleets()->attach($fleet->id, [
+                'price_per_day' => $fleet->price_per_day,
+                'quantity' => 1,
+            ]);
+
+            $booking->update(['invoice_id' => $invoice->id]);
+
+            // Initiate Pesapal payment
+            try {
+                $pesapalService = new \App\Services\PesapalService();
+                $paymentData = [
+                    'amount' => $totalPrice,
+                    'description' => 'Payment for ' . $fleet->name . ' booking',
+                    'reference' => $invoice->invoice_number,
+                    'first_name' => $request->full_name,
+                    'email' => $request->email,
+                    'phone_number' => $request->mobile,
+                    'line_1' => $request->pickup_location,
+                    'city' => 'Nairobi',
+                ];
+
+                $paymentUrl = $pesapalService->makePayment($paymentData);
+                
+                if ($paymentUrl) {
+                    $responseData['payment_url'] = $paymentUrl;
+                    $responseData['invoice_id'] = $invoice->id;
+                    $responseData['invoice_number'] = $invoice->invoice_number;
+                }
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::error('Pesapal payment initiation failed', [
+                    'error' => $e->getMessage(),
+                    'booking_id' => $booking->id,
+                ]);
+            }
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Booking created successfully',
-            'data' => [
-                'id' => $booking->id,
-                'fleet_name' => $fleet->name,
-                'pickup_datetime' => $booking->pickup_datetime,
-                'dropoff_datetime' => $booking->dropoff_datetime,
-                'total_price' => $booking->total_price,
-                'status' => $booking->status,
-            ]
+            'data' => $responseData
         ], 201);
     }
 

@@ -11,6 +11,7 @@ class PesapalService
     protected $consumerKey;
     protected $consumerSecret;
     protected $callbackUrl;
+    protected $ipnId;
 
     public function __construct()
     {
@@ -22,6 +23,7 @@ class PesapalService
         $this->consumerKey = config('pesapal.consumer_key');
         $this->consumerSecret = config('pesapal.consumer_secret');
         $this->callbackUrl = config('pesapal.callback_url');
+        $this->ipnId = config('pesapal.ipn_id');
     }
 
     /**
