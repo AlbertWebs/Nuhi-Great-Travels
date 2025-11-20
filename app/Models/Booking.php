@@ -21,11 +21,9 @@ class Booking extends Model
         'status',
         'total_price',
         'notes',
+        'payment_preference',
         'invoice_id',
     ];
-
-    // Note: payment_preference column will be added after running migration
-    // Migration: 2025_11_20_130246_add_payment_preference_to_bookings_table
 
     // Relationships
     public function car()
