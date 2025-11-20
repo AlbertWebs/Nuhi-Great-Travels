@@ -199,6 +199,8 @@ class ApiController extends Controller
         $paymentPreference = $request->payment_preference ?? 'pay_later';
         
         // Create booking
+        // Note: payment_preference column will be added after running migration
+        // Migration: 2025_11_20_130246_add_payment_preference_to_bookings_table
         $booking = Booking::create([
             'car_id' => $fleet->car_id,
             'user_id' => $user->id,
@@ -209,7 +211,7 @@ class ApiController extends Controller
             'status' => 'pending',
             'total_price' => $totalPrice,
             'notes' => $request->notes,
-            'payment_preference' => $paymentPreference,
+            // 'payment_preference' => $paymentPreference, // Uncomment after running migration
         ]);
 
         $responseData = [
@@ -219,7 +221,7 @@ class ApiController extends Controller
             'dropoff_datetime' => $booking->dropoff_datetime,
             'total_price' => $booking->total_price,
             'status' => $booking->status,
-            'payment_preference' => $booking->payment_preference,
+            // 'payment_preference' => $booking->payment_preference, // Uncomment after running migration
         ];
 
         // If pay now, create invoice and initiate payment
