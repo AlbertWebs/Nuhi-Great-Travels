@@ -66,6 +66,8 @@
         </section>
         <!--Contact Info End-->
 
+        
+
         <!--Contact Page Start-->
         <section class="contact-page">
             <div class="container">
@@ -74,7 +76,7 @@
                         <div class="col-xl-6">
                             <div class="contact-page__left">
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8004567847393!2d36.7876407!3d-1.2942407999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f113d23794a97%3A0xb39310a139138d6!2sDesignekta%20Studios!5e0!3m2!1sen!2ske!4v1759746486155!5m2!1sen!2ske"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.7985272483766!2d36.7971973!3d-1.295467!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f11eb6dd1ee71%3A0x93816ba0f998bfd6!2sNuhi%20Great%20Travels!5e0!3m2!1sen!2ske!4v1763628199648!5m2!1sen!2ske"
                                     class="google-map__one" allowfullscreen></iframe>
                             </div>
                         </div>
