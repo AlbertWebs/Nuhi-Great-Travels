@@ -122,6 +122,9 @@ Route::middleware(['auth','is_admin'])->prefix('admin')->name('admin.')->group(f
 
     // Bookings CRUD
     Route::resource('bookings', BookingController::class);
+    // Generate payment URL for booking
+    Route::post('/bookings/{id}/generate-payment-url', [\App\Http\Controllers\BookingController::class, 'generatePaymentUrl'])
+        ->name('admin.bookings.generate-payment-url');
 
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 

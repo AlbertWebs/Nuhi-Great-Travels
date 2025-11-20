@@ -21,6 +21,8 @@ class Booking extends Model
         'status',
         'total_price',
         'notes',
+        'payment_preference',
+        'invoice_id',
     ];
 
     // Relationships
@@ -32,5 +34,10 @@ class Booking extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 }

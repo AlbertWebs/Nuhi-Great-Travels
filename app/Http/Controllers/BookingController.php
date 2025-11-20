@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Fleet;
+use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -11,6 +12,7 @@ use App\Models\Setting;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 
@@ -182,5 +184,92 @@ class BookingController extends Controller
         session()->forget(['booking.step1', 'booking.step2', 'booking.total_price']);
 
         return redirect()->route('bookings.step1')->with('success', 'Booking submitted successfully!');
+    }
+
+    /**
+     * Generate payment URL for a booking
+     * Creates an invoice if one doesn't exist and returns the payment URL
+     */
+    public function generatePaymentUrl($id)
+    {
+        try {
+            $booking = Booking::with(['user', 'invoice'])->findOrFail($id);
+
+            // Check if booking already has an invoice
+            if ($booking->invoice_id && $booking->invoice) {
+                $paymentUrl = route('frontend.payment.show', $booking->invoice->invoice_number);
+                
+                return response()->json([
+                    'success' => true,
+                    'payment_url' => $paymentUrl,
+                    'invoice_number' => $booking->invoice->invoice_number,
+                    'message' => 'Payment URL generated successfully',
+                ]);
+            }
+
+            // Create invoice from booking
+            DB::beginTransaction();
+
+            // Get the fleet (car_id in bookings actually refers to fleet_id)
+            $fleet = Fleet::findOrFail($booking->car_id);
+            
+            // Calculate days
+            $pickup = Carbon::parse($booking->pickup_datetime);
+            $dropoff = Carbon::parse($booking->dropoff_datetime);
+            $days = max(1, $pickup->diffInDays($dropoff));
+
+            // Generate invoice number
+            $invoiceNumber = 'INV-' . now()->format('Ymd') . '-' . strtoupper(Str::random(5));
+
+            // Create invoice
+            $invoice = Invoice::create([
+                'invoice_number' => $invoiceNumber,
+                'user_id' => $booking->user_id,
+                'full_name' => $booking->user->name ?? null,
+                'email' => $booking->user->email ?? null,
+                'mpesa_number' => $booking->user->phone ?? null,
+                'pickup_date' => $pickup->format('Y-m-d'),
+                'dropoff_date' => $dropoff->format('Y-m-d'),
+                'days' => $days,
+                'price_per_day' => $fleet->price_per_day ?? $booking->total_price / $days,
+                'total_price' => $booking->total_price ?? ($fleet->price_per_day * $days),
+                'status' => 'pending',
+            ]);
+
+            // Attach fleet to invoice
+            if ($fleet) {
+                $invoice->fleets()->attach($fleet->id, [
+                    'price_per_day' => $fleet->price_per_day ?? 0,
+                    'quantity' => 1,
+                ]);
+            }
+
+            // Update booking with invoice_id
+            $booking->update(['invoice_id' => $invoice->id]);
+
+            DB::commit();
+
+            $paymentUrl = route('frontend.payment.show', $invoice->invoice_number);
+
+            return response()->json([
+                'success' => true,
+                'payment_url' => $paymentUrl,
+                'invoice_number' => $invoice->invoice_number,
+                'message' => 'Invoice created and payment URL generated successfully',
+            ]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Error generating payment URL for booking', [
+                'booking_id' => $id,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate payment URL: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
