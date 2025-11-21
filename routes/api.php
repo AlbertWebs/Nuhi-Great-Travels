@@ -58,6 +58,9 @@ Route::prefix('v1')->group(function () {
     // Calculate price
     Route::post('/calculate-price', [ApiController::class, 'calculatePrice']);
     
+    // Error logging
+    Route::post('/log-error', [ApiController::class, 'logError']);
+    
     // Authentication
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);

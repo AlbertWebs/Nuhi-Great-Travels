@@ -304,11 +304,37 @@ class ApiController extends Controller
                     $responseData['payment_url'] = $paymentUrl;
                     $responseData['invoice_id'] = $invoice->id;
                     $responseData['invoice_number'] = $invoice->invoice_number;
+                } else {
+                    // Log when payment URL generation fails
+                    \Illuminate\Support\Facades\Log::error('Payment URL generation failed - Pesapal returned null', [
+                        'error_type' => 'payment_url_generation_failed',
+                        'message' => 'Payment URL is not available. Please contact support or try booking again.',
+                        'booking_id' => $booking->id,
+                        'invoice_id' => $invoice->id,
+                        'invoice_number' => $invoice->invoice_number,
+                        'payment_data' => $paymentData,
+                        'total_price' => $totalPrice,
+                        'fleet_ids' => $fleetIds,
+                        'user_email' => $request->email,
+                        'user_name' => $request->full_name,
+                        'timestamp' => now()->toISOString(),
+                    ]);
                 }
             } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::error('Pesapal payment initiation failed', [
+                \Illuminate\Support\Facades\Log::error('Pesapal payment initiation failed - Exception', [
+                    'error_type' => 'payment_url_generation_exception',
+                    'message' => 'Payment URL is not available. Please contact support or try booking again.',
                     'error' => $e->getMessage(),
+                    'error_trace' => $e->getTraceAsString(),
                     'booking_id' => $booking->id,
+                    'invoice_id' => $invoice->id ?? null,
+                    'invoice_number' => $invoice->invoice_number ?? null,
+                    'payment_data' => $paymentData ?? null,
+                    'total_price' => $totalPrice,
+                    'fleet_ids' => $fleetIds,
+                    'user_email' => $request->email,
+                    'user_name' => $request->full_name,
+                    'timestamp' => now()->toISOString(),
                 ]);
             }
         }
@@ -394,6 +420,47 @@ class ApiController extends Controller
                 'location' => $settings->location ?? null,
             ]
         ]);
+    }
+
+    /**
+     * Log errors from frontend
+     */
+    public function logError(Request $request)
+    {
+        try {
+            $errorData = [
+                'error_type' => $request->input('error_type', 'unknown'),
+                'message' => $request->input('message', 'No message provided'),
+                'booking_id' => $request->input('booking_id'),
+                'error_details' => $request->input('error_details', []),
+                'context' => $request->input('context', []),
+                'user_agent' => $request->input('user_agent'),
+                'url' => $request->input('url'),
+                'timestamp' => $request->input('timestamp', now()->toISOString()),
+                'ip_address' => $request->ip(),
+            ];
+
+            // Log to Laravel log file
+            \Illuminate\Support\Facades\Log::error('Payment URL Error', $errorData);
+
+            // Optionally, you can also store in database if needed
+            // For now, we'll just log to file
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Error logged successfully'
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to log error', [
+                'exception' => $e->getMessage(),
+                'request_data' => $request->all(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to log error'
+            ], 500);
+        }
     }
 }
 

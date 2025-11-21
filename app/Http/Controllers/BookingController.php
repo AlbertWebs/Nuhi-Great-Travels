@@ -299,10 +299,20 @@ class BookingController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error generating payment URL for booking', [
+            Log::error('Payment URL Error - generatePaymentUrl failed', [
+                'error_type' => 'payment_url_generation_failed',
+                'message' => 'Payment URL is not available. Please contact support or try booking again.',
                 'booking_id' => $id,
                 'error' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
+                'error_trace' => $e->getTraceAsString(),
+                'error_class' => get_class($e),
+                'request_url' => $request->fullUrl(),
+                'request_method' => $request->method(),
+                'user_agent' => $request->userAgent(),
+                'ip_address' => $request->ip(),
+                'user_id' => Auth::id(),
+                'user_email' => Auth::user()?->email,
+                'timestamp' => now()->toISOString(),
             ]);
 
             return response()->json([
