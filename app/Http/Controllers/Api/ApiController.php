@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingConfirmation;
 
 class ApiController extends Controller
 {
@@ -156,8 +158,15 @@ class ApiController extends Controller
      */
     public function createBooking(Request $request)
     {
+        // Support both fleet_id (single) and fleet_ids (array) for backward compatibility
+        $fleetIds = $request->has('fleet_ids') && is_array($request->fleet_ids) 
+            ? $request->fleet_ids 
+            : ($request->has('fleet_id') ? [$request->fleet_id] : []);
+
         $validator = Validator::make($request->all(), [
-            'fleet_id' => 'required|exists:fleets,id',
+            'fleet_id' => 'sometimes|exists:fleets,id',
+            'fleet_ids' => 'sometimes|array',
+            'fleet_ids.*' => 'exists:fleets,id',
             'pickup_datetime' => 'required|date|after:now',
             'dropoff_datetime' => 'required|date|after:pickup_datetime',
             'pickup_location' => 'required|string|max:255',
@@ -169,6 +178,15 @@ class ApiController extends Controller
             'payment_preference' => 'nullable|in:pay_now,pay_later',
         ]);
 
+        // Ensure at least one fleet is provided
+        if (empty($fleetIds)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => ['fleet_id' => ['At least one fleet is required'], 'fleet_ids' => ['At least one fleet is required']]
+            ], 422);
+        }
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -177,14 +195,22 @@ class ApiController extends Controller
             ], 422);
         }
 
-        $fleet = Fleet::findOrFail($request->fleet_id);
         $pickup = Carbon::parse($request->pickup_datetime);
         $dropoff = Carbon::parse($request->dropoff_datetime);
         
         // Calculate days using hours for more accuracy, then round to nearest whole number
         $hours = $pickup->diffInHours($dropoff);
         $days = max(1, round($hours / 24));
-        $totalPrice = round($days * $fleet->price_per_day, 2);
+        
+        // Calculate total price for all fleets
+        $fleets = Fleet::whereIn('id', $fleetIds)->get();
+        $totalPrice = 0;
+        foreach ($fleets as $fleet) {
+            $totalPrice += round($days * $fleet->price_per_day, 2);
+        }
+        
+        // Use first fleet's car_id for backward compatibility
+        $firstFleet = $fleets->first();
 
         // Create or get user
         $user = \App\Models\User::firstOrCreate(
@@ -200,7 +226,7 @@ class ApiController extends Controller
         
         // Create booking
         $booking = Booking::create([
-            'car_id' => $fleet->car_id,
+            'car_id' => $firstFleet->car_id,
             'user_id' => $user->id,
             'pickup_datetime' => $pickup,
             'dropoff_datetime' => $dropoff,
@@ -212,9 +238,17 @@ class ApiController extends Controller
             'payment_preference' => $paymentPreference,
         ]);
 
+        // Attach fleets to booking
+        foreach ($fleets as $fleet) {
+            $booking->fleets()->attach($fleet->id, [
+                'price_per_day' => $fleet->price_per_day,
+                'quantity' => 1,
+            ]);
+        }
+
         $responseData = [
             'id' => $booking->id,
-            'fleet_name' => $fleet->name,
+            'fleet_name' => $fleets->count() > 1 ? $fleets->count() . ' vehicles' : $firstFleet->name,
             'pickup_datetime' => $booking->pickup_datetime,
             'dropoff_datetime' => $booking->dropoff_datetime,
             'total_price' => $booking->total_price,
@@ -226,7 +260,7 @@ class ApiController extends Controller
         if ($paymentPreference === 'pay_now') {
             $invoice = \App\Models\Invoice::create([
                 'invoice_number' => 'INV-' . now()->format('Ymd') . '-' . strtoupper(\Illuminate\Support\Str::random(5)),
-                'fleet_id' => $fleet->id,
+                'fleet_id' => $firstFleet->id, // Keep for backward compatibility
                 'user_id' => $user->id,
                 'full_name' => $request->full_name,
                 'email' => $request->email,
@@ -234,25 +268,28 @@ class ApiController extends Controller
                 'pickup_date' => $pickup->format('Y-m-d'),
                 'dropoff_date' => $dropoff->format('Y-m-d'),
                 'days' => $days,
-                'price_per_day' => $fleet->price_per_day,
+                'price_per_day' => $firstFleet->price_per_day, // Average or first fleet
                 'total_price' => $totalPrice,
                 'status' => 'pending',
             ]);
 
-            // Attach fleet to invoice via pivot table
-            $invoice->fleets()->attach($fleet->id, [
-                'price_per_day' => $fleet->price_per_day,
-                'quantity' => 1,
-            ]);
+            // Attach all fleets to invoice via pivot table
+            foreach ($fleets as $fleet) {
+                $invoice->fleets()->attach($fleet->id, [
+                    'price_per_day' => $fleet->price_per_day,
+                    'quantity' => 1,
+                ]);
+            }
 
             $booking->update(['invoice_id' => $invoice->id]);
 
             // Initiate Pesapal payment
             try {
                 $pesapalService = new \App\Services\PesapalService();
+                $fleetNames = $fleets->pluck('name')->implode(', ');
                 $paymentData = [
                     'amount' => $totalPrice,
-                    'description' => 'Payment for ' . $fleet->name . ' booking',
+                    'description' => 'Payment for ' . ($fleets->count() > 1 ? $fleets->count() . ' vehicles' : $firstFleet->name) . ' booking',
                     'reference' => $invoice->invoice_number,
                     'first_name' => $request->full_name,
                     'email' => $request->email,
@@ -274,6 +311,24 @@ class ApiController extends Controller
                     'booking_id' => $booking->id,
                 ]);
             }
+        }
+
+        // Send booking confirmation emails
+        try {
+            $booking->load('user', 'fleets.car');
+            
+            // Email to client
+            Mail::to($user->email)->send(new BookingConfirmation($booking, $booking->fleets, false));
+            
+            // Email to admin
+            Mail::to('bookings@nuhigreattravels.com')
+                ->cc('albertmuhatia@gmail.com')
+                ->send(new BookingConfirmation($booking, $booking->fleets, true));
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Failed to send booking confirmation emails', [
+                'error' => $e->getMessage(),
+                'booking_id' => $booking->id,
+            ]);
         }
 
         return response()->json([

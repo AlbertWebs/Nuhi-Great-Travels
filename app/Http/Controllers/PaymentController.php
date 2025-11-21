@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
 use App\Services\PesapalService;
 use App\Models\PesapalTransaction;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentConfirmation;
 
 
 class PaymentController extends Controller
@@ -93,6 +95,30 @@ class PaymentController extends Controller
                         'payment_reference' => $trackingId,
                         'payment_date' => now(),
                     ]);
+
+                    // Update related booking status
+                    $booking = \App\Models\Booking::where('invoice_id', $invoice->id)->first();
+                    if ($booking) {
+                        $booking->update(['status' => 'confirmed']);
+                    }
+
+                    // Send payment confirmation emails
+                    try {
+                        $invoice->load('user', 'fleets.car');
+                        
+                        // Email to client
+                        Mail::to($invoice->email)->send(new PaymentConfirmation($invoice, $booking, false));
+                        
+                        // Email to admin
+                        Mail::to('bookings@nuhigreattravels.com')
+                            ->cc('albertmuhatia@gmail.com')
+                            ->send(new PaymentConfirmation($invoice, $booking, true));
+                    } catch (\Exception $e) {
+                        Log::error('Failed to send payment confirmation emails', [
+                            'error' => $e->getMessage(),
+                            'invoice_id' => $invoice->id,
+                        ]);
+                    }
                 }
 
                 return redirect()->route('frontend.payment.thankyou')

@@ -37,6 +37,11 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function booking()
+    {
+        return $this->hasOne(Booking::class);
+    }
+
     public function getRouteKeyName()
     {
         return 'invoice_number';

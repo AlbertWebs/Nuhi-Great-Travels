@@ -40,4 +40,11 @@ class Booking extends Model
     {
         return $this->belongsTo(Invoice::class);
     }
+
+    public function fleets()
+    {
+        return $this->belongsToMany(Fleet::class, 'booking_fleet')
+                    ->withPivot('price_per_day', 'quantity')
+                    ->withTimestamps();
+    }
 }
