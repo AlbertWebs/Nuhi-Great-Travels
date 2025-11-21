@@ -111,9 +111,10 @@ class PesapalService
 
             // Check if error is due to invalid IPN ID
             if (isset($json['error']) && isset($json['error']['code']) && $json['error']['code'] === 'InvalidIpnId') {
-                Log::warning('Pesapal: Invalid IPN ID detected', [
+                Log::warning('Pesapal: Invalid IPN ID error detected', [
                     'ipn_id' => $this->ipnId,
                     'config_ipn_id' => config('pesapal.ipn_id'),
+                    'note' => 'This error may occur if: 1) IPN ID is invalid, 2) No IPN is registered in Pesapal account, 3) Pesapal account requires IPN registration',
                 ]);
                 
                 // If we used an IPN ID, retry without it
@@ -128,6 +129,36 @@ class PesapalService
 
                     $json = $response->json();
                     Log::info('Pesapal Order Response (retry without IPN)', ['response' => $json]);
+                    
+                    // If still failing with InvalidIpnId even without IPN, this is a Pesapal account issue
+                    if (isset($json['error']) && isset($json['error']['code']) && $json['error']['code'] === 'InvalidIpnId') {
+                        Log::error('Pesapal: InvalidIpnId error persists even without IPN ID', [
+                            'error' => 'This indicates a Pesapal account configuration issue. You may need to:',
+                            'solutions' => [
+                                '1. Register a valid IPN URL in your Pesapal dashboard',
+                                '2. Get the IPN ID from Pesapal and add it to .env as PESAPAL_IPN_ID',
+                                '3. Or contact Pesapal support to check your account IPN settings',
+                                '4. The IPN URL should be: https://nuhigreattravels.com/api/pesapal/ipn'
+                            ],
+                            'pesapal_dashboard' => config('pesapal.env') === 'live' 
+                                ? 'https://www.pesapal.com' 
+                                : 'https://developer.pesapal.com',
+                        ]);
+                    }
+                } else {
+                    // We didn't send IPN ID but still got InvalidIpnId error
+                    // This means Pesapal account might require IPN registration
+                    Log::error('Pesapal: InvalidIpnId error without sending IPN ID', [
+                        'error' => 'Pesapal is rejecting the request even without IPN ID',
+                        'possible_causes' => [
+                            '1. Pesapal account requires at least one IPN to be registered',
+                            '2. There is an invalid default IPN in Pesapal account settings',
+                            '3. Pesapal API version or account type requires IPN registration'
+                        ],
+                        'solution' => 'Register an IPN URL in Pesapal dashboard and use the IPN ID',
+                        'register_ipn_endpoint' => '/api/v1/pesapal/register-ipn',
+                        'ipn_listener_url' => 'https://nuhigreattravels.com/api/pesapal/ipn',
+                    ]);
                 }
             }
 
@@ -152,9 +183,10 @@ class PesapalService
      * This should be called once to register your IPN URL and get an IPN ID
      * 
      * @param string $ipnNotificationUrl The URL where Pesapal will send payment notifications
+     * @param string $notificationType GET or POST (default: GET)
      * @return string|null The IPN ID if successful, null otherwise
      */
-    public function registerIpn($ipnNotificationUrl)
+    public function registerIpn($ipnNotificationUrl, $notificationType = 'GET')
     {
         $token = $this->getAccessToken();
         if (!$token) {
@@ -165,32 +197,58 @@ class PesapalService
         try {
             $payload = [
                 'url' => $ipnNotificationUrl,
-                'ipn_notification_type' => 'GET', // or 'POST' depending on your preference
+                'ipn_notification_type' => strtoupper($notificationType), // GET or POST
             ];
+
+            Log::info('Registering IPN with Pesapal', [
+                'url' => $ipnNotificationUrl,
+                'notification_type' => $notificationType,
+                'endpoint' => "{$this->baseUrl}/api/URLSetup/RegisterIPN",
+            ]);
 
             $response = Http::withToken($token)
                 ->withOptions(['verify' => config('pesapal.env') === 'live'])
                 ->post("{$this->baseUrl}/api/URLSetup/RegisterIPN", $payload);
 
             $json = $response->json();
-            Log::info('Pesapal IPN Registration Response', ['response' => $json]);
+            Log::info('Pesapal IPN Registration Response', [
+                'status' => $response->status(),
+                'response' => $json,
+            ]);
 
-            if ($response->successful() && isset($json['ipn_id'])) {
-                Log::info('IPN registered successfully', [
-                    'ipn_id' => $json['ipn_id'],
-                    'ipn_url' => $ipnNotificationUrl,
-                ]);
-                return $json['ipn_id'];
+            if ($response->successful()) {
+                // Pesapal v3 returns ipn_id in the response
+                if (isset($json['ipn_id'])) {
+                    Log::info('IPN registered successfully', [
+                        'ipn_id' => $json['ipn_id'],
+                        'ipn_url' => $ipnNotificationUrl,
+                        'notification_type' => $notificationType,
+                    ]);
+                    return $json['ipn_id'];
+                }
+                
+                // Sometimes the response structure might be different
+                if (isset($json['data']['ipn_id'])) {
+                    Log::info('IPN registered successfully (nested response)', [
+                        'ipn_id' => $json['data']['ipn_id'],
+                        'ipn_url' => $ipnNotificationUrl,
+                    ]);
+                    return $json['data']['ipn_id'];
+                }
             }
 
             Log::error('Pesapal IPN Registration Failed', [
                 'status' => $response->status(),
                 'body' => $response->body(),
+                'response' => $json,
             ]);
 
             return null;
         } catch (\Throwable $e) {
-            Log::error('Pesapal registerIpn Exception', ['message' => $e->getMessage()]);
+            Log::error('Pesapal registerIpn Exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
             return null;
         }
     }
