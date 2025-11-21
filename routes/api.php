@@ -62,7 +62,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/log-error', [ApiController::class, 'logError']);
     
     // Pesapal IPN registration (for setting up IPN URL)
-    Route::post('/pesapal/register-ipn', [ApiController::class, 'registerIpn']);
+    // GET: Shows instructions, POST: Registers IPN
+    Route::match(['get', 'post'], '/pesapal/register-ipn', [ApiController::class, 'registerIpn']);
     
     // Pesapal IPN listener (receives payment notifications)
     Route::match(['get', 'post'], '/pesapal/ipn', [\App\Http\Controllers\PaymentController::class, 'handleIpn']);

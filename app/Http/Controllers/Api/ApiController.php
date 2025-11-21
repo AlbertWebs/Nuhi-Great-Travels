@@ -424,9 +424,54 @@ class ApiController extends Controller
 
     /**
      * Register Pesapal IPN URL
+     * GET: Shows instructions
+     * POST: Registers IPN URL and returns IPN ID
      */
     public function registerIpn(Request $request)
     {
+        // Handle GET request - show instructions
+        if ($request->isMethod('get')) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Pesapal IPN Registration Endpoint',
+                'instructions' => [
+                    'method' => 'POST',
+                    'endpoint' => '/api/v1/pesapal/register-ipn',
+                    'required_fields' => [
+                        'ipn_url' => 'The URL where Pesapal will send payment notifications'
+                    ],
+                    'example_request' => [
+                        'url' => 'https://nuhigreattravels.com/api/v1/pesapal/register-ipn',
+                        'method' => 'POST',
+                        'headers' => [
+                            'Content-Type: application/json',
+                            'Accept: application/json'
+                        ],
+                        'body' => [
+                            'ipn_url' => 'https://nuhigreattravels.com/api/pesapal/ipn'
+                        ]
+                    ],
+                    'example_response' => [
+                        'success' => true,
+                        'message' => 'IPN registered successfully',
+                        'data' => [
+                            'ipn_id' => 'abc123xyz456',
+                            'ipn_url' => 'https://nuhigreattravels.com/api/pesapal/ipn',
+                            'note' => 'Add this IPN ID to your .env file: PESAPAL_IPN_ID=abc123xyz456'
+                        ]
+                    ],
+                    'next_steps' => [
+                        '1. Make a POST request to this endpoint with your IPN URL',
+                        '2. Copy the returned ipn_id',
+                        '3. Add PESAPAL_IPN_ID=your-ipn-id to your .env file',
+                        '4. Run: php artisan config:clear',
+                        '5. Your IPN listener is ready at: https://nuhigreattravels.com/api/pesapal/ipn'
+                    ]
+                ]
+            ]);
+        }
+
+        // Handle POST request - register IPN
         $validator = Validator::make($request->all(), [
             'ipn_url' => 'required|url',
         ]);
@@ -450,7 +495,13 @@ class ApiController extends Controller
                     'data' => [
                         'ipn_id' => $ipnId,
                         'ipn_url' => $request->ipn_url,
-                        'note' => 'Add this IPN ID to your .env file: PESAPAL_IPN_ID=' . $ipnId
+                        'note' => 'Add this IPN ID to your .env file: PESAPAL_IPN_ID=' . $ipnId,
+                        'instructions' => [
+                            '1. Open your .env file',
+                            '2. Add or update: PESAPAL_IPN_ID=' . $ipnId,
+                            '3. Run: php artisan config:clear',
+                            '4. Your IPN is now active!'
+                        ]
                     ]
                 ]);
             }
