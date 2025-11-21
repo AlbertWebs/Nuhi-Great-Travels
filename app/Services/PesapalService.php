@@ -90,7 +90,7 @@ class PesapalService
                 ],
             ];
 
-            // Only add notification_id if provided
+            // Try with IPN ID first if provided
             if (!empty($this->ipnId)) {
                 $payload['notification_id'] = $this->ipnId;
             }
@@ -101,6 +101,23 @@ class PesapalService
 
             $json = $response->json();
             Log::info('Pesapal Order Response', ['response' => $json]);
+
+            // Check if error is due to invalid IPN ID
+            if (isset($json['error']) && isset($json['error']['code']) && $json['error']['code'] === 'InvalidIpnId') {
+                Log::warning('Pesapal: Invalid IPN ID detected, retrying without IPN ID', [
+                    'ipn_id' => $this->ipnId,
+                ]);
+                
+                // Remove IPN ID and retry
+                unset($payload['notification_id']);
+                
+                $response = Http::withToken($token)
+                    ->withOptions(['verify' => config('pesapal.env') === 'live'])
+                    ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", $payload);
+
+                $json = $response->json();
+                Log::info('Pesapal Order Response (retry without IPN)', ['response' => $json]);
+            }
 
             if ($response->successful() && isset($json['redirect_url'])) {
                 return $json['redirect_url'];
