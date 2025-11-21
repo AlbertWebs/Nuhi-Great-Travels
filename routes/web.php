@@ -85,6 +85,11 @@ Route::post('/payment/{invoice}/confirm', [App\Http\Controllers\PaymentControlle
 Route::get('/payment/callback', [App\Http\Controllers\PaymentController::class, 'paymentCallback'])
      ->name('frontend.payment.callback');
 
+// Pesapal IPN (Instant Payment Notification) endpoint
+// This receives server-to-server notifications from Pesapal
+Route::match(['get', 'post'], '/api/pesapal/ipn', [App\Http\Controllers\PaymentController::class, 'handleIpn'])
+     ->name('pesapal.ipn');
+
 Route::get('/payment/thank-you', function () {
     return view('frontend.payment.thankyou');
 })->name('frontend.payment.thankyou');

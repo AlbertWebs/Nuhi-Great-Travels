@@ -23,7 +23,9 @@ class PesapalService
         $this->consumerKey = config('pesapal.consumer_key');
         $this->consumerSecret = config('pesapal.consumer_secret');
         $this->callbackUrl = config('pesapal.callback_url');
-        $this->ipnId = config('pesapal.ipn_id');
+        // Only set IPN ID if it's a non-empty string
+        $ipnId = config('pesapal.ipn_id');
+        $this->ipnId = (!empty($ipnId) && is_string($ipnId) && trim($ipnId) !== '') ? trim($ipnId) : null;
     }
 
     /**
@@ -90,8 +92,9 @@ class PesapalService
                 ],
             ];
 
-            // Try with IPN ID first if provided
-            if (!empty($this->ipnId)) {
+            // Only add notification_id if we have a valid IPN ID
+            // Completely omit the field if IPN ID is not set (don't send null or empty)
+            if ($this->ipnId !== null) {
                 $payload['notification_id'] = $this->ipnId;
             }
 
@@ -100,23 +103,32 @@ class PesapalService
                 ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", $payload);
 
             $json = $response->json();
-            Log::info('Pesapal Order Response', ['response' => $json]);
+            Log::info('Pesapal Order Response', [
+                'response' => $json,
+                'ipn_id_used' => $this->ipnId,
+                'payload_keys' => array_keys($payload),
+            ]);
 
             // Check if error is due to invalid IPN ID
             if (isset($json['error']) && isset($json['error']['code']) && $json['error']['code'] === 'InvalidIpnId') {
-                Log::warning('Pesapal: Invalid IPN ID detected, retrying without IPN ID', [
+                Log::warning('Pesapal: Invalid IPN ID detected', [
                     'ipn_id' => $this->ipnId,
+                    'config_ipn_id' => config('pesapal.ipn_id'),
                 ]);
                 
-                // Remove IPN ID and retry
-                unset($payload['notification_id']);
-                
-                $response = Http::withToken($token)
-                    ->withOptions(['verify' => config('pesapal.env') === 'live'])
-                    ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", $payload);
+                // If we used an IPN ID, retry without it
+                if (isset($payload['notification_id'])) {
+                    unset($payload['notification_id']);
+                    
+                    Log::info('Retrying payment request without IPN ID');
+                    
+                    $response = Http::withToken($token)
+                        ->withOptions(['verify' => config('pesapal.env') === 'live'])
+                        ->post("{$this->baseUrl}/api/Transactions/SubmitOrderRequest", $payload);
 
-                $json = $response->json();
-                Log::info('Pesapal Order Response (retry without IPN)', ['response' => $json]);
+                    $json = $response->json();
+                    Log::info('Pesapal Order Response (retry without IPN)', ['response' => $json]);
+                }
             }
 
             if ($response->successful() && isset($json['redirect_url'])) {
@@ -131,6 +143,54 @@ class PesapalService
             return null;
         } catch (\Throwable $e) {
             Log::error('Pesapal makePayment Exception', ['message' => $e->getMessage()]);
+            return null;
+        }
+    }
+
+    /**
+     * Register an IPN (Instant Payment Notification) URL
+     * This should be called once to register your IPN URL and get an IPN ID
+     * 
+     * @param string $ipnNotificationUrl The URL where Pesapal will send payment notifications
+     * @return string|null The IPN ID if successful, null otherwise
+     */
+    public function registerIpn($ipnNotificationUrl)
+    {
+        $token = $this->getAccessToken();
+        if (!$token) {
+            Log::error('Pesapal: Token missing, cannot register IPN.');
+            return null;
+        }
+
+        try {
+            $payload = [
+                'url' => $ipnNotificationUrl,
+                'ipn_notification_type' => 'GET', // or 'POST' depending on your preference
+            ];
+
+            $response = Http::withToken($token)
+                ->withOptions(['verify' => config('pesapal.env') === 'live'])
+                ->post("{$this->baseUrl}/api/URLSetup/RegisterIPN", $payload);
+
+            $json = $response->json();
+            Log::info('Pesapal IPN Registration Response', ['response' => $json]);
+
+            if ($response->successful() && isset($json['ipn_id'])) {
+                Log::info('IPN registered successfully', [
+                    'ipn_id' => $json['ipn_id'],
+                    'ipn_url' => $ipnNotificationUrl,
+                ]);
+                return $json['ipn_id'];
+            }
+
+            Log::error('Pesapal IPN Registration Failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            return null;
+        } catch (\Throwable $e) {
+            Log::error('Pesapal registerIpn Exception', ['message' => $e->getMessage()]);
             return null;
         }
     }

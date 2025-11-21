@@ -423,6 +423,56 @@ class ApiController extends Controller
     }
 
     /**
+     * Register Pesapal IPN URL
+     */
+    public function registerIpn(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ipn_url' => 'required|url',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try {
+            $pesapalService = new \App\Services\PesapalService();
+            $ipnId = $pesapalService->registerIpn($request->ipn_url);
+
+            if ($ipnId) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'IPN registered successfully',
+                    'data' => [
+                        'ipn_id' => $ipnId,
+                        'ipn_url' => $request->ipn_url,
+                        'note' => 'Add this IPN ID to your .env file: PESAPAL_IPN_ID=' . $ipnId
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to register IPN. Check logs for details.'
+            ], 500);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('IPN Registration Error', [
+                'error' => $e->getMessage(),
+                'ipn_url' => $request->ipn_url,
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Error registering IPN: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Log errors from frontend
      */
     public function logError(Request $request)
